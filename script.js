@@ -8,11 +8,21 @@
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const inr = n => '₹' + Math.round(n).toLocaleString('en-IN');
 
+  /* ---------- READY GATE ----------
+     Hold entrance animations until the preloader lifts, so the first screen
+     performs its choreographed reveal in view rather than hidden behind it. */
+  let ready = reduceMotion;
+  const whenReady = [];
+  const onReady = fn => ready ? fn() : whenReady.push(fn);
+  const flushReady = () => { ready = true; whenReady.splice(0).forEach(fn => fn()); };
+
   /* ---------- PRELOADER ---------- */
   window.addEventListener('load', () => {
     const pl = $('#preloader');
-    setTimeout(() => pl && pl.classList.add('is-done'), reduceMotion ? 200 : 2150);
+    setTimeout(() => { pl && pl.classList.add('is-done'); flushReady(); }, reduceMotion ? 200 : 2150);
   });
+  // safety: never strand the first screen if `load` is delayed or blocked
+  setTimeout(flushReady, reduceMotion ? 300 : 3200);
 
   /* ---------- NAV ---------- */
   const nav = $('#nav');
@@ -46,17 +56,28 @@
   window.addEventListener('scroll', onScrollProg, { passive: true });
 
   /* ---------- REVEAL ON SCROLL ---------- */
-  const revealEls = $$('[data-reveal], .hero__title .line');
+  // Hero headlines are clipped for their mask-wipe, which zeroes their
+  // IntersectionObserver rect — so they're revealed directly on ready below,
+  // not through the observer.
+  const heroLines = $$('.hero__title .line');
+  const revealEls = $$('[data-reveal]').filter(el => !heroLines.includes(el));
   const io = new IntersectionObserver((entries) => {
     entries.forEach(e => {
       if (!e.isIntersecting) return;
       const el = e.target;
       const d = parseInt(el.dataset.delay || 0, 10);
-      setTimeout(() => el.classList.add('is-revealed'), reduceMotion ? 0 : d);
+      const reveal = () => setTimeout(() => el.classList.add('is-revealed'), reduceMotion ? 0 : d);
+      onReady(reveal);
       io.unobserve(el);
     });
   }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
   revealEls.forEach(el => io.observe(el));
+
+  // First-screen hero headline: choreographed reveal as the preloader lifts.
+  onReady(() => heroLines.forEach(el => {
+    const d = parseInt(el.dataset.delay || 0, 10);
+    setTimeout(() => el.classList.add('is-revealed'), reduceMotion ? 0 : d);
+  }));
 
   /* ---------- COUNTERS ---------- */
   const counters = $$('[data-count]');
@@ -66,14 +87,18 @@
       const el = e.target;
       const target = +el.dataset.count;
       const suffix = el.dataset.suffix || '';
-      const dur = 1600, start = performance.now();
-      const step = now => {
-        const p = Math.min((now - start) / dur, 1);
-        const eased = 1 - Math.pow(1 - p, 3);
-        el.textContent = Math.round(target * eased) + suffix;
-        if (p < 1) requestAnimationFrame(step);
+      const dur = 1600;
+      const run = () => {
+        const start = performance.now();
+        const step = now => {
+          const p = Math.min((now - start) / dur, 1);
+          const eased = 1 - Math.pow(1 - p, 3);
+          el.textContent = Math.round(target * eased) + suffix;
+          if (p < 1) requestAnimationFrame(step);
+        };
+        requestAnimationFrame(step);
       };
-      reduceMotion ? (el.textContent = target + suffix) : requestAnimationFrame(step);
+      reduceMotion ? (el.textContent = target + suffix) : onReady(run);
       cio.unobserve(el);
     });
   }, { threshold: 0.6 });
@@ -111,7 +136,7 @@
   const grid = $('#portGrid');
   if (grid) {
     grid.innerHTML = projects.map((p, i) => `
-      <article class="port reveal" data-reveal data-delay="${(i % 3) * 90}" data-cat="${p.cat}" data-idx="${i}"
+      <article class="port reveal" data-reveal="port" data-delay="${(i % 3) * 110}" data-cat="${p.cat}" data-idx="${i}"
         role="button" tabindex="0" aria-label="${p.t}, ${p.loc} — view ${p.imgs.length} photos">
         <div class="port__art"><img src="${PBASE}${p.imgs[0]}" alt="${p.t} — ${p.loc}" loading="lazy" decoding="async" /></div>
         <div class="port__shade"></div>
@@ -428,7 +453,7 @@
     }
   }
 
-  /* ---------- HERO PARALLAX ---------- */
+  /* ---------- HERO PARALLAX (pointer) ---------- */
   if (!reduceMotion && finePointer) {
     const blobs = $$('.hero .blob');
     $('.hero').addEventListener('mousemove', e => {
@@ -439,5 +464,38 @@
         b.style.translate = `${x * d}px ${y * d}px`;
       });
     });
+  }
+
+  /* ---------- HERO SCROLL DEPTH (layered parallax) ---------- */
+  if (!reduceMotion) {
+    const heroEl = $('.hero');
+    const slidesWrap = $('.hero__slides');
+    const heroInner = $('.hero__inner');
+    const cue = $('.scroll-cue');
+    if (heroEl && slidesWrap) {
+      let ticking = false;
+      const update = () => {
+        const y = window.scrollY;
+        const h = heroEl.offsetHeight || 1;
+        if (y <= h) {
+          const p = y / h; // progress through the hero
+          // imagery recedes slowly and lifts — content drifts up a touch faster and fades
+          slidesWrap.style.transform = `translate3d(0, ${y * 0.16}px, 0) scale(${1 + p * 0.05})`;
+          if (heroInner) {
+            heroInner.style.transform = `translate3d(0, ${y * -0.05}px, 0)`;
+            heroInner.style.opacity = String(Math.max(0, 1 - p * 1.15));
+          }
+          if (cue) cue.style.opacity = String(Math.max(0, 1 - p * 3));
+        }
+        ticking = false;
+      };
+      const onScroll = () => {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(update);
+      };
+      window.addEventListener('scroll', onScroll, { passive: true });
+      update();
+    }
   }
 })();

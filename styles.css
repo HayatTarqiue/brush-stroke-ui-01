@@ -39,6 +39,13 @@
   --radius:20px; --radius-sm:14px;
   --ease:cubic-bezier(.22,1,.36,1);
   --ease-out:cubic-bezier(.16,1,.3,1);
+
+  /* Signature motion language — refined, architectural easing + timing */
+  --ease-cinematic:cubic-bezier(.62,.05,.1,.98); /* long settle for image masks */
+  --ease-entrance:cubic-bezier(.2,.8,.2,1);      /* controlled staggered entrances */
+  --dur-reveal:1.05s;                            /* editorial reveal length */
+  --dur-mask:1.25s;                              /* clip-mask image reveal */
+  --reveal-y:38px;                               /* vertical travel on entrance */
 }
 
 /* ---------- reset ---------- */
@@ -310,10 +317,14 @@ body.cursor-on .cursor,body.cursor-on .cursor-dot{opacity:1}
 .svc__list li{position:relative;padding-left:24px;font-size:.92rem;color:var(--fg-soft)}
 .svc__list li::before{content:"";position:absolute;left:0;top:8px;width:8px;height:8px;border-radius:50%;
   background:var(--grad-soft);box-shadow:0 0 10px rgba(56,174,234,.7)}
-.link-more{display:inline-flex;align-items:center;gap:8px;font-size:.82rem;font-weight:600;
-  letter-spacing:.08em;text-transform:uppercase;color:var(--blue-300)}
+.link-more{position:relative;display:inline-flex;align-items:center;gap:8px;font-size:.82rem;font-weight:600;
+  letter-spacing:.08em;text-transform:uppercase;color:var(--blue-300);padding-bottom:5px;
+  transition:color .3s var(--ease)}
+.link-more::after{content:"";position:absolute;left:0;bottom:0;height:1.5px;width:0;border-radius:2px;
+  background:var(--grad-soft);transition:width .45s var(--ease)}
 .link-more span{transition:transform .35s var(--ease)}
 .link-more:hover{color:#fff}
+.link-more:hover::after{width:100%}
 .link-more:hover span{transform:translateX(6px)}
 
 /* =====================================================================
@@ -332,8 +343,15 @@ body.cursor-on .cursor,body.cursor-on .cursor-dot{opacity:1}
   border:1px solid var(--line);transition:transform .5s var(--ease),opacity .45s,filter .45s;
   transform-style:preserve-3d}
 .port.is-hidden{display:none}
-.port__art{position:absolute;inset:0;transition:transform .8s var(--ease);background:#0a0e14}
-.port__art img{width:100%;height:100%;object-fit:cover;display:block}
+.port__art{position:absolute;inset:0;background:#0a0e14;
+  transition:transform .85s var(--ease),clip-path var(--dur-mask) var(--ease-cinematic)}
+.port__art img{width:100%;height:100%;object-fit:cover;display:block;
+  transition:transform var(--dur-mask) var(--ease-cinematic)}
+/* editorial clip-mask reveal: photograph wipes up from its base, scale settles */
+.js .port[data-reveal="port"] .port__art{clip-path:inset(0 0 100% 0)}
+.js .port[data-reveal="port"] .port__art img{transform:scale(1.16)}
+.js .port[data-reveal="port"].is-revealed .port__art{clip-path:inset(0 0 0 0)}
+.js .port[data-reveal="port"].is-revealed .port__art img{transform:scale(1)}
 .port__art::after{content:"";position:absolute;inset:0;mix-blend-mode:overlay;opacity:.5;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E")}
 .port:hover .port__art{transform:scale(1.08)}
@@ -604,11 +622,43 @@ body.cursor-on .cursor,body.cursor-on .cursor-dot{opacity:1}
 /* =====================================================================
    REVEAL ANIMATIONS
    ===================================================================== */
-.reveal{opacity:0;transform:translateY(38px);transition:opacity .9s var(--ease-out),transform .9s var(--ease-out)}
+/* Base: only hidden once JS is confirmed, so content stays visible without it */
+.js .reveal{opacity:0;transform:translateY(var(--reveal-y));
+  transition:opacity var(--dur-reveal) var(--ease-out),transform var(--dur-reveal) var(--ease-out)}
 .reveal.is-revealed{opacity:1;transform:none}
-.hero__title .line{opacity:0;transform:translateY(40px) rotate(2deg);
-  transition:opacity 1s var(--ease-out),transform 1s var(--ease-out)}
-.hero__title .line.is-revealed{opacity:1;transform:none}
+
+/* Hero headline — architectural clip-mask wipe, lines rise from a baseline */
+.js .hero__title .line{opacity:0;transform:translateY(.42em);
+  clip-path:inset(-20% -8% 100% -8%);
+  transition:opacity .9s var(--ease-out),transform var(--dur-mask) var(--ease-cinematic),
+    clip-path var(--dur-mask) var(--ease-cinematic)}
+.hero__title .line.is-revealed{opacity:1;transform:none;clip-path:inset(-20% -8% -20% -8%)}
+
+/* Section heads choreograph their own children — a controlled, staggered entrance.
+   The header becomes a pure trigger (no block move); children rise in sequence,
+   the serif title arriving with an architectural clip-mask wipe. */
+.js .sec-head.reveal{opacity:1;transform:none;transition:none}
+.js .sec-head.reveal > *{opacity:0;transform:translateY(26px);
+  transition:opacity .85s var(--ease-out),transform .95s var(--ease-entrance)}
+.js .sec-head.reveal > .sec-title{transform:translateY(.26em);clip-path:inset(0 0 108% 0);
+  transition:opacity .8s var(--ease-out),transform var(--dur-mask) var(--ease-cinematic),
+    clip-path var(--dur-mask) var(--ease-cinematic)}
+.js .sec-head.reveal.is-revealed > *{opacity:1;transform:none}
+.js .sec-head.reveal.is-revealed > .sec-title{clip-path:inset(-12% 0 -8% 0)}
+.js .sec-head.reveal.is-revealed > :nth-child(2){transition-delay:.1s}
+.js .sec-head.reveal.is-revealed > :nth-child(3){transition-delay:.22s}
+.js .sec-head.reveal.is-revealed > :nth-child(4){transition-delay:.34s}
+
+/* Portfolio cards — fade only; the photograph itself performs the reveal */
+.js .reveal[data-reveal="port"]{opacity:0;transform:none;
+  transition:opacity .7s var(--ease-out)}
+.js .reveal[data-reveal="port"].is-revealed{opacity:1}
+
+/* Kicker rules draw outward from the label as the section enters */
+.kicker::before,.kicker::after{transform:scaleX(1);transition:transform .9s var(--ease-cinematic) .15s}
+.js [data-reveal] .kicker::before{transform:scaleX(0);transform-origin:right}
+.js [data-reveal] .kicker::after{transform:scaleX(0);transform-origin:left}
+.is-revealed .kicker::before,.is-revealed .kicker::after{transform:scaleX(1)}
 
 /* =====================================================================
    RESPONSIVE
@@ -645,6 +695,12 @@ body.cursor-on .cursor,body.cursor-on .cursor-dot{opacity:1}
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;
     transition-duration:.01ms!important;scroll-behavior:auto!important}
-  .reveal,.hero__title .line{opacity:1;transform:none}
+  .js .reveal,.js .hero__title .line,.js .reveal[data-reveal="port"]{
+    opacity:1!important;transform:none!important;clip-path:none!important}
+  .js .sec-head.reveal > *{opacity:1!important;transform:none!important;clip-path:none!important}
+  .port__art,.js .port[data-reveal="port"] .port__art{clip-path:none!important}
+  .port__art img{transform:none!important}
+  .kicker::before,.kicker::after{transform:scaleX(1)!important}
+  .hero__slides{transform:none!important}
   .blob,.marquee__track{animation:none}
 }
