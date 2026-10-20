@@ -94,21 +94,18 @@
 
   /* ---------- PORTFOLIO ---------- */
   const projects = [
-    { t: 'Azure Penthouse', cat: 'interior', loc: 'Koregaon Park, Pune', g: ['#0E7DC2', '#38AEEA', '#6FE0FF'] },
-    { t: 'The Glass Atelier', cat: 'turnkey', loc: 'Bandra West, Mumbai', g: ['#0A5E97', '#1B9BE0', '#9FD8F6'] },
-    { t: 'Monsoon Residence', cat: 'civil', loc: 'Baner, Pune', g: ['#083F68', '#0E7DC2', '#38AEEA'] },
-    { t: 'Studio Lumière', cat: 'interior', loc: 'Powai, Mumbai', g: ['#1B9BE0', '#6FC6F0', '#CDEBFB'] },
-    { t: 'Skyline Offices', cat: 'turnkey', loc: 'Hinjewadi, Pune', g: ['#0A5E97', '#38AEEA', '#6FE0FF'] },
-    { t: 'The Ivory Villa', cat: 'civil', loc: 'Lonavala', g: ['#0E7DC2', '#1B9BE0', '#9FD8F6'] },
+    { t: 'HOOT', cat: 'turnkey', loc: 'Bangalore', img: 'assets/portfolio/hoot-bangalore.jpg' },
+    { t: 'Mocha', cat: 'turnkey', loc: 'Pune', img: 'assets/portfolio/mocha-pune.jpg' },
+    { t: 'BANGER', cat: 'interior', loc: 'Indore', img: 'assets/portfolio/banger-indore.jpg' },
+    { t: 'Raeeth', cat: 'interior', loc: 'Goa', img: 'assets/portfolio/raeeth-goa.jpg' },
+    { t: 'Jamnaram', cat: 'interior', loc: 'Vadodara', img: 'assets/portfolio/jamnaram-vadodara.jpg' },
   ];
   const catLabel = { interior: 'Interior', civil: 'Civil', turnkey: 'Turnkey' };
   const grid = $('#portGrid');
   if (grid) {
     grid.innerHTML = projects.map((p, i) => `
       <article class="port reveal" data-reveal data-delay="${(i % 3) * 90}" data-cat="${p.cat}">
-        <div class="port__art" style="background:
-          radial-gradient(120% 90% at 20% 15%, ${p.g[2]}33, transparent 55%),
-          linear-gradient(145deg, ${p.g[0]}, ${p.g[1]} 55%, ${p.g[2]});"></div>
+        <div class="port__art"><img src="${p.img}" alt="${p.t} — ${p.loc}" loading="lazy" decoding="async" /></div>
         <div class="port__shade"></div>
         <span class="port__tag">${catLabel[p.cat]}</span>
         <div class="port__view"><svg viewBox="0 0 24 24"><path d="M7 17L17 7M9 7h8v8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
