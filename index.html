@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#070A0F" />
+  <title>Brush Stroke Artspace — Premium Interior Design, Build & Turnkey Execution</title>
+  <meta name="description" content="Brush Stroke Artspace crafts extraordinary interiors, precision civil construction and seamless turnkey execution. Serving premium clients across Pune & Mumbai." />
+  <meta property="og:title" content="Brush Stroke Artspace — Design. Build. Execute." />
+  <meta property="og:description" content="From concept to completion — bespoke interiors, civil construction and turnkey execution across Pune & Mumbai." />
+  <meta property="og:type" content="website" />
+  <link rel="icon" type="image/png" href="assets/logo.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;0,900;1,500;1,600;1,700&family=Inter:wght@300;400;500;600;700;800&family=Kaushan+Script&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- ===================== PRELOADER ===================== -->
+  <div class="preloader" id="preloader" aria-hidden="true">
+    <span class="preloader__glow" aria-hidden="true"></span>
+    <div class="preloader__inner">
+      <div class="preloader__brand">
+        <span class="preloader__script">
+          <span class="preloader__ink">Brush Stroke</span>
+          <span class="preloader__nib" aria-hidden="true"></span>
+        </span>
+        <svg class="preloader__underline" viewBox="0 0 440 26" preserveAspectRatio="none" aria-hidden="true">
+          <path d="M8 16 C 90 6, 170 22, 250 13 S 400 4, 432 15" fill="none"
+            stroke="url(#plg)" stroke-width="7" stroke-linecap="round"/>
+          <defs><linearGradient id="plg" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0" stop-color="#6FE0FF"/><stop offset="1" stop-color="#0E7DC2"/>
+          </linearGradient></defs>
+        </svg>
+        <span class="preloader__sub">Artspace</span>
+      </div>
+      <div class="preloader__bar"><span></span></div>
+      <p class="preloader__tag">Design&nbsp;· Build&nbsp;· Execute</p>
+    </div>
+  </div>
+
+  <!-- ===================== CURSOR ===================== -->
+  <div class="cursor" id="cursor" aria-hidden="true"></div>
+  <div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
+
+  <!-- ===================== SCROLL PROGRESS ===================== -->
+  <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
+
+  <!-- ===================== NAV ===================== -->
+  <header class="nav" id="nav">
+    <div class="container nav__wrap">
+      <a href="#home" class="brand" aria-label="Brush Stroke Artspace home">
+        <span class="brand__script">Brush Stroke</span>
+        <span class="brand__sub">Artspace</span>
+      </a>
+      <nav class="nav__links" id="navLinks" aria-label="Primary">
+        <a href="#home" class="nav__link is-active">Home</a>
+        <a href="#services" class="nav__link">Services</a>
+        <a href="#portfolio" class="nav__link">Portfolio</a>
+        <a href="#pricing" class="nav__link">Pricing</a>
+        <a href="#contact" class="nav__link">Contact</a>
+        <a href="#contact" class="btn btn--primary nav__cta magnetic"><span>Get Quote</span></a>
+      </nav>
+      <button class="nav__toggle" id="navToggle" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <!-- ===================== HERO ===================== -->
+    <section class="hero" id="home">
+      <div class="hero__bg" aria-hidden="true">
+        <span class="blob blob--1"></span>
+        <span class="blob blob--2"></span>
+        <span class="blob blob--3"></span>
+        <span class="grain"></span>
+      </div>
+      <!-- animated brush underline svg reused via class -->
+      <div class="container hero__inner">
+        <p class="eyebrow reveal" data-reveal>
+          <span class="eyebrow__dot"></span>
+          Interior Design · Civil Construction · Turnkey Execution
+        </p>
+        <h1 class="hero__title">
+          <span class="line reveal" data-reveal>Design.</span>
+          <span class="line reveal" data-reveal data-delay="90">Build.</span>
+          <span class="line line--accent reveal" data-reveal data-delay="180">
+            Execute.
+            <svg class="brush-underline" viewBox="0 0 420 36" preserveAspectRatio="none" aria-hidden="true">
+              <path d="M6 24 C 80 10, 150 30, 220 18 S 360 8, 414 20" fill="none" stroke="url(#bg1)" stroke-width="9" stroke-linecap="round"/>
+              <defs>
+                <linearGradient id="bg1" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0" stop-color="#6FE0FF"/><stop offset="1" stop-color="#0E7DC2"/>
+                </linearGradient>
+              </defs>
+            </svg>
+          </span>
+        </h1>
+        <p class="hero__lead reveal" data-reveal data-delay="260">
+          From concept to completion — we handle everything. Serving premium clients
+          across <strong>Pune&nbsp;&amp;&nbsp;Mumbai</strong>.
+        </p>
+        <div class="hero__actions reveal" data-reveal data-delay="340">
+          <a href="#contact" class="btn btn--primary magnetic"><span>Get Free Consultation</span>
+            <svg viewBox="0 0 24 24" class="btn__ico"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+          <a href="#portfolio" class="btn btn--ghost magnetic"><span>View Projects</span>
+            <svg viewBox="0 0 24 24" class="btn__ico"><path d="M8 5v14l11-7z" fill="currentColor"/></svg>
+          </a>
+        </div>
+
+        <div class="hero__stats">
+          <div class="stat reveal" data-reveal data-delay="420">
+            <span class="stat__num" data-count="500" data-suffix="+">0</span>
+            <span class="stat__label">Projects</span>
+          </div>
+          <span class="stat__divider" aria-hidden="true"></span>
+          <div class="stat reveal" data-reveal data-delay="480">
+            <span class="stat__num" data-count="15" data-suffix="+">0</span>
+            <span class="stat__label">Years</span>
+          </div>
+          <span class="stat__divider" aria-hidden="true"></span>
+          <div class="stat reveal" data-reveal data-delay="540">
+            <span class="stat__num" data-count="98" data-suffix="%">0</span>
+            <span class="stat__label">Satisfaction</span>
+          </div>
+        </div>
+      </div>
+
+      <a href="#services" class="scroll-cue" aria-label="Scroll to services">
+        <span class="scroll-cue__mouse"><span></span></span>
+        <span class="scroll-cue__txt">Scroll</span>
+      </a>
+    </section>
+
+    <!-- ===================== MARQUEE ===================== -->
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee__track">
+        <span>Bespoke Interiors</span><span class="marquee__star">✦</span>
+        <span>Precision Construction</span><span class="marquee__star">✦</span>
+        <span>Turnkey Execution</span><span class="marquee__star">✦</span>
+        <span>Space Planning</span><span class="marquee__star">✦</span>
+        <span>3D Visualization</span><span class="marquee__star">✦</span>
+        <span>Bespoke Interiors</span><span class="marquee__star">✦</span>
+        <span>Precision Construction</span><span class="marquee__star">✦</span>
+        <span>Turnkey Execution</span><span class="marquee__star">✦</span>
+        <span>Space Planning</span><span class="marquee__star">✦</span>
+        <span>3D Visualization</span><span class="marquee__star">✦</span>
+      </div>
+    </div>
+
+    <!-- ===================== SERVICES ===================== -->
+    <section class="section services" id="services">
+      <div class="container">
+        <header class="sec-head reveal" data-reveal>
+          <span class="kicker">What We Do</span>
+          <h2 class="sec-title">Our <em>Services</em></h2>
+          <p class="sec-sub">A complete suite of design, construction, and execution services —
+            delivering excellence at every stage.</p>
+        </header>
+
+        <div class="services__grid">
+          <article class="svc reveal" data-reveal>
+            <div class="svc__ico" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M3 21l3.5-1 11-11a2.1 2.1 0 0 0-3-3l-11 11L3 21zM14.5 6.5l3 3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <h3 class="svc__title">Interior Design</h3>
+            <p class="svc__desc">Transform your space with bespoke interior solutions. From contemporary
+              minimalism to classic elegance, we craft interiors that reflect your personality.</p>
+            <ul class="svc__list">
+              <li>Space Planning</li><li>Material Selection</li>
+              <li>3D Visualization</li><li>Furniture Design</li>
+            </ul>
+            <a href="#contact" class="link-more">Learn More <span>→</span></a>
+          </article>
+
+          <article class="svc reveal" data-reveal data-delay="110">
+            <div class="svc__ico" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M3 21h18M5 21V8l7-4 7 4v13M9 21v-6h6v6M9 11h.01M15 11h.01" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <h3 class="svc__title">Civil Construction</h3>
+            <p class="svc__desc">Building strong foundations with precision engineering. Our construction
+              expertise ensures structural integrity and timely delivery.</p>
+            <ul class="svc__list">
+              <li>Structural Design</li><li>Quality Construction</li>
+              <li>Project Management</li><li>Safety Compliance</li>
+            </ul>
+            <a href="#contact" class="link-more">Learn More <span>→</span></a>
+          </article>
+
+          <article class="svc reveal" data-reveal data-delay="220">
+            <div class="svc__ico" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M12 2l3 6 6 .9-4.5 4.3 1 6.3L12 17l-5.5 2.8 1-6.3L3 9l6-.9z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+            </div>
+            <h3 class="svc__title">Turnkey Projects</h3>
+            <p class="svc__desc">End-to-end execution from blueprint to handover. One point of contact,
+              zero hassle — you name it, we build it.</p>
+            <ul class="svc__list">
+              <li>Complete Execution</li><li>Single Point Contact</li>
+              <li>Timeline Guarantee</li><li>Quality Assurance</li>
+            </ul>
+            <a href="#contact" class="link-more">Learn More <span>→</span></a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== PORTFOLIO ===================== -->
+    <section class="section portfolio" id="portfolio">
+      <div class="container">
+        <header class="sec-head reveal" data-reveal>
+          <span class="kicker">Our Work</span>
+          <h2 class="sec-title">Featured <em>Projects</em></h2>
+          <p class="sec-sub">A curated selection of spaces we've imagined, engineered and delivered.</p>
+        </header>
+
+        <div class="filters reveal" data-reveal role="tablist" aria-label="Project filters">
+          <button class="filter is-active" data-filter="all">All</button>
+          <button class="filter" data-filter="interior">Interior</button>
+          <button class="filter" data-filter="civil">Civil</button>
+          <button class="filter" data-filter="turnkey">Turnkey</button>
+        </div>
+
+        <div class="port-grid" id="portGrid">
+          <!-- cards injected by JS for clean filtering -->
+        </div>
+
+        <div class="portfolio__cta reveal" data-reveal>
+          <a href="#contact" class="btn btn--ghost magnetic"><span>View All Projects</span>
+            <svg viewBox="0 0 24 24" class="btn__ico"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== WHY US ===================== -->
+    <section class="section why" id="why">
+      <div class="why__glow" aria-hidden="true"></div>
+      <div class="container">
+        <header class="sec-head sec-head--light reveal" data-reveal>
+          <span class="kicker">Why Us</span>
+          <h2 class="sec-title">Why Choose <em>Brush Stroke</em></h2>
+          <p class="sec-sub">We don't just build spaces — we build trust. Here's what sets us apart.</p>
+        </header>
+
+        <div class="why__grid">
+          <article class="why-card reveal" data-reveal>
+            <span class="why-card__n">01</span>
+            <div class="why-card__ico"><svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4M12 3l7 3v5c0 4.4-3 8.3-7 9.5C8 21.3 5 17.4 5 13V6l7-3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <h3>Quality Assurance</h3>
+            <p>Premium materials and meticulous craftsmanship in every project.</p>
+          </article>
+          <article class="why-card reveal" data-reveal data-delay="80">
+            <span class="why-card__n">02</span>
+            <div class="why-card__ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M12 7.5V12l3 2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></div>
+            <h3>Timely Delivery</h3>
+            <p>We respect deadlines. Projects completed on schedule, every time.</p>
+          </article>
+          <article class="why-card reveal" data-reveal data-delay="160">
+            <span class="why-card__n">03</span>
+            <div class="why-card__ico"><svg viewBox="0 0 24 24"><path d="M12 3l2.5 5 5.5.8-4 3.9.9 5.5L12 16.5 7.1 18.2l.9-5.5-4-3.9L9.5 8z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg></div>
+            <h3>15+ Years Experience</h3>
+            <p>A proven track record of excellence across Pune and Mumbai.</p>
+          </article>
+          <article class="why-card reveal" data-reveal data-delay="40">
+            <span class="why-card__n">04</span>
+            <div class="why-card__ico"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M3.5 20a5.5 5.5 0 0 1 11 0M16 5.5a3 3 0 0 1 0 5M17 20a5.4 5.4 0 0 0-3-4.8" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></div>
+            <h3>Dedicated Team</h3>
+            <p>Skilled architects, designers, and engineers working as one.</p>
+          </article>
+          <article class="why-card reveal" data-reveal data-delay="120">
+            <span class="why-card__n">05</span>
+            <div class="why-card__ico"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h10" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><circle cx="19" cy="17" r="2.4" fill="none" stroke="currentColor" stroke-width="1.7"/></svg></div>
+            <h3>Hassle-Free Process</h3>
+            <p>Single point of contact from concept to completion.</p>
+          </article>
+          <article class="why-card reveal" data-reveal data-delay="200">
+            <span class="why-card__n">06</span>
+            <div class="why-card__ico"><svg viewBox="0 0 24 24"><path d="M12 3v18M8 7h6.5a2.5 2.5 0 0 1 0 5H9.5a2.5 2.5 0 0 0 0 5H16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <h3>Transparent Pricing</h3>
+            <p>No hidden costs. Clear quotes and honest communication.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== PRICING ===================== -->
+    <section class="section pricing" id="pricing">
+      <div class="container">
+        <header class="sec-head reveal" data-reveal>
+          <span class="kicker">Investment</span>
+          <h2 class="sec-title">Transparent <em>Pricing</em></h2>
+          <p class="sec-sub">Premium quality at competitive rates. Final cost depends on design,
+            materials, and customization.</p>
+        </header>
+
+        <div class="price-grid">
+          <article class="price reveal" data-reveal>
+            <h3 class="price__name">Interior Design</h3>
+            <div class="price__amt"><span class="price__cur">₹</span>1,500 – 4,000
+              <span class="price__unit">per sq ft</span></div>
+            <ul class="price__list">
+              <li>Space Planning &amp; Layout</li>
+              <li>3D Visualization</li>
+              <li>Material Selection</li>
+              <li>Furniture &amp; Decor</li>
+              <li>Project Supervision</li>
+            </ul>
+            <a href="#calculator" class="btn btn--ghost btn--block magnetic"><span>Get Exact Quote</span></a>
+          </article>
+
+          <article class="price price--featured reveal" data-reveal data-delay="100">
+            <span class="price__badge">Most Popular</span>
+            <h3 class="price__name">Turnkey Projects</h3>
+            <div class="price__amt"><span class="price__cur">₹</span>2,500 – 5,000
+              <span class="price__unit">per sq ft</span></div>
+            <ul class="price__list">
+              <li>Complete Design + Execution</li>
+              <li>Civil + Interior Work</li>
+              <li>Single Point Contact</li>
+              <li>Timeline Guarantee</li>
+              <li>Quality Assurance</li>
+            </ul>
+            <a href="#calculator" class="btn btn--primary btn--block magnetic"><span>Get Exact Quote</span></a>
+          </article>
+
+          <article class="price reveal" data-reveal data-delay="200">
+            <h3 class="price__name">Civil Construction</h3>
+            <div class="price__amt"><span class="price__cur">₹</span>1,800+
+              <span class="price__unit">per sq ft</span></div>
+            <ul class="price__list">
+              <li>Structural Design</li>
+              <li>Foundation to Finishing</li>
+              <li>Quality Materials</li>
+              <li>Safety Compliance</li>
+              <li>Progress Reports</li>
+            </ul>
+            <a href="#calculator" class="btn btn--ghost btn--block magnetic"><span>Get Exact Quote</span></a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== CALCULATOR ===================== -->
+    <section class="section calc" id="calculator">
+      <div class="calc__glow" aria-hidden="true"></div>
+      <div class="container">
+        <header class="sec-head sec-head--light reveal" data-reveal>
+          <span class="kicker">Estimate</span>
+          <h2 class="sec-title">Cost <em>Calculator</em></h2>
+          <p class="sec-sub">Get an instant estimate for your project. For an exact quote, connect with our team.</p>
+        </header>
+
+        <div class="calc__panel reveal" data-reveal>
+          <div class="calc__controls">
+            <div class="field">
+              <label class="field__label">Property Type</label>
+              <div class="chips" data-group="property">
+                <button class="chip" data-val="1 BHK" data-area="650">1 BHK</button>
+                <button class="chip is-active" data-val="2 BHK" data-area="1000">2 BHK</button>
+                <button class="chip" data-val="3 BHK" data-area="1500">3 BHK</button>
+                <button class="chip" data-val="Villa" data-area="3000">Villa</button>
+                <button class="chip" data-val="Office" data-area="2000">Office</button>
+              </div>
+            </div>
+
+            <div class="field">
+              <label class="field__label">Area (sq ft): <strong id="areaOut">1,000</strong></label>
+              <input type="range" id="areaRange" class="range" min="200" max="10000" step="50" value="1000" />
+              <div class="range__scale"><span>200</span><span>10,000</span></div>
+            </div>
+
+            <div class="field">
+              <label class="field__label">Service Type</label>
+              <div class="chips" data-group="service">
+                <button class="chip is-active" data-val="interior">Interior Design</button>
+                <button class="chip" data-val="turnkey">Turnkey Project</button>
+                <button class="chip" data-val="civil">Civil Construction</button>
+              </div>
+            </div>
+
+            <div class="field">
+              <label class="field__label">Budget Level</label>
+              <div class="chips" data-group="budget">
+                <button class="chip" data-val="basic">Basic</button>
+                <button class="chip is-active" data-val="standard">Standard</button>
+                <button class="chip" data-val="premium">Premium</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="calc__result">
+            <span class="calc__result-label">Estimated Cost Range</span>
+            <div class="calc__range">
+              <span id="estLow">₹20,00,000</span>
+              <span class="calc__dash">—</span>
+              <span id="estHigh">₹30,00,000</span>
+            </div>
+            <p class="calc__meta" id="estMeta">2 BHK · 1,000 sq ft · Interior Design · Standard</p>
+            <a href="#contact" class="btn btn--primary btn--block magnetic"><span>Get Exact Quote</span>
+              <svg viewBox="0 0 24 24" class="btn__ico"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== TESTIMONIALS ===================== -->
+    <section class="section testi" id="testimonials">
+      <div class="container">
+        <header class="sec-head reveal" data-reveal>
+          <span class="kicker">Testimonials</span>
+          <h2 class="sec-title">What Our <em>Clients Say</em></h2>
+        </header>
+
+        <div class="testi__viewport reveal" data-reveal>
+          <div class="testi__track" id="testiTrack">
+            <figure class="quote">
+              <span class="quote__mark" aria-hidden="true">"</span>
+              <blockquote>Brush Stroke Artspace transformed our 3BHK into a stunning modern home. The attention
+                to detail and quality of materials was exceptional. Truly a premium experience.</blockquote>
+              <figcaption><span class="quote__avatar">RS</span>
+                <span><strong>Rahul Sharma</strong><small>Homeowner, Pune</small></span></figcaption>
+            </figure>
+            <figure class="quote">
+              <span class="quote__mark" aria-hidden="true">"</span>
+              <blockquote>Our office redesign was completed ahead of schedule. The team understood our brand
+                perfectly and created a space that inspires creativity every day.</blockquote>
+              <figcaption><span class="quote__avatar">PD</span>
+                <span><strong>Priya Desai</strong><small>CEO, Tech Startup</small></span></figcaption>
+            </figure>
+            <figure class="quote">
+              <span class="quote__mark" aria-hidden="true">"</span>
+              <blockquote>From foundation to finishing — the turnkey execution was flawless. One team, zero
+                headaches. I'd recommend Brush Stroke Artspace to anyone building premium.</blockquote>
+              <figcaption><span class="quote__avatar">VP</span>
+                <span><strong>Vikram Patel</strong><small>Villa Owner, Mumbai</small></span></figcaption>
+            </figure>
+          </div>
+        </div>
+
+        <div class="testi__nav">
+          <button class="testi__arrow" id="testiPrev" aria-label="Previous testimonial">
+            <svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="testi__dots" id="testiDots" role="tablist" aria-label="Testimonials"></div>
+          <button class="testi__arrow" id="testiNext" aria-label="Next testimonial">
+            <svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== FAQ ===================== -->
+    <section class="section faq" id="faq">
+      <div class="container faq__wrap">
+        <header class="sec-head sec-head--left reveal" data-reveal>
+          <span class="kicker">FAQ</span>
+          <h2 class="sec-title">Frequently Asked<br/><em>Questions</em></h2>
+          <p class="sec-sub">Everything you need to know before we begin. Still curious? Just ask.</p>
+          <a href="#contact" class="btn btn--primary magnetic faq__ask"><span>Ask a Question</span></a>
+        </header>
+
+        <div class="faq__list reveal" data-reveal>
+          <details class="acc" open>
+            <summary><span>What areas do you serve?</span><i class="acc__sign" aria-hidden="true"></i></summary>
+            <div class="acc__body"><p>We currently serve clients across Pune and Mumbai, covering residential,
+              commercial, and industrial projects.</p></div>
+          </details>
+          <details class="acc">
+            <summary><span>How long does a typical interior project take?</span><i class="acc__sign" aria-hidden="true"></i></summary>
+            <div class="acc__body"><p>Depending on scope, most interior projects are completed within 45–90 days.
+              Turnkey projects may take 4–8 months depending on scale.</p></div>
+          </details>
+          <details class="acc">
+            <summary><span>Do you offer free consultations?</span><i class="acc__sign" aria-hidden="true"></i></summary>
+            <div class="acc__body"><p>Yes! We provide a complimentary initial consultation to understand your
+              requirements and provide a detailed proposal.</p></div>
+          </details>
+          <details class="acc">
+            <summary><span>What design styles do you specialize in?</span><i class="acc__sign" aria-hidden="true"></i></summary>
+            <div class="acc__body"><p>We work across all major styles — Modern, Minimalist, Classical, Scandinavian,
+              Industrial, Japandi, Bohemian, Parisian, Art Deco, and more.</p></div>
+          </details>
+          <details class="acc">
+            <summary><span>Is there a minimum project size?</span><i class="acc__sign" aria-hidden="true"></i></summary>
+            <div class="acc__body"><p>We typically work on projects starting from 500 sq ft for interiors and
+              1000 sq ft for civil construction.</p></div>
+          </details>
+          <details class="acc">
+            <summary><span>Do you provide warranties?</span><i class="acc__sign" aria-hidden="true"></i></summary>
+            <div class="acc__body"><p>Yes, we offer comprehensive warranties on all our work — typically 1–10 years
+              depending on the component.</p></div>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== CTA ===================== -->
+    <section class="section cta" id="contact">
+      <div class="cta__bg" aria-hidden="true">
+        <span class="blob blob--c1"></span>
+        <span class="blob blob--c2"></span>
+      </div>
+      <div class="container cta__inner reveal" data-reveal>
+        <span class="kicker kicker--center">Ready to Start?</span>
+        <h2 class="cta__title">Let's Build Something<br/><em>Extraordinary</em></h2>
+        <p class="cta__sub">Book your free consultation today. Transform your vision into reality
+          with Brush Stroke Artspace.</p>
+
+        <form class="cta__form" id="quoteForm" novalidate>
+          <div class="cta__row">
+            <input type="text" name="name" placeholder="Your name" aria-label="Your name" required />
+            <input type="tel" name="phone" placeholder="Phone number" aria-label="Phone number" required />
+          </div>
+          <div class="cta__row">
+            <input type="email" name="email" placeholder="Email address" aria-label="Email address" required />
+            <select name="service" aria-label="Service" required>
+              <option value="" disabled selected>Select a service</option>
+              <option>Interior Design</option>
+              <option>Civil Construction</option>
+              <option>Turnkey Project</option>
+              <option>Renovation</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn--primary btn--lg magnetic">
+            <span>Get Free Consultation</span>
+            <svg viewBox="0 0 24 24" class="btn__ico"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <p class="cta__note" id="formNote" role="status"></p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer class="footer">
+    <div class="container footer__grid">
+      <div class="footer__brand">
+        <div class="footer__logo-card">
+          <img src="assets/logo.png" alt="Brush Stroke Artspace" />
+        </div>
+        <p>Premium interior design, civil construction, and turnkey execution across Pune &amp; Mumbai.</p>
+        <div class="footer__social">
+          <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="17.5" cy="6.5" r="1.1" fill="currentColor"/></svg></a>
+          <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M14 8h2.5V5H14c-2 0-3.5 1.5-3.5 3.5V11H8v3h2.5v7h3v-7H16l.5-3h-3V8.8c0-.5.4-.8 .9-.8z" fill="currentColor"/></svg></a>
+          <a href="#" aria-label="LinkedIn"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="4" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M7 10v7M7 7v.01M11 17v-4a2 2 0 0 1 4 0v4M11 10v7" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></a>
+        </div>
+      </div>
+
+      <div class="footer__col">
+        <h4>Quick Links</h4>
+        <a href="#home">Home</a><a href="#services">Services</a>
+        <a href="#portfolio">Portfolio</a><a href="#pricing">Pricing</a>
+        <a href="#contact">Contact</a>
+      </div>
+      <div class="footer__col">
+        <h4>Services</h4>
+        <a href="#services">Interior Design</a><a href="#services">Civil Construction</a>
+        <a href="#services">Turnkey Projects</a><a href="#services">Renovation</a>
+      </div>
+      <div class="footer__col footer__contact">
+        <h4>Contact</h4>
+        <a href="tel:+919011912480">+91 90119 12480</a>
+        <a href="mailto:hello@brushstrokeartspace.com">hello@brushstrokeartspace.com</a>
+        <span>Pune &amp; Mumbai, Maharashtra</span>
+      </div>
+    </div>
+    <div class="container footer__bar">
+      <p>© 2026 Brush Stroke Artspace. All rights reserved.</p>
+      <p>Serving Pune &amp; Mumbai</p>
+    </div>
+  </footer>
+
+  <!-- back to top -->
+  <button class="to-top" id="toTop" aria-label="Back to top">
+    <svg viewBox="0 0 24 24"><path d="M12 19V5M6 11l6-6 6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+
+  <script src="script.js"></script>
+</body>
+</html>
