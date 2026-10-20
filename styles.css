@@ -186,8 +186,26 @@ body.cursor-on .cursor,body.cursor-on .cursor-dot{opacity:1}
 .hero{position:relative;min-height:100svh;display:flex;align-items:center;
   padding-top:120px;padding-bottom:80px;overflow:hidden}
 .hero__bg{position:absolute;inset:0;z-index:0}
-.hero__bg::after{content:"";position:absolute;inset:0;
+.hero__bg::after{content:"";position:absolute;inset:0;z-index:3;pointer-events:none;
   background:radial-gradient(130% 100% at 50% -10%,transparent 40%,var(--ink) 92%)}
+
+/* hero cinematic slideshow (images animated as a background "video") */
+.hero__slides{position:absolute;inset:0;overflow:hidden}
+.hero__slide{position:absolute;inset:0;background-size:cover;background-position:center;
+  opacity:0;transition:opacity 1.8s var(--ease);will-change:opacity,transform}
+.hero__slide.is-active{opacity:1}
+@media (prefers-reduced-motion:no-preference){
+  .hero__slide.is-active{animation:kenburns 9.5s ease-out both}
+  .hero__slide:nth-child(even).is-active{animation-name:kenburnsAlt}
+}
+@keyframes kenburns{from{transform:scale(1.05)}to{transform:scale(1.19)}}
+@keyframes kenburnsAlt{from{transform:scale(1.19) translateX(2.5%)}to{transform:scale(1.05) translateX(-2.5%)}}
+.hero__scrim{position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:linear-gradient(180deg,rgba(6,9,14,.82),rgba(6,9,14,.66) 44%,rgba(6,9,14,.92)),
+    radial-gradient(120% 85% at 50% 32%,transparent 28%,rgba(6,9,14,.6))}
+.hero .blob{z-index:2;opacity:.22}
+.hero .blob--3{opacity:.1}
+.hero .grain{z-index:3}
 .blob{position:absolute;border-radius:50%;filter:blur(80px);opacity:.4;will-change:transform}
 .blob--1{width:48vw;height:48vw;left:-10vw;top:-8vw;
   background:radial-gradient(circle at 30% 30%,var(--blue-500),transparent 68%);animation:drift 20s ease-in-out infinite}

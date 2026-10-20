@@ -410,6 +410,24 @@
     });
   }
 
+  /* ---------- HERO SLIDESHOW ---------- */
+  const heroSlides = $$('.hero__slide');
+  if (heroSlides.length > 1) {
+    // preload all frames so crossfades are instant
+    heroSlides.forEach(s => {
+      const m = s.style.backgroundImage.match(/url\(["']?(.*?)["']?\)/);
+      if (m && m[1]) { const im = new Image(); im.src = m[1]; }
+    });
+    if (!reduceMotion) {
+      let hs = 0;
+      setInterval(() => {
+        heroSlides[hs].classList.remove('is-active');
+        hs = (hs + 1) % heroSlides.length;
+        heroSlides[hs].classList.add('is-active');
+      }, 5200);
+    }
+  }
+
   /* ---------- HERO PARALLAX ---------- */
   if (!reduceMotion && finePointer) {
     const blobs = $$('.hero .blob');
