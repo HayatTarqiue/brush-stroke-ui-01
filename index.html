@@ -6,17 +6,43 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#070A0F" />
   <title>Brush Stroke Artspace — Premium Interior Design, Build & Turnkey Execution</title>
-  <meta name="description" content="Brush Stroke Artspace crafts extraordinary interiors, precision civil construction and seamless turnkey execution. Serving premium clients across Pune & Mumbai." />
+  <meta name="description" content="Brush Stroke Artspace crafts extraordinary interiors, precision civil construction and seamless turnkey execution. Serving premium clients Pan India." />
   <meta property="og:title" content="Brush Stroke Artspace — Design. Build. Execute." />
-  <meta property="og:description" content="From concept to completion — bespoke interiors, civil construction and turnkey execution across Pune & Mumbai." />
+  <meta property="og:description" content="From concept to completion — bespoke interiors, civil construction and turnkey execution for clients across India." />
   <meta property="og:type" content="website" />
-  <link rel="icon" type="image/png" href="assets/logo.png" />
+  <link rel="icon" type="image/png" href="assets/favicon-64.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;0,900;1,500;1,600;1,700&family=Inter:wght@300;400;500;600;700;800&family=Kaushan+Script&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
+  <!-- ===================================================================
+       QA-002 / QA-009 — CLAIMS PENDING OWNER APPROVAL
+       SERVICE AREA — CONFIRMED BY OWNER: the business operates Pan India.
+       Earlier copy said "Pune & Mumbai" throughout, which also contradicted the
+       portfolio (projects in Bangalore, Indore, Goa, Vadodara and Pune; none in
+       Mumbai). All service-area copy now reads Pan India. NOTE: the testimonial
+       attributed to "Villa Owner, Mumbai" still has no matching Mumbai project.
+
+       The following published statements are factual business claims that
+       could NOT be independently verified during the QA audit. They are
+       left exactly as the owner originally wrote them (nothing invented,
+       nothing silently changed), but each requires written sign-off before
+       production release:
+         * "500+ Projects", "15+ Years", "98% Satisfaction"  (hero stats)
+         * Named testimonials: Rahul Sharma, Priya Desai, Vikram Patel
+           -> confirm these are real, consenting clients with permission
+              to be quoted and attributed by name, role and city.
+         * "Timeline Guarantee" / "45-90 days" / "4-8 months"  (FAQ + cards)
+         * "warranties ... typically 1-10 years"                (FAQ)
+         * "Quality Assurance", "Transparent Pricing", "no hidden costs"
+       Guarantee/warranty wording in particular is contractual language and
+       should be reviewed by the owner (and ideally legal counsel) with
+       dependencies stated: scope, materials, site conditions, client
+       approvals and third-party delays.
+       =================================================================== -->
+
   <!-- ===================== PRELOADER ===================== -->
   <div class="preloader" id="preloader" aria-hidden="true">
     <span class="preloader__glow" aria-hidden="true"></span>
@@ -108,7 +134,7 @@
         </h1>
         <p class="hero__lead reveal" data-reveal data-delay="260">
           From concept to completion — we handle everything. Serving premium clients
-          across <strong>Pune&nbsp;&amp;&nbsp;Mumbai</strong>.
+          <strong>Pan&nbsp;India</strong>.
         </p>
         <div class="hero__actions reveal" data-reveal data-delay="340">
           <a href="#contact" class="btn btn--primary magnetic"><span>Get Free Consultation</span>
@@ -120,18 +146,22 @@
         </div>
 
         <div class="hero__stats">
+          <!-- QA-001: the resting value in the DOM MUST be the real figure. The counter
+               animates up from 0 at runtime; if JS, the observer or rAF never run, the
+               correct number is still what the user (and any crawler) sees. Never "0".
+               QA-002: these three figures are UNVERIFIED business claims pending owner sign-off. -->
           <div class="stat reveal" data-reveal data-delay="420">
-            <span class="stat__num" data-count="500" data-suffix="+">0</span>
+            <span class="stat__num" data-count="500" data-suffix="+">500+</span>
             <span class="stat__label">Projects</span>
           </div>
           <span class="stat__divider" aria-hidden="true"></span>
           <div class="stat reveal" data-reveal data-delay="480">
-            <span class="stat__num" data-count="15" data-suffix="+">0</span>
+            <span class="stat__num" data-count="15" data-suffix="+">15+</span>
             <span class="stat__label">Years</span>
           </div>
           <span class="stat__divider" aria-hidden="true"></span>
           <div class="stat reveal" data-reveal data-delay="540">
-            <span class="stat__num" data-count="98" data-suffix="%">0</span>
+            <span class="stat__num" data-count="98" data-suffix="%">98%</span>
             <span class="stat__label">Satisfaction</span>
           </div>
         </div>
@@ -224,15 +254,22 @@
           <p class="sec-sub">A curated selection of spaces we've imagined, engineered and delivered.</p>
         </header>
 
-        <div class="filters reveal" data-reveal role="tablist" aria-label="Project filters">
-          <button class="filter is-active" data-filter="all">All</button>
-          <button class="filter" data-filter="interior">Interior</button>
-          <button class="filter" data-filter="turnkey">Turnkey</button>
+        <!-- QA-011: these are toggle buttons, not tabs. aria-pressed conveys state
+             non-visually, so "active" isn't communicated by colour alone. -->
+        <div class="filters reveal" data-reveal role="group" aria-label="Filter projects by category">
+          <button type="button" class="filter is-active" data-filter="all" aria-pressed="true">All</button>
+          <button type="button" class="filter" data-filter="interior" aria-pressed="false">Interior</button>
+          <button type="button" class="filter" data-filter="turnkey" aria-pressed="false">Turnkey</button>
         </div>
 
         <div class="port-grid" id="portGrid">
           <!-- cards injected by JS for clean filtering -->
         </div>
+        <!-- QA-007: graceful empty state instead of a silently blank grid -->
+        <p class="port-empty" id="portEmpty" hidden role="status">
+          No projects in this category yet. <a href="#contact">Talk to us about your project →</a>
+        </p>
+        <p class="port-count sr-only" id="portCount" role="status" aria-live="polite"></p>
 
         <div class="portfolio__cta reveal" data-reveal>
           <a href="#contact" class="btn btn--ghost magnetic"><span>View All Projects</span>
@@ -269,7 +306,7 @@
             <span class="why-card__n">03</span>
             <div class="why-card__ico"><svg viewBox="0 0 24 24"><path d="M12 3l2.5 5 5.5.8-4 3.9.9 5.5L12 16.5 7.1 18.2l.9-5.5-4-3.9L9.5 8z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg></div>
             <h3>15+ Years Experience</h3>
-            <p>A proven track record of excellence across Pune and Mumbai.</p>
+            <p>A proven track record of excellence on projects across India.</p>
           </article>
           <article class="why-card reveal" data-reveal data-delay="40">
             <span class="why-card__n">04</span>
@@ -299,15 +336,16 @@
         <header class="sec-head reveal" data-reveal>
           <span class="kicker">Investment</span>
           <h2 class="sec-title">Transparent <em>Pricing</em></h2>
-          <p class="sec-sub">Premium quality at competitive rates. Final cost depends on design,
-            materials, and customization.</p>
+          <p class="sec-sub">Premium quality at competitive rates. Each range below spans our
+            <strong>Basic to Premium</strong> tiers — use the calculator to narrow it to your tier.
+            Final cost depends on design, materials, and customization.</p>
         </header>
 
         <div class="price-grid">
           <article class="price reveal" data-reveal>
             <h3 class="price__name">Interior Design</h3>
             <div class="price__amt"><span class="price__cur">₹</span>1,500 – 4,000
-              <span class="price__unit">per sq ft</span></div>
+              <span class="price__unit">per sq ft · Basic–Premium span</span></div>
             <ul class="price__list">
               <li>Space Planning &amp; Layout</li>
               <li>3D Visualization</li>
@@ -322,7 +360,7 @@
             <span class="price__badge">Most Popular</span>
             <h3 class="price__name">Turnkey Projects</h3>
             <div class="price__amt"><span class="price__cur">₹</span>2,500 – 5,000
-              <span class="price__unit">per sq ft</span></div>
+              <span class="price__unit">per sq ft · Basic–Premium span</span></div>
             <ul class="price__list">
               <li>Complete Design + Execution</li>
               <li>Civil + Interior Work</li>
@@ -336,7 +374,7 @@
           <article class="price reveal" data-reveal data-delay="200">
             <h3 class="price__name">Civil Construction</h3>
             <div class="price__amt"><span class="price__cur">₹</span>1,800+
-              <span class="price__unit">per sq ft</span></div>
+              <span class="price__unit">per sq ft · Basic–Premium span</span></div>
             <ul class="price__list">
               <li>Structural Design</li>
               <li>Foundation to Finishing</li>
@@ -399,13 +437,18 @@
           </div>
 
           <div class="calc__result">
-            <span class="calc__result-label">Estimated Cost Range</span>
-            <div class="calc__range">
+            <span class="calc__result-label" id="estLabel">Estimated Cost Range</span>
+            <!-- QA-011: announce recalculations to screen readers, not just sighted users -->
+            <div class="calc__range" role="status" aria-live="polite" aria-atomic="true"
+                 aria-labelledby="estLabel">
               <span id="estLow">₹20,00,000</span>
               <span class="calc__dash">—</span>
               <span id="estHigh">₹30,00,000</span>
             </div>
-            <p class="calc__meta" id="estMeta">2 BHK · 1,000 sq ft · Interior Design · Standard</p>
+            <p class="calc__meta" id="estMeta">2 BHK · 1,000 sq ft · Interior Design · Standard tier</p>
+            <p class="calc__disclaimer">Indicative only. Shows the <strong>selected budget tier</strong>;
+              the headline ranges above span Basic to Premium. Final cost depends on site survey,
+              materials and scope.</p>
             <a href="#contact" class="btn btn--primary btn--block magnetic"><span>Get Exact Quote</span>
               <svg viewBox="0 0 24 24" class="btn__ico"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </a>
@@ -473,8 +516,8 @@
         <div class="faq__list reveal" data-reveal>
           <details class="acc" open>
             <summary><span>What areas do you serve?</span><i class="acc__sign" aria-hidden="true"></i></summary>
-            <div class="acc__body"><p>We currently serve clients across Pune and Mumbai, covering residential,
-              commercial, and industrial projects.</p></div>
+            <div class="acc__body"><p>We work Pan India — covering residential, commercial and industrial projects.
+              Recent work spans Bangalore, Indore, Goa, Pune and Vadodara.</p></div>
           </details>
           <details class="acc">
             <summary><span>How long does a typical interior project take?</span><i class="acc__sign" aria-hidden="true"></i></summary>
@@ -517,26 +560,57 @@
         <p class="cta__sub">Book your free consultation today. Transform your vision into reality
           with Brush Stroke Artspace.</p>
 
+        <!-- QA-005/QA-011: persistent visible labels, explicit required markers,
+             correct input types + autocomplete, and per-field error association. -->
         <form class="cta__form" id="quoteForm" novalidate>
+          <p class="cta__required">Fields marked <span aria-hidden="true">*</span>
+            <span class="sr-only">asterisk</span> are required.</p>
           <div class="cta__row">
-            <input type="text" name="name" placeholder="Your name" aria-label="Your name" required />
-            <input type="tel" name="phone" placeholder="Phone number" aria-label="Phone number" required />
+            <div class="fld">
+              <label class="fld__label" for="fName">Your name <abbr title="required" aria-hidden="true">*</abbr></label>
+              <input id="fName" type="text" name="name" required aria-required="true"
+                autocomplete="name" placeholder="e.g. Priya Sharma"
+                aria-describedby="errName" />
+              <span class="fld__err" id="errName"></span>
+            </div>
+            <div class="fld">
+              <label class="fld__label" for="fPhone">Phone number <abbr title="required" aria-hidden="true">*</abbr></label>
+              <input id="fPhone" type="tel" name="phone" required aria-required="true"
+                autocomplete="tel" inputmode="tel" placeholder="e.g. +91 90119 12480"
+                aria-describedby="errPhone" />
+              <span class="fld__err" id="errPhone"></span>
+            </div>
           </div>
           <div class="cta__row">
-            <input type="email" name="email" placeholder="Email address" aria-label="Email address" required />
-            <select name="service" aria-label="Service" required>
-              <option value="" disabled selected>Select a service</option>
-              <option>Interior Design</option>
-              <option>Civil Construction</option>
-              <option>Turnkey Project</option>
-              <option>Renovation</option>
-            </select>
+            <div class="fld">
+              <label class="fld__label" for="fEmail">Email address <abbr title="required" aria-hidden="true">*</abbr></label>
+              <input id="fEmail" type="email" name="email" required aria-required="true"
+                autocomplete="email" inputmode="email" placeholder="e.g. priya@example.com"
+                aria-describedby="errEmail" />
+              <span class="fld__err" id="errEmail"></span>
+            </div>
+            <div class="fld">
+              <label class="fld__label" for="fService">Service <abbr title="required" aria-hidden="true">*</abbr></label>
+              <select id="fService" name="service" required aria-required="true"
+                aria-describedby="errService">
+                <option value="" disabled selected>Select a service</option>
+                <option>Interior Design</option>
+                <option>Civil Construction</option>
+                <option>Turnkey Project</option>
+                <option>Renovation</option>
+              </select>
+              <span class="fld__err" id="errService"></span>
+            </div>
           </div>
-          <button type="submit" class="btn btn--primary btn--lg magnetic">
+          <button type="submit" class="btn btn--primary btn--lg magnetic" id="quoteSubmit">
             <span>Get Free Consultation</span>
             <svg viewBox="0 0 24 24" class="btn__ico"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </button>
-          <p class="cta__note" id="formNote" role="status"></p>
+          <!-- QA-011: assertive so validation failures are announced immediately -->
+          <p class="cta__note" id="formNote" role="alert" aria-live="assertive"></p>
+          <p class="cta__fallback">Prefer to talk? Call
+            <a href="tel:+919011912480">+91&nbsp;90119&nbsp;12480</a> or email
+            <a href="mailto:hello@brushstrokeartspace.com">hello@brushstrokeartspace.com</a>.</p>
         </form>
       </div>
     </section>
@@ -546,10 +620,20 @@
   <footer class="footer">
     <div class="container footer__grid">
       <div class="footer__brand">
-        <div class="footer__logo-card">
-          <img src="assets/logo.png" alt="Brush Stroke Artspace" />
-        </div>
-        <p>Premium interior design, civil construction, and turnkey execution across Pune &amp; Mumbai.</p>
+        <!-- Same brand lockup as the header (.brand / .brand__script / .brand__sub),
+             just scaled up for the footer — one brand treatment across the site
+             instead of a separate image logo in a white card. -->
+        <a href="#home" class="brand footer__logo" aria-label="Brush Stroke Artspace — back to top">
+          <span class="brand__script">Brush Stroke</span>
+          <span class="brand__sub">Artspace</span>
+        </a>
+        <p>Premium interior design, civil construction, and turnkey execution for clients across India.</p>
+        <!-- QA-006 OUTSTANDING (owner input required): these three social links are
+             href="#" placeholders — clicking them silently does nothing, which on a
+             premium brand site reads as a broken build. Real profile URLs were not
+             available to the QA pass and have deliberately NOT been invented.
+             ACTION: supply the Instagram / Facebook / LinkedIn URLs, or remove the
+             icons until the profiles exist. -->
         <div class="footer__social">
           <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="17.5" cy="6.5" r="1.1" fill="currentColor"/></svg></a>
           <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M14 8h2.5V5H14c-2 0-3.5 1.5-3.5 3.5V11H8v3h2.5v7h3v-7H16l.5-3h-3V8.8c0-.5.4-.8 .9-.8z" fill="currentColor"/></svg></a>
@@ -566,18 +650,25 @@
       <div class="footer__col">
         <h4>Services</h4>
         <a href="#services">Interior Design</a><a href="#services">Civil Construction</a>
-        <a href="#services">Turnkey Projects</a><a href="#services">Renovation</a>
+        <a href="#services">Turnkey Projects</a>
+        <!-- QA-008: "Renovation" is offered in the enquiry form but has NO service card,
+             description or pricing anywhere on the site. Pointing it at #services sent
+             users to a section that never mentions it. Routed to the enquiry form until
+             the owner supplies approved Renovation copy + pricing. -->
+        <a href="#contact">Renovation</a>
       </div>
       <div class="footer__col footer__contact">
         <h4>Contact</h4>
         <a href="tel:+919011912480">+91 90119 12480</a>
         <a href="mailto:hello@brushstrokeartspace.com">hello@brushstrokeartspace.com</a>
-        <span>Pune &amp; Mumbai, Maharashtra</span>
+        <span>Serving clients Pan India</span>
       </div>
     </div>
     <div class="container footer__bar">
       <p>© 2026 Brush Stroke Artspace. All rights reserved.</p>
-      <p>Serving Pune &amp; Mumbai</p>
+      <p class="footer__credit">Designed &amp; Developed by
+        <a href="https://tariqhayat.com" target="_blank" rel="noopener noreferrer">Tarique Hayat</a>
+      </p>
     </div>
   </footer>
 
@@ -586,6 +677,7 @@
     <svg viewBox="0 0 24 24"><path d="M12 19V5M6 11l6-6 6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
   </button>
 
+  <script src="pricing.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
