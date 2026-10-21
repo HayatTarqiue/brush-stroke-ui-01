@@ -479,7 +479,56 @@ body.cursor-on .cursor,body.cursor-on .cursor-dot{opacity:1}
 /* =====================================================================
    PRICING
    ===================================================================== */
-.pricing{background:var(--ink)}
+/* =====================================================================
+   PRICING — light editorial surface
+   The page is dark-first; this one section flips to warm porcelain to give
+   the scroll some rhythm. Rather than theme the whole site, we re-declare
+   the design tokens *inside this section only*, so every child component
+   inherits the light palette through the same variables it already uses.
+   Every value below was checked against the porcelain background for
+   WCAG 2.2 AA (4.5:1 body, 3:1 large text).
+   ===================================================================== */
+.pricing{
+  --porcelain:#F4EFE7;
+  background:var(--porcelain);
+  /* `color` is declared on <body>, so descendants inherit the COMPUTED dark-theme
+     value and never re-resolve var(--fg). Restate it here so headings and card
+     titles (which set no colour of their own) pick up the light palette. */
+  color:var(--fg);
+
+  /* text — measured on #F4EFE7 */
+  --fg:#141A20;          /* ~15:1  */
+  --fg-soft:#3C434D;     /* 8.7:1  */
+  --muted:#5F6670;       /* 5.1:1  */
+  --faint:#6B727C;
+
+  /* surfaces + rules */
+  --panel:rgba(255,255,255,.74);
+  --panel-2:rgba(255,255,255,.92);
+  --line:rgba(20,26,32,.10);
+  --line-2:rgba(20,26,32,.20);
+
+  /* The signature sapphire gradient is far too light for a pale background
+     (#8FCDEE scores 1.7:1 on white). Swap in a deeper ramp — 4.5:1+. */
+  --grad-soft:linear-gradient(130deg,#1272AE 0%,#0E587F 55%,#0A3F5C 100%);
+  /* champagne accent also has to drop to a true bronze to stay readable */
+  --sand:#7A5F35;        /* 5.2:1 */
+  --sand-deep:#8A6D3F;
+}
+/* ghost buttons assume white text on dark — restate for the light surface */
+.pricing .btn--ghost{color:var(--fg);border-color:rgba(20,26,32,.22);
+  background:rgba(255,255,255,.55)}
+.pricing .btn--ghost:hover{color:#04121d;border-color:transparent}
+/* featured card: sapphire tint instead of the dark gradient */
+.pricing .price--featured{
+  background:linear-gradient(170deg,rgba(28,143,214,.12),rgba(255,255,255,.96));
+  border-color:rgba(18,114,174,.38);
+  box-shadow:0 26px 60px rgba(10,94,151,.16)}
+/* tick marks need a darker stroke to read on porcelain */
+.pricing .price__list li::before{background:rgba(18,114,174,.14);
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M5 12l4 4 10-10' fill='none' stroke='%230E587F' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:center;background-size:14px}
+.pricing .price{box-shadow:0 10px 30px rgba(20,26,32,.06)}
 .price-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(18px,2.4vw,26px);align-items:stretch}
 .price{position:relative;display:flex;flex-direction:column;padding:clamp(28px,3.2vw,40px);
   border-radius:var(--radius);background:var(--panel);border:1px solid var(--line);
