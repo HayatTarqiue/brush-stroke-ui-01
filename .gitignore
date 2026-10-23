@@ -1,0 +1,25 @@
+# ---------------------------------------------------------------------
+# Not part of source control
+# ---------------------------------------------------------------------
+
+# Internal reports and notes (QA-FINDINGS.md, SEO-AUDIT.md, …).
+# README.md stays tracked: it documents how to run, test and build the site.
+*.md
+!README.md
+
+# Client review screenshots
+client-preview/
+
+# OS / editor clutter
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+
+# Logs, secrets, local tooling
+*.log
+.env
+.env.*
+node_modules/
+.vercel/
