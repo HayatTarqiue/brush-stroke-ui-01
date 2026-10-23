@@ -939,7 +939,7 @@ html{-webkit-tap-highlight-color:transparent}
 /* Phones (portrait or landscape) */
 @media (max-width:760px),(pointer:coarse) and (max-height:500px){
   /* P-10: no live backdrop blur — each one re-blurred the moving page on every frame */
-  .nav.is-scrolled{background:rgba(7,10,15,.94);backdrop-filter:none;-webkit-backdrop-filter:none;
+  .nav.is-scrolled{background:rgba(7,10,15,.97);backdrop-filter:none;-webkit-backdrop-filter:none;
     box-shadow:0 8px 24px rgba(0,0,0,.35)}
   .eyebrow,.btn--ghost,.port__tag,.port__count,.calc__panel,.nav__links,.lb__backdrop{
     backdrop-filter:none;-webkit-backdrop-filter:none}
