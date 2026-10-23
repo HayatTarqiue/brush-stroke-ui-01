@@ -22,6 +22,9 @@
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
   <link rel="manifest" href="site.webmanifest" />
   <!-- SEO-21: only the 11 faces the page actually renders (measured via document.fonts) -->
+  <!-- PERF P-04: start the first hero frame with the CSS, not after it; phones get the centre crop -->
+  <link rel="preload" as="image" href="assets/portfolio/hoot/01.jpg" media="(min-aspect-ratio: 2/3)" />
+  <link rel="preload" as="image" href="assets/hero/hoot-01-m.jpg" media="(max-aspect-ratio: 2/3)" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,800;1,500;1,700&family=Inter:wght@400;500;600;700;800&family=Kaushan+Script&display=swap" rel="stylesheet" />
@@ -132,7 +135,7 @@
       <div class="preloader__brand">
         <span class="preloader__script">
           <span class="preloader__ink">Brush Stroke</span>
-          <span class="preloader__nib" aria-hidden="true"></span>
+          <span class="preloader__nibtrack" aria-hidden="true"><span class="preloader__nib"></span></span>
         </span>
         <svg class="preloader__underline" viewBox="0 0 440 26" preserveAspectRatio="none" aria-hidden="true">
           <path d="M8 16 C 90 6, 170 22, 250 13 S 400 4, 432 15" fill="none"
@@ -178,11 +181,11 @@
     <section class="hero" id="home">
       <div class="hero__bg" aria-hidden="true">
         <div class="hero__slides">
-          <div class="hero__slide is-active" style="background-image:url('assets/portfolio/hoot/01.jpg')"></div>
-          <div class="hero__slide" style="background-image:url('assets/portfolio/mocha/01.jpg')"></div>
-          <div class="hero__slide" style="background-image:url('assets/portfolio/banger/01.jpg')"></div>
-          <div class="hero__slide" style="background-image:url('assets/portfolio/raeeth/01.jpg')"></div>
-          <div class="hero__slide" style="background-image:url('assets/portfolio/atha/02.jpg')"></div>
+          <div class="hero__slide is-active" style="--slide:url('assets/portfolio/hoot/01.jpg');--slide-m:url('assets/hero/hoot-01-m.jpg')"></div>
+          <div class="hero__slide" style="--slide:url('assets/portfolio/mocha/01.jpg');--slide-m:url('assets/hero/mocha-01-m.jpg')"></div>
+          <div class="hero__slide" style="--slide:url('assets/portfolio/banger/01.jpg');--slide-m:url('assets/hero/banger-01-m.jpg')"></div>
+          <div class="hero__slide" style="--slide:url('assets/portfolio/raeeth/01.jpg');--slide-m:url('assets/hero/raeeth-01-m.jpg')"></div>
+          <div class="hero__slide" style="--slide:url('assets/portfolio/atha/02.jpg');--slide-m:url('assets/hero/atha-02-m.jpg')"></div>
         </div>
         <span class="hero__scrim"></span>
         <span class="blob blob--1"></span>
