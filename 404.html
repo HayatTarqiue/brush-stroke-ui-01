@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex" />
+  <meta name="theme-color" content="#070A0F" />
+  <title>Page not found — Brush Stroke</title>
+  <link rel="icon" type="image/png" href="/assets/favicon-64.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,800;1,700&family=Inter:wght@400;600&family=Kaushan+Script&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css" />
+  <style>
+    .nf{min-height:100svh;display:grid;place-items:center;text-align:center;padding:40px var(--gut);
+      background:radial-gradient(120% 90% at 50% 0%,rgba(27,155,224,.14),transparent 60%),var(--ink)}
+    .nf__code{font-family:var(--serif);font-weight:800;font-size:clamp(5rem,18vw,9rem);line-height:1;
+      background:var(--grad-soft);-webkit-background-clip:text;background-clip:text;color:transparent}
+    .nf h1{font-family:var(--serif);font-size:clamp(1.6rem,4vw,2.4rem);margin:10px 0 14px}
+    .nf p{color:var(--fg-soft);max-width:44ch;margin:0 auto 30px}
+    .nf__links{display:flex;flex-wrap:wrap;gap:14px;justify-content:center}
+  </style>
+</head>
+<body>
+  <main class="nf">
+    <div>
+      <a href="/" class="brand" style="justify-items:center;margin-bottom:28px" aria-label="Brush Stroke Artspace home">
+        <span class="brand__script">Brush Stroke</span>
+        <span class="brand__sub">Artspace</span>
+      </a>
+      <div class="nf__code" aria-hidden="true">404</div>
+      <h1>This page doesn't exist</h1>
+      <p>The link may be out of date. Have a look at our work, or tell us about your restaurant, café or bar.</p>
+      <div class="nf__links">
+        <a href="/#portfolio" class="btn btn--primary"><span>View Projects</span></a>
+        <a href="/#contact" class="btn btn--ghost"><span>Get a Consultation</span></a>
+      </div>
+    </div>
+  </main>
+</body>
+</html>

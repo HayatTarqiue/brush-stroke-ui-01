@@ -1,0 +1,62 @@
+/* =====================================================================
+   PROPOSED PALETTE — CLIENT PREVIEW
+   ---------------------------------------------------------------------
+   Loaded only when the URL has ?theme=light (see the loader in <head>).
+   The live site is untouched until the client approves; on approval these
+   rules get merged into styles.css and this file + its loader go away.
+
+   Idea: most sections move to warm porcelain / ivory; only the
+   photo-led sections (hero, portfolio, calculator, footer) stay dark,
+   and their near-black is lifted to a deep navy.
+   Every text colour below was contrast-checked (WCAG AA) against the
+   background it sits on.
+   ===================================================================== */
+
+/* ---- 1. dark sections: near-black (0.2–0.7% luminance) -> deep navy ---- */
+:root{
+  --ink:#1B2633;      /* was #0B0E13 */
+  --ink-2:#1E2A38;    /* was #0F141B */
+  --ink-3:#243244;    /* was #141A24 */
+}
+.nav.is-scrolled{background:rgba(23,33,44,.84)}
+.footer{background:#17212C}
+
+/* ---- 2. light sections: same token-scoping as .pricing ---- */
+.services,.why,.about,.testi,.faq,.cta{
+  color:var(--fg);
+  --fg:#141A20; --fg-soft:#3C434D; --muted:#5F6670; --faint:#6B727C;
+  --panel:rgba(255,255,255,.74); --panel-2:rgba(255,255,255,.94);
+  --line:rgba(20,26,32,.10); --line-2:rgba(20,26,32,.20);
+  --grad-soft:linear-gradient(130deg,#1272AE 0%,#0E587F 55%,#0A3F5C 100%);
+  --sand:#7A5F35; --sand-deep:#8A6D3F;
+  --blue-300:#0E587F;   /* small links / labels need the deeper sapphire on light */
+}
+/* alternate ivory and porcelain so neighbouring light sections still read apart */
+.services,.about,.testi,.cta{background:#FBF8F3}
+.why,.faq{background:#F4EFE7}
+
+/* cards lift off the page with a soft shadow instead of a glowing border */
+:is(.services,.why,.about) :is(.svc,.why-card,.about__facts div){box-shadow:0 10px 30px rgba(20,26,32,.06)}
+.why .why-card__ico{color:#1272AE}
+:is(.services,.why,.about,.testi,.faq,.cta) .link-more:hover{color:#141A20}
+:is(.services,.why,.about,.testi,.faq,.cta) .btn--ghost{color:var(--fg);border-color:rgba(20,26,32,.22);background:rgba(255,255,255,.55)}
+:is(.services,.why,.about,.testi,.faq,.cta) .btn--ghost:hover{color:#04121d;border-color:transparent}
+
+/* testimonials */
+.testi .quote blockquote{color:var(--fg)}
+.testi .testi__arrow{color:var(--fg);background:#fff}
+
+/* FAQ */
+.faq .acc summary{color:var(--fg)}
+.faq .acc{background:rgba(255,255,255,.7)}
+.faq .acc[open]{background:#fff;border-color:rgba(18,114,174,.35)}
+.faq .acc__sign::before,.faq .acc__sign::after{background:#1272AE}
+
+/* contact form */
+.cta .blob{opacity:.10}
+.cta .cta__form input,.cta .cta__form select{color:var(--fg);background:rgba(255,255,255,.85)}
+.cta .cta__form input:focus,.cta .cta__form select:focus{background:#fff;border-color:#1272AE}
+.cta .cta__form option{background:#fff;color:#141A20}
+.cta .cta__note{color:#0E587F}
+.cta .cta__note.is-err,.cta .fld__err,.cta .fld__label abbr{color:#B42318}
+.cta .cta__form input.is-invalid,.cta .cta__form select.is-invalid{border-color:#D92D20;background:rgba(217,45,32,.05)}
