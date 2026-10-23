@@ -47,10 +47,20 @@
   }
   // P-18: also wait for the web fonts, so the headline never swaps from a fallback
   // serif to Playfair in view (PRELOAD_MAX below still caps the wait).
+  // AUDIT D-01: the first screen only needs the fonts and the first hero photograph,
+  // not every resource behind `load` — on a slow phone that wait alone was ~0.4s of LCP.
   const pageLoaded = new Promise(r => document.readyState === 'complete'
     ? r() : window.addEventListener('load', r, { once: true }));
+  const heroReady = new Promise(r => {
+    const first = $('.hero__slide.is-active');
+    const m = first && getComputedStyle(first).backgroundImage.match(/url\(["']?(.*?)["']?\)/);
+    if (!m) return r();
+    const im = new Image();
+    im.onload = im.onerror = () => r();
+    im.src = m[1];                                  // same URL as the <link rel=preload>, so no second download
+  });
   const fontsLoaded = document.fonts && document.fonts.ready ? document.fonts.ready.catch(() => {}) : null;
-  Promise.all([pageLoaded, fontsLoaded]).then(releaseWhenReady);
+  Promise.all([Promise.race([pageLoaded, heroReady]), fontsLoaded]).then(releaseWhenReady);
   setTimeout(dismissPreloader, PRELOAD_MAX);     // never strand the first screen
 
   /* ---------- NAV ---------- */
@@ -81,6 +91,15 @@
     syncHeaderHeight();
   }, { passive: true });
   window.addEventListener('load', syncHeaderHeight, { once: true });
+
+  // AUDIT D-03: a direct link such as /#pricing is scrolled to by the browser while the
+  // page is still settling (fallback fonts, header height), so the section could end up
+  // part-hidden under the fixed header. Re-align once the first screen is ready.
+  if (location.hash.length > 1) onReady(() => {
+    let target = null;
+    try { target = document.querySelector(location.hash); } catch (e) { /* not a selector */ }
+    if (target) requestAnimationFrame(() => target.scrollIntoView({ behavior: 'instant', block: 'start' }));
+  });
 
   // QA-011: off-canvas menu is only translated off-screen, so when "closed" its links
   // stayed in the tab order — keyboard users tabbed into an invisible menu. Gate it
@@ -444,6 +463,12 @@
     return new Promise((res, rej) => { const im = new Image(); im.onload = () => res(im); im.onerror = rej; im.src = src; });
   }
   function preload(src) { const im = new Image(); im.src = src; }
+  // AUDIT D-02: full-size photographs (avg 330 KB, up to 570 KB) already decoded this visit
+  const lbFull = new Set();
+  // phones / slow or data-saver connections: warm only the light 800px thumbnails of the
+  // neighbours, so they don't compete with the photograph the visitor is looking at
+  const lbLean = () => window.innerWidth <= 760 ||
+    !!(navigator.connection && (navigator.connection.saveData || /(^|-)2g|3g/.test(navigator.connection.effectiveType || '')));
 
   // Where the photo sits on stage for a given aspect ratio. Mirrors the CSS box
   // (min(1200px, 92vw) x 76vh, 60vh on small screens) so the image is sized
@@ -502,8 +527,8 @@
       t.classList.toggle('is-active', on);
       if (on) t.scrollIntoView({ block: 'nearest', inline: 'center', behavior: lbMotion ? 'smooth' : 'auto' });
     });
-    preload(PBASE + p.imgs[(lbIdx + 1) % p.imgs.length]);
-    preload(PBASE + p.imgs[(lbIdx - 1 + p.imgs.length) % p.imgs.length]);
+    const around = [p.imgs[(lbIdx + 1) % p.imgs.length], p.imgs[(lbIdx - 1 + p.imgs.length) % p.imgs.length]];
+    around.forEach(rel => preload(PBASE + (lbLean() ? thumbOf(rel) : rel)));
   }
 
   // dir: +1 next, -1 previous, 0 jump without direction
@@ -514,9 +539,20 @@
     lbIdx = nextIdx;
     const token = ++lbToken;
     updateMeta();
-    const src = PBASE + p.imgs[lbIdx];
-    let im;
-    try { im = await loadImg(src); } catch (e) { return; }
+    const full = PBASE + p.imgs[lbIdx];
+    let src = full, im;
+    // AUDIT D-02: next/prev used to wait for the full photograph before anything moved —
+    // 2-3 s of dead tap on a phone. If it isn't decoded yet, slide in the light thumbnail
+    // (usually cached from the strip) at once and swap to full resolution when it lands.
+    if (!lbFull.has(full)) {
+      const thumb = PBASE + thumbOf(p.imgs[lbIdx]);
+      loadImg(full).then(() => {
+        lbFull.add(full);
+        if (token === lbToken && !lbClosing && lbImg.getAttribute('src') === thumb) lbImg.src = full;
+      }, () => {});
+      try { im = await loadImg(thumb); src = thumb; } catch (e) { /* fall back to waiting for full */ }
+    }
+    if (!im) { try { im = await loadImg(full); lbFull.add(full); } catch (e) { return; } }
     if (token !== lbToken || lbClosing) return;            // user already moved on
 
     if (!lbMotion) { sizeStage(im.naturalWidth / im.naturalHeight); lbImg.src = src; return; }
@@ -589,7 +625,7 @@
     sizeStage(aspect);
     lbImg.src = thumbSrc;                              // cached: shows instantly, sharp at card size
     const token = ++lbToken;
-    loadImg(fullSrc).then(() => { if (token === lbToken && !lbClosing) lbImg.src = fullSrc; }, () => {});
+    loadImg(fullSrc).then(() => { lbFull.add(fullSrc); if (token === lbToken && !lbClosing) lbImg.src = fullSrc; }, () => {});
 
     lb.classList.add('is-open');
     lb.setAttribute('aria-hidden', 'false');
