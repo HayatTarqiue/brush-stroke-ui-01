@@ -649,9 +649,47 @@
             <div><dt>Awards</dt><dd>12</dd></div>
             <div><dt>People in the studio</dt><dd>26</dd></div>
           </dl>
-          <ul class="about__team" aria-label="Studio leadership">
-            <li><strong>Sikandar Ahmed</strong><span>Founder &amp; Senior Designer</span></li>
-            <li><strong>Arbaaz Khan</strong><span>Architect</span></li>
+          <!-- Team cards. To add a portrait, save it as the file named in `src`
+               (portrait 4:5, about 600x750 px). Until the file exists the image removes
+               itself and the initials monogram shows instead. -->
+          <ul class="team" aria-label="Studio leadership">
+            <li class="team-card">
+              <button class="team-card__photo" type="button" data-initials="SA"
+                aria-expanded="false" aria-controls="bio-sikandar" aria-label="About Sikandar Ahmed">
+                <img src="assets/team/sikandar-ahmed.jpg" alt="Sikandar Ahmed, Founder and Senior Designer at Brush Stroke Artspace"
+                  width="600" height="750" loading="lazy" decoding="async" onerror="this.remove()" />
+              </button>
+              <div class="team-card__body">
+                <strong class="team-card__name">Sikandar Ahmed</strong>
+                <span class="team-card__role">Founder &amp; Senior Designer</span>
+              </div>
+              <!-- Bio pop-up: shows on hover (desktop), on tap (phones) or Enter (keyboard). -->
+              <div class="team-card__bio" id="bio-sikandar">
+                <span class="team-card__bio-role">Founder &amp; Senior Designer</span>
+                <strong class="team-card__bio-name" aria-hidden="true">Sikandar Ahmed</strong>
+                <p>Founded Brush Stroke in 2017 and has led 50+ hospitality interiors across India,
+                  taking each one from the first concept sketch to the final styling.</p>
+                <p class="team-card__skills">Concept design · Materials · Turnkey delivery</p>
+              </div>
+            </li>
+            <li class="team-card">
+              <button class="team-card__photo" type="button" data-initials="AK"
+                aria-expanded="false" aria-controls="bio-arbaaz" aria-label="About Arbaaz Khan">
+                <img src="assets/team/arbaaz-khan.jpg" alt="Arbaaz Khan, Architect at Brush Stroke Artspace"
+                  width="600" height="750" loading="lazy" decoding="async" onerror="this.remove()" />
+              </button>
+              <div class="team-card__body">
+                <strong class="team-card__name">Arbaaz Khan</strong>
+                <span class="team-card__role">Architect</span>
+              </div>
+              <div class="team-card__bio" id="bio-arbaaz">
+                <span class="team-card__bio-role">Architect</span>
+                <strong class="team-card__bio-name" aria-hidden="true">Arbaaz Khan</strong>
+                <p>Turns every concept into buildable architecture: layouts, façades and structure,
+                  so each restaurant, café and bar works as well as it looks.</p>
+                <p class="team-card__skills">Space planning · Façades · Site coordination</p>
+              </div>
+            </li>
           </ul>
         </div>
       </div>

@@ -36,7 +36,7 @@
 .why,.faq{background:#EAF4FB}
 
 /* cards lift off the page with a soft shadow instead of a glowing border */
-:is(.services,.why,.about) :is(.svc,.why-card,.about__facts div){box-shadow:0 10px 30px rgba(10,34,54,.06)}
+:is(.services,.why,.about) :is(.svc,.why-card,.about__facts div,.team-card){box-shadow:0 10px 30px rgba(10,34,54,.06)}
 .why .why-card__ico{color:#1272AE}
 :is(.services,.why,.about,.testi,.faq,.cta) .link-more:hover{color:#0A2236}
 :is(.services,.why,.about,.testi,.faq,.cta) .btn--ghost{color:var(--fg);border-color:rgba(10,34,54,.22);background:rgba(255,255,255,.55)}
@@ -60,3 +60,6 @@
 .cta .cta__note{color:#0E587F}
 .cta .cta__note.is-err,.cta .fld__err,.cta .fld__label abbr{color:#B42318}
 .cta .cta__form input.is-invalid,.cta .cta__form select.is-invalid{border-color:#D92D20;background:rgba(217,45,32,.05)}
+
+/* team cards: pale sky portrait slot so the monogram reads on the light section */
+.about .team-card__photo{background:radial-gradient(120% 90% at 30% 15%,rgba(var(--blue-rgb),.22),transparent 60%),#E3F0F9}

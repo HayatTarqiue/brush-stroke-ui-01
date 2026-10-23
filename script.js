@@ -163,6 +163,33 @@
     setTimeout(() => el.classList.add('is-revealed'), reduceMotion ? 0 : d * STAGGER);
   }));
 
+  /* ---------- TEAM BIOS ----------
+     Desktop shows the bio on hover (CSS). Phones have no hover, so a tap on the card
+     toggles it; keyboard users press Enter/Space on the photo button. One open at a time. */
+  const teamCards = $$('.team-card');
+  const canHoverTeam = window.matchMedia('(hover:hover)').matches;
+  const setBio = (card, open) => {
+    card.classList.toggle('is-open', open);
+    const btn = $('.team-card__photo', card);
+    if (btn) btn.setAttribute('aria-expanded', String(open));
+  };
+  teamCards.forEach(card => {
+    card.addEventListener('click', e => {
+      // a mouse click on a hover device is already covered by :hover — only toggle for
+      // touch taps and keyboard activation (keyboard clicks report detail 0)
+      if (canHoverTeam && e.detail !== 0) return;
+      const open = !card.classList.contains('is-open');
+      teamCards.forEach(c => c !== card && setBio(c, false));
+      setBio(card, open);
+    });
+  });
+  document.addEventListener('click', e => {
+    if (!e.target.closest('.team-card')) teamCards.forEach(c => setBio(c, false));
+  });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') teamCards.forEach(c => setBio(c, false));
+  });
+
   /* ---------- COUNTERS ---------- */
   const counters = $$('[data-count]');
   const COUNT_DELAY = 600;

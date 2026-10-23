@@ -900,15 +900,53 @@ em{font-style:italic}
 .about__facts dd{font-family:var(--serif);font-weight:700;font-size:clamp(1.8rem,3vw,2.3rem);
   line-height:1;background:var(--grad-soft);-webkit-background-clip:text;background-clip:text;
   color:transparent}
-.about__team{display:grid;gap:10px}
-.about__team li{display:flex;justify-content:space-between;align-items:baseline;gap:16px;
-  padding:16px 0;border-bottom:1px solid var(--line)}
-.about__team strong{font-family:var(--serif);font-weight:700;font-size:1.15rem}
-.about__team span{font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;color:var(--fg-soft);
-  text-align:right}
+/* Team cards — portrait on top, name + role below. The initials monogram sits
+   underneath the photo, so the card still looks finished before portraits arrive. */
 @media (max-width:1024px){.about__wrap{grid-template-columns:1fr}}
-@media (max-width:440px){.about__team li{flex-direction:column;gap:4px}
-  .about__team span{text-align:left}}
+.team{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.team-card{position:relative;border-radius:var(--radius);overflow:hidden;background:var(--panel);
+  border:1px solid var(--line);transition:border-color .4s var(--ease)}
+.team-card__photo{position:relative;display:block;width:100%;padding:0;border:0;color:inherit;font:inherit;
+  cursor:pointer;aspect-ratio:4/5;overflow:hidden;
+  background:radial-gradient(120% 90% at 30% 15%,rgba(var(--blue-rgb),.32),transparent 60%),var(--ink-3)}
+.team-card__photo::before{content:attr(data-initials);position:absolute;inset:0;display:grid;place-items:center;
+  font-family:var(--serif);font-weight:700;font-style:italic;font-size:clamp(3rem,6vw,4.4rem);letter-spacing:.02em;
+  background:var(--grad-soft);-webkit-background-clip:text;background-clip:text;color:transparent}
+.team-card__photo img{position:relative;width:100%;height:100%;object-fit:cover;display:block;
+  transition:transform .8s var(--ease)}
+.team-card__body{display:grid;gap:6px;padding:18px 20px 20px}
+.team-card__name{font-family:var(--serif);font-weight:700;font-size:1.18rem;line-height:1.2}
+.team-card__role{font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:var(--fg-soft);line-height:1.5}
+.team-card__photo:focus-visible{outline:2px solid var(--blue-400);outline-offset:-4px}
+
+/* Bio pop-up — rises over the whole card. Colours are fixed (not tokens) because the
+   panel is always navy, even when the section around it is light. */
+.team-card__bio{position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;justify-content:flex-end;
+  gap:8px;padding:22px 20px;pointer-events:none;color:#C8D9E5;
+  background:linear-gradient(180deg,rgba(var(--ink-0-rgb),.15) 0%,rgba(var(--ink-0-rgb),.9) 32%,rgb(var(--ink-0-rgb)) 56%);
+  opacity:0;transform:translateY(16px);transition:opacity .4s var(--ease),transform .55s var(--ease)}
+.team-card__bio-role{font-size:.66rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:#8FCDEE}
+.team-card__bio-name{font-family:var(--serif);font-weight:700;font-size:1.3rem;line-height:1.15;color:#F2F7FB}
+.team-card__bio p{font-size:.9rem;line-height:1.55}
+.team-card__bio .team-card__skills{font-size:.7rem;letter-spacing:.08em;color:#8FCDEE;
+  padding-top:10px;border-top:1px solid rgba(var(--accent-rgb),.22)}
+.team-card.is-open .team-card__bio{opacity:1;transform:none}
+.team-card.is-open{border-color:rgba(var(--accent-rgb),.4)}
+@media (hover:hover){
+  .team-card:hover{border-color:rgba(var(--accent-rgb),.4)}
+  .team-card:hover .team-card__photo img{transform:scale(1.04)}
+  .team-card:hover .team-card__bio{opacity:1;transform:none}
+}
+@media (max-width:440px){
+  .team{gap:10px}
+  .team-card__body{padding:14px 14px 16px}
+  .team-card__name{font-size:1.02rem}
+  .team-card__role{font-size:.62rem;letter-spacing:.12em}
+  .team-card__bio{padding:14px 13px;gap:6px}
+  .team-card__bio-name{font-size:1.02rem}
+  .team-card__bio p{font-size:.76rem;line-height:1.45}
+  .team-card__bio .team-card__skills{font-size:.6rem;letter-spacing:.04em;padding-top:7px}
+}
 
 /* =====================================================================
    PERFORMANCE — phones, touch & short screens  (see PERFORMANCE-CHECKLIST.md)
