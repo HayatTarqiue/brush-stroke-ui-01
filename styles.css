@@ -612,6 +612,10 @@ em{font-style:italic}
   font-size:.84rem;font-weight:500;color:var(--fg-soft);transition:all .3s var(--ease)}
 .chip:hover{border-color:var(--line-2);color:#fff}
 .chip.is-active{background:var(--grad);color:#04121d;border-color:transparent;font-weight:600;box-shadow:0 8px 20px rgba(var(--blue-rgb),.3)}
+/* Service chips are not used for venue types (their rate is set per venue) */
+.chips.is-disabled .chip{opacity:.4;pointer-events:none}
+.field__note{font-size:.8rem;color:var(--muted);margin-top:-4px}
+.field__note[hidden]{display:none}
 
 .range{-webkit-appearance:none;appearance:none;width:100%;height:6px;border-radius:6px;
   background:linear-gradient(90deg,var(--blue-500) var(--p,10%),rgba(255,255,255,.1) var(--p,10%));outline:none}

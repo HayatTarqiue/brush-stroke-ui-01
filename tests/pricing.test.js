@@ -130,3 +130,43 @@ test('QA-003 every property preset seeds an area inside the allowed range', () =
     assert.equal(P.clampArea(area), area, `${name} preset ${area} was clamped`);
   }
 });
+
+/* ---------- venue types: Restaurant / Café / Club ---------- */
+
+test('Venue rates are exactly what the owner set', () => {
+  assert.deepEqual(P.VENUE_RATES['Restaurant'], [1500, 3500]);
+  assert.deepEqual(P.VENUE_RATES['Café'], [1200, 3000]);
+  assert.deepEqual(P.VENUE_RATES['Club'], [2500, 9000]);
+});
+
+test('Venue tiers cover the whole venue range with no gaps, in order', () => {
+  for (const v of Object.keys(P.VENUE_RATES)) {
+    const [lo, hi] = P.VENUE_RATES[v];
+    const t = P.venueTiers(v);
+    assert.equal(t.basic[0], lo, `${v} basic starts at the floor`);
+    assert.equal(t.premium[1], hi, `${v} premium ends at the ceiling`);
+    assert.equal(t.basic[1], t.standard[0], `${v} basic/standard contiguous`);
+    assert.equal(t.standard[1], t.premium[0], `${v} standard/premium contiguous`);
+    for (const k of P.TIERS) assert.ok(t[k][0] < t[k][1], `${v}.${k} ordered`);
+  }
+});
+
+test('Venue estimate uses the venue rate, whatever service is selected', () => {
+  for (const service of P.SERVICES) {
+    const e = P.estimate({ property: 'Café', area: 1000, service, budget: 'standard' });
+    assert.equal(e.venue, true);
+    assert.equal(e.low, 1800000);
+    assert.equal(e.high, 2400000);
+  }
+  const lo = P.estimate({ property: 'Restaurant', area: 1000, budget: 'basic' });
+  const hi = P.estimate({ property: 'Club', area: 1000, budget: 'premium' });
+  assert.equal(lo.low, 1500000);
+  assert.equal(hi.high, 9000000);
+});
+
+test('Residential / office types keep the service x tier rate', () => {
+  const e = P.estimate({ property: '2 BHK', area: 1000, service: 'interior', budget: 'standard' });
+  assert.equal(e.venue, false);
+  assert.equal(e.low, 2000000);
+  assert.equal(e.high, 3000000);
+});

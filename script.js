@@ -703,6 +703,9 @@
   const areaRange = $('#areaRange');
   const areaOut = $('#areaOut');
   const estLow = $('#estLow'), estHigh = $('#estHigh'), estMeta = $('#estMeta');
+  const serviceChips = $('.chips[data-group="service"]');
+  const serviceNote = $('#serviceNote');
+  const perSqFt = ([lo, hi]) => `${P.formatINR(lo)}–${P.formatINR(hi).slice(1)}/sq ft`;
 
   function paintRange() {
     const min = +areaRange.min, max = +areaRange.max;
@@ -716,8 +719,16 @@
     if (estLow) estLow.textContent = P.formatINR(e.low);
     if (estHigh) estHigh.textContent = P.formatINR(e.high);
     if (areaOut) areaOut.textContent = e.area.toLocaleString('en-IN');
-    if (estMeta) estMeta.textContent =
-      `${state.property} · ${e.area.toLocaleString('en-IN')} sq ft · ${serviceLabel[e.service]} · ${budgetLabel[e.budget]} tier`;
+    // Venue types (Restaurant / Café / Club) carry their own rate, so the service
+    // choice does not apply to them — grey it out and say why.
+    if (serviceChips) {
+      serviceChips.classList.toggle('is-disabled', e.venue);
+      $$('.chip', serviceChips).forEach(c => c.toggleAttribute('disabled', e.venue));
+    }
+    if (serviceNote) serviceNote.hidden = !e.venue;
+    if (estMeta) estMeta.textContent = e.venue
+      ? `${state.property} · ${e.area.toLocaleString('en-IN')} sq ft · ${perSqFt(e.rate)} · ${budgetLabel[e.budget]} tier`
+      : `${state.property} · ${e.area.toLocaleString('en-IN')} sq ft · ${serviceLabel[e.service]} · ${budgetLabel[e.budget]} tier`;
   }
   if (areaRange) {
     areaRange.min = P.AREA_MIN; areaRange.max = P.AREA_MAX;

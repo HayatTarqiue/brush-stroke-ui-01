@@ -14,7 +14,11 @@
        narrower band inside the headline range. This is why 1,000 sq ft
        on the Standard tier reads Rs 20,00,000 - Rs 30,00,000 rather
        than the headline Rs 15,00,000 - Rs 40,00,000.
-     * Property type presets a typical area; it does not alter the rate.
+     * Residential/office property types only preset a typical area; they do not
+       alter the rate.
+     * VENUE types (Restaurant, Café, Club) have their own per-sq-ft range set by the
+       owner. For a venue the range replaces the service x tier rate, and the budget
+       tier picks the lower / middle / upper third of that range.
 
    NOTE FOR OWNER: the rate values themselves are carried over from the
    existing site and are PENDING OWNER CONFIRMATION (see QA-003 in the
@@ -51,7 +55,27 @@
   /* Typical area presets by property type. These only seed the slider. */
   const PROPERTY_AREA = {
     '1 BHK': 650, '2 BHK': 1000, '3 BHK': 1500, 'Villa': 3000, 'Office': 2000,
+    'Restaurant': 2000, 'Café': 1200, 'Club': 4000,
   };
+
+  /* Venue interiors — owner-set per-sq-ft range (low = Basic floor, high = Premium ceiling) */
+  const VENUE_RATES = {
+    'Restaurant': [1500, 3500],
+    'Café':       [1200, 3000],
+    'Club':       [2500, 9000],
+  };
+
+  function isVenue(p) { return Object.prototype.hasOwnProperty.call(VENUE_RATES, p); }
+
+  /** Split a venue range into three contiguous tier bands, rounded to Rs 50. */
+  function venueTiers(property) {
+    if (!isVenue(property)) return null;
+    const [lo, hi] = VENUE_RATES[property];
+    const step = (hi - lo) / 3;
+    const r50 = n => Math.round(n / 50) * 50;
+    const a = r50(lo + step), b = r50(lo + step * 2);
+    return { basic: [lo, a], standard: [a, b], premium: [b, hi] };
+  }
 
   function isService(s) { return Object.prototype.hasOwnProperty.call(RATES, s); }
   function isTier(t) { return TIERS.indexOf(t) !== -1; }
@@ -89,12 +113,13 @@
     const service = isService(opts.service) ? opts.service : 'interior';
     const budget = isTier(opts.budget) ? opts.budget : 'standard';
     const area = clampArea(opts.area);
+    const venue = isVenue(opts.property);
 
-    let [rateLow, rateHigh] = RATES[service][budget];
+    let [rateLow, rateHigh] = venue ? venueTiers(opts.property)[budget] : RATES[service][budget];
     if (rateLow > rateHigh) { const t = rateLow; rateLow = rateHigh; rateHigh = t; }
 
     return {
-      area, service, budget,
+      area, service, budget, venue,
       rate: [rateLow, rateHigh],
       low: Math.round(rateLow * area),
       high: Math.round(rateHigh * area),
@@ -109,7 +134,7 @@
 
   return {
     AREA_MIN, AREA_MAX, AREA_DEFAULT,
-    RATES, SERVICES, TIERS, SERVICE_LABEL, BUDGET_LABEL, PROPERTY_AREA,
-    clampArea, estimate, publishedRange, formatINR,
+    RATES, SERVICES, TIERS, SERVICE_LABEL, BUDGET_LABEL, PROPERTY_AREA, VENUE_RATES,
+    clampArea, estimate, publishedRange, formatINR, isVenue, venueTiers,
   };
 });
