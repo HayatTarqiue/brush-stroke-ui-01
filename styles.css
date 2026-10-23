@@ -714,6 +714,10 @@ em{font-style:italic}
   background:var(--panel);border:1px solid var(--line-2);color:#fff;font-size:.96rem;transition:border-color .3s,background .3s}
 .cta__form input::placeholder{color:var(--faint)}
 .cta__form input:focus,.cta__form select:focus{border-color:var(--blue-400);background:var(--panel-2);outline:none}
+/* AUDIT D-06: focus was shown by border colour alone, and an invalid field's red border
+   overrode it — keyboard users lost their place. A ring works in both states. */
+.cta__form input:focus-visible,.cta__form select:focus-visible{box-shadow:0 0 0 3px rgba(var(--blue-rgb),.35)}
+.cta__form input.is-invalid:focus-visible,.cta__form select.is-invalid:focus-visible{box-shadow:0 0 0 3px rgba(255,143,120,.4)}
 .cta__form select{color:var(--fg-soft);appearance:none;cursor:pointer;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6 9l6 6 6-6' fill='none' stroke='%238FA2B5' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
   background-repeat:no-repeat;background-position:right 18px center;background-size:20px}
@@ -759,7 +763,7 @@ em{font-style:italic}
   border:1px solid var(--line-2);color:var(--fg-soft);transition:all .35s var(--ease)}
 .footer__social a svg{width:20px;height:20px}
 .footer__social a:hover{background:var(--grad);color:#04121d;border-color:transparent;transform:translateY(-3px)}
-.footer__col h4{font-size:.76rem;letter-spacing:.2em;text-transform:uppercase;color:var(--blue-300);margin-bottom:20px;font-weight:600}
+.footer__col h3{font-size:.76rem;letter-spacing:.2em;text-transform:uppercase;color:var(--blue-300);margin-bottom:20px;font-weight:600}
 .footer__col a,.footer__contact span{display:block;color:var(--muted);font-size:.95rem;margin-bottom:12px;transition:color .3s;width:fit-content}
 .footer__col a:hover{color:#fff}
 .footer__contact a:first-of-type{font-family:var(--serif);font-size:1.15rem;color:#fff}
@@ -794,8 +798,12 @@ em{font-style:italic}
 /* Hero headline — architectural clip-mask wipe, lines rise from a baseline */
 .js .hero__title .line{opacity:0;transform:translateY(.42em);
   clip-path:inset(-20% -8% 100% -8%);
-  transition:opacity .9s var(--ease-out),transform var(--dur-mask) var(--ease-cinematic),
-    clip-path var(--dur-mask) var(--ease-cinematic)}
+  /* AUDIT D-01: the rise + wipe used the 1.25s image-mask duration. Chrome records the
+     headline's LCP only when that movement settles, so it alone pushed desktop LCP to
+     ~2.5s. A .6s rise keeps the same choreography and lands LCP ~0.7s earlier. */
+  transition:opacity .9s var(--ease-out),transform .6s var(--ease-out),clip-path .6s var(--ease-out)}
+/* the rest of the first screen (lead, buttons, stats) settles on the same quicker beat */
+.js .hero .reveal{transition:opacity .8s var(--ease-out),transform .55s var(--ease-out)}
 .hero__title .line.is-revealed{opacity:1;transform:none;clip-path:inset(-20% -8% -20% -8%)}
 
 /* Section heads choreograph their own children — a controlled, staggered entrance.
@@ -1002,7 +1010,10 @@ html{-webkit-tap-highlight-color:transparent}
   .hero__title{text-shadow:0 2px 16px rgba(var(--ink-0-rgb),.5)}
   .js .hero__title .line,.hero__title .line.is-revealed,
   .js .sec-head.reveal > .sec-title,.js .sec-head.reveal.is-revealed > .sec-title{clip-path:none}
-  .js .hero__title .line{transition:opacity .7s var(--ease-out),transform .8s var(--ease-cinematic)}
+  /* AUDIT D-01: on phones the first screen appears with a short fade and no rise. Measured:
+     Chrome only dates this LCP once the fade completes (0.6s fade -> LCP 3.58s, 0.1s -> 3.06s
+     on Slow 4G). The preloader's own 0.7s fade-out sits on top, so it still reads as a soft reveal. */
+  .js .hero__title .line,.js .hero .reveal{transform:none;transition:opacity .2s var(--ease-out)}
 
   /* P-11: portfolio cards — no per-card blend layer, no 3D context, fade-in reveal */
   .port{transform-style:flat}
