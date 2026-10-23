@@ -5,16 +5,98 @@
   <script>document.documentElement.classList.add('js');</script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#070A0F" />
-  <title>Brush Stroke Artspace — Premium Interior Design, Build & Turnkey Execution</title>
-  <meta name="description" content="Brush Stroke Artspace crafts extraordinary interiors, precision civil construction and seamless turnkey execution. Serving premium clients Pan India." />
-  <meta property="og:title" content="Brush Stroke Artspace — Design. Build. Execute." />
-  <meta property="og:description" content="From concept to completion — bespoke interiors, civil construction and turnkey execution for clients across India." />
+  <title>Brush Stroke — Restaurant, Café &amp; Bar Interior Designers, Mumbai</title>
+  <meta name="description" content="Brush Stroke designs restaurants, cafés, bars and clubs across India — 50+ hospitality interiors since 2017. Studio in Mumbai. Book a consultation." />
+  <meta property="og:title" content="Brush Stroke — Restaurant, Café &amp; Bar Interior Designers" />
+  <meta property="og:description" content="50+ hospitality interiors for restaurants, cafés, bars and clubs across India since 2017. Studio in Mumbai." />
+  <meta property="og:site_name" content="Brush Stroke" />
+  <meta property="og:locale" content="en_IN" />
+  <meta property="og:image" content="assets/og-image.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Hoot Cafe &amp; Brewery, Bengaluru — interiors by Brush Stroke" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
   <meta property="og:type" content="website" />
   <link rel="icon" type="image/png" href="assets/favicon-64.png" />
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
+  <link rel="manifest" href="site.webmanifest" />
+  <!-- SEO-21: only the 11 faces the page actually renders (measured via document.fonts) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;0,900;1,500;1,600;1,700&family=Inter:wght@300;400;500;600;700;800&family=Kaushan+Script&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,800;1,500;1,700&family=Inter:wght@400;500;600;700;800&family=Kaushan+Script&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
+  <!-- CLIENT PREVIEW ONLY: ?theme=light loads the proposed lighter palette.
+       Remove this line (and theme-light.css) once the client decides. -->
+  <script>if(/[?&]theme=light\b/.test(location.search))document.write('<link rel="stylesheet" href="theme-light.css" />');</script>
+  <!-- SEO-8: structured data. Facts only from the studio's own site.
+       TODO(domain): add "url", "@id", "image" and "logo" as ABSOLUTE URLs once the
+       production domain is confirmed. -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": [
+      "LocalBusiness",
+      "ProfessionalService"
+    ],
+    "name": "Brush Stroke Artspace",
+    "alternateName": "Brush Stroke",
+    "description": "Interior design studio for restaurants, cafés, bars and clubs across India. Founded in 2017, based in Mumbai.",
+    "foundingDate": "2017",
+    "founder": {
+      "@type": "Person",
+      "name": "Sikandar Ahmed",
+      "jobTitle": "Founder & Senior Designer"
+    },
+    "employee": [
+      {
+        "@type": "Person",
+        "name": "Arbaaz Khan",
+        "jobTitle": "Architect"
+      }
+    ],
+    "numberOfEmployees": {
+      "@type": "QuantitativeValue",
+      "value": 26
+    },
+    "telephone": "+91-98335-24653",
+    "email": "brushstrokecompany@gmail.com",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "409 Sant Akbli Apartment, Building No. 17, High Tension Road",
+      "addressLocality": "Mumbai",
+      "addressRegion": "Maharashtra",
+      "postalCode": "401209",
+      "addressCountry": "IN"
+    },
+    "areaServed": {
+      "@type": "Country",
+      "name": "India"
+    },
+    "knowsAbout": [
+      "Restaurant interior design",
+      "Café interior design",
+      "Bar and pub interior design",
+      "Nightclub interior design",
+      "Space planning",
+      "Interior design consultation"
+    ],
+    "contactPoint": [
+      {
+        "@type": "ContactPoint",
+        "telephone": "+91-98335-24653",
+        "contactType": "customer service",
+        "areaServed": "IN"
+      },
+      {
+        "@type": "ContactPoint",
+        "telephone": "+91-73208-31369",
+        "contactType": "customer service",
+        "areaServed": "IN"
+      }
+    ]
+  }
+  </script>
 </head>
 <body>
   <!-- ===================================================================
@@ -66,9 +148,6 @@
     </div>
   </div>
 
-  <!-- ===================== CURSOR ===================== -->
-  <div class="cursor" id="cursor" aria-hidden="true"></div>
-  <div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
 
   <!-- ===================== SCROLL PROGRESS ===================== -->
   <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
@@ -113,11 +192,13 @@
       </div>
       <!-- animated brush underline svg reused via class -->
       <div class="container hero__inner">
-        <p class="eyebrow reveal" data-reveal>
-          <span class="eyebrow__dot"></span>
-          Interior Design · Civil Construction · Turnkey Execution
-        </p>
-        <h1 class="hero__title">
+        <!-- SEO-5: the H1 is the strongest on-page signal, so it names the service and
+             the sector. "Design. Build. Execute." stays as the visual tagline below it. -->
+        <h1 class="eyebrow reveal" data-reveal>
+          <span class="eyebrow__dot" aria-hidden="true"></span>
+          Restaurant, Café &amp; Bar Interior Designers
+        </h1>
+        <p class="hero__title">
           <span class="line reveal" data-reveal>Design.</span>
           <span class="line reveal" data-reveal data-delay="90">Build.</span>
           <span class="line line--accent reveal" data-reveal data-delay="180">
@@ -131,7 +212,7 @@
               </defs>
             </svg>
           </span>
-        </h1>
+        </p>
         <p class="hero__lead reveal" data-reveal data-delay="260">
           From concept to completion — we handle everything. Serving premium clients
           <strong>Pan&nbsp;India</strong>.
@@ -151,18 +232,18 @@
                correct number is still what the user (and any crawler) sees. Never "0".
                QA-002: these three figures are UNVERIFIED business claims pending owner sign-off. -->
           <div class="stat reveal" data-reveal data-delay="420">
-            <span class="stat__num" data-count="500" data-suffix="+">500+</span>
+            <span class="stat__num" data-count="50" data-suffix="+">50+</span>
             <span class="stat__label">Projects</span>
           </div>
           <span class="stat__divider" aria-hidden="true"></span>
           <div class="stat reveal" data-reveal data-delay="480">
-            <span class="stat__num" data-count="15" data-suffix="+">15+</span>
+            <span class="stat__num" data-count="9" data-since="2017" data-suffix="+">9+</span>
             <span class="stat__label">Years</span>
           </div>
           <span class="stat__divider" aria-hidden="true"></span>
           <div class="stat reveal" data-reveal data-delay="540">
-            <span class="stat__num" data-count="98" data-suffix="%">98%</span>
-            <span class="stat__label">Satisfaction</span>
+            <span class="stat__num" data-count="12" data-suffix="">12</span>
+            <span class="stat__label">Awards</span>
           </div>
         </div>
       </div>
@@ -263,7 +344,228 @@
         </div>
 
         <div class="port-grid" id="portGrid">
-          <!-- cards injected by JS for clean filtering -->
+          <!-- PORTFOLIO:START (generated by scripts/build-portfolio.js — do not edit by hand) -->
+      <article class="port reveal" data-reveal="port" data-delay="0" data-cat="turnkey" data-idx="0"
+      role="button" tabindex="0" aria-label="HOOT, Bengaluru — view 10 photos">
+      <div class="port__art is-loading" style="--lqip:url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAQABgDASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAAQFA//EACYQAAIBAwMBCQAAAAAAAAAAAAECAwAEERITMUEFFSEiJDJhccH/xAAVAQEBAAAAAAAAAAAAAAAAAAADAv/EABsRAAICAwEAAAAAAAAAAAAAAAECAAMEITET/9oADAMBAAIRAxEAPwBWO/uGuN9ZBHuY1poIBPBPFUIu1t2QRSR7bHwDL7TU0NbLFrAGrPnjYZGPg/hraK5s1GXAWNQSMKQ3HTpRV2PXoDUt0R+9j73HqAsjpoxktq4NFSLe9s+8WkbdEJUFVJGoH7xiimbKsB0IXkg7P//Z')">
+        <img class="port__img is-on" src="assets/portfolio/hoot/thumb/01.jpg" alt="HOOT — interior design by Brush Stroke, Bengaluru" loading="lazy" decoding="async" />
+        <img class="port__img" alt="" aria-hidden="true" decoding="async" />
+      </div>
+      <div class="port__ticks" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      <div class="port__shade"></div>
+      <span class="port__tag">Turnkey</span>
+      <span class="port__count"><svg viewBox="0 0 24 24" width="13" height="13"><path d="M4 7h14v11H4zM7 4h14v11" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>10</span>
+      <div class="port__view"><svg viewBox="0 0 24 24"><path d="M7 17L17 7M9 7h8v8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="port__body">
+        <span class="port__cat">View Gallery</span>
+        <h3 class="port__title">HOOT</h3>
+        <p class="port__loc">
+          <svg viewBox="0 0 24 24" width="14" height="14" style="flex:0 0 14px"><path d="M12 21s-7-5.2-7-11a7 7 0 0 1 14 0c0 5.8-7 11-7 11z" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="10" r="2.4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+          Bengaluru
+        </p>
+      </div>
+      </article>
+      <article class="port reveal" data-reveal="port" data-delay="110" data-cat="turnkey" data-idx="1"
+      role="button" tabindex="0" aria-label="Mocha, Pune — view 10 photos">
+      <div class="port__art is-loading" style="--lqip:url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAASABgDASIAAhEBAxEB/8QAGAABAQEBAQAAAAAAAAAAAAAAAAMEAgX/xAAkEAEAAgICAAUFAAAAAAAAAAABAhEAAxIhBBNBUWEjMTKR4f/EABYBAQEBAAAAAAAAAAAAAAAAAAMBAv/EABgRAQEAAwAAAAAAAAAAAAAAAAEAESFB/9oADAMBAAIRAxEAPwDwnTBVlFivV1XePI3CwJnEbvONcNkvpkJRlFVq7/WW8PyE5qe/XZXxg7JlOleEHyPzZr68gv8AmMjGGycSWmIlPQFGMuGyI2TxkkN7bZtafbLeFnJ0CyVQtv74xmiraOUo6NhFTr0fnGMY0N//2Q==')">
+        <img class="port__img is-on" src="assets/portfolio/mocha/thumb/01.jpg" alt="Mocha — interior design by Brush Stroke, Pune" loading="lazy" decoding="async" />
+        <img class="port__img" alt="" aria-hidden="true" decoding="async" />
+      </div>
+      <div class="port__ticks" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      <div class="port__shade"></div>
+      <span class="port__tag">Turnkey</span>
+      <span class="port__count"><svg viewBox="0 0 24 24" width="13" height="13"><path d="M4 7h14v11H4zM7 4h14v11" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>10</span>
+      <div class="port__view"><svg viewBox="0 0 24 24"><path d="M7 17L17 7M9 7h8v8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="port__body">
+        <span class="port__cat">View Gallery</span>
+        <h3 class="port__title">Mocha</h3>
+        <p class="port__loc">
+          <svg viewBox="0 0 24 24" width="14" height="14" style="flex:0 0 14px"><path d="M12 21s-7-5.2-7-11a7 7 0 0 1 14 0c0 5.8-7 11-7 11z" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="10" r="2.4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+          Pune
+        </p>
+      </div>
+      </article>
+      <article class="port reveal" data-reveal="port" data-delay="220" data-cat="turnkey" data-idx="2"
+      role="button" tabindex="0" aria-label="BANGER, Indore — view 8 photos">
+      <div class="port__art is-loading" style="--lqip:url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAQABgDASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAAQFAv/EACQQAAIBBAECBwAAAAAAAAAAAAECAwAEESETEkEUIjFRgaHh/8QAFQEBAQAAAAAAAAAAAAAAAAAABAP/xAAaEQACAwEBAAAAAAAAAAAAAAAAAQISIQMR/9oADAMBAAIRAxEAPwCbbXDTWoRUYNsMc6961bmTwuvK5Oxn0pW3sSOjmOEKk9SE6we9LvcFk41ySWICs5+AaFVN4Ns0tKxjVoQkaAHZZ89v2ipMVwImCzc0Ixton390UjnDCE5P0//Z')">
+        <img class="port__img is-on" src="assets/portfolio/banger/thumb/01.jpg" alt="BANGER — interior design by Brush Stroke, Indore" loading="lazy" decoding="async" />
+        <img class="port__img" alt="" aria-hidden="true" decoding="async" />
+      </div>
+      <div class="port__ticks" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      <div class="port__shade"></div>
+      <span class="port__tag">Turnkey</span>
+      <span class="port__count"><svg viewBox="0 0 24 24" width="13" height="13"><path d="M4 7h14v11H4zM7 4h14v11" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>8</span>
+      <div class="port__view"><svg viewBox="0 0 24 24"><path d="M7 17L17 7M9 7h8v8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="port__body">
+        <span class="port__cat">View Gallery</span>
+        <h3 class="port__title">BANGER</h3>
+        <p class="port__loc">
+          <svg viewBox="0 0 24 24" width="14" height="14" style="flex:0 0 14px"><path d="M12 21s-7-5.2-7-11a7 7 0 0 1 14 0c0 5.8-7 11-7 11z" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="10" r="2.4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+          Indore
+        </p>
+      </div>
+      </article>
+      <article class="port reveal" data-reveal="port" data-delay="0" data-cat="turnkey" data-idx="3"
+      role="button" tabindex="0" aria-label="ATHA, Indore — view 9 photos">
+      <div class="port__art is-loading" style="--lqip:url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAeABgDASIAAhEBAxEB/8QAFwABAQEBAAAAAAAAAAAAAAAABQAEA//EACgQAAIBAwMCBQUAAAAAAAAAAAECAwAEERIhMQVhBhMUQVEVIoGRof/EABYBAQEBAAAAAAAAAAAAAAAAAAMEBf/EABsRAAMBAAMBAAAAAAAAAAAAAAABAhEDEzES/9oADAMBAAIRAxEAPwAv1IB+84zXRJ1YBUyzccVm9Dc3RLQxkr85xSHTrB7W7826LGM7BVUkg57VB8rNNF2/DvH0+4kUa4iCRn8VVoXxBBF1EWzKBG7FNeokqRxntVSXxVDygY5la1BSXVzEwiiYhVGwGP3W+2kuJEKvMEBIKuRyfdcd6NuHEcgJGQdqSs4yeZHO2wPAPsaIVpMGvAkl7NMVLOznDA4/lVMfS477VNGRAAdLoq7ZHxVS9tP0LrlH/9k=')">
+        <img class="port__img is-on" src="assets/portfolio/atha/thumb/01.jpg" alt="ATHA — interior design by Brush Stroke, Indore" loading="lazy" decoding="async" />
+        <img class="port__img" alt="" aria-hidden="true" decoding="async" />
+      </div>
+      <div class="port__ticks" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      <div class="port__shade"></div>
+      <span class="port__tag">Turnkey</span>
+      <span class="port__count"><svg viewBox="0 0 24 24" width="13" height="13"><path d="M4 7h14v11H4zM7 4h14v11" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>9</span>
+      <div class="port__view"><svg viewBox="0 0 24 24"><path d="M7 17L17 7M9 7h8v8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="port__body">
+        <span class="port__cat">View Gallery</span>
+        <h3 class="port__title">ATHA</h3>
+        <p class="port__loc">
+          <svg viewBox="0 0 24 24" width="14" height="14" style="flex:0 0 14px"><path d="M12 21s-7-5.2-7-11a7 7 0 0 1 14 0c0 5.8-7 11-7 11z" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="10" r="2.4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+          Indore
+        </p>
+      </div>
+      </article>
+      <article class="port reveal" data-reveal="port" data-delay="110" data-cat="interior" data-idx="4"
+      role="button" tabindex="0" aria-label="Raeeth, Goa — view 5 photos">
+      <div class="port__art is-loading" style="--lqip:url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAQABgDASIAAhEBAxEB/8QAGAAAAgMAAAAAAAAAAAAAAAAAAAMBAgT/xAAjEAACAgECBgMAAAAAAAAAAAABAgMRAAQhEhMxQWHBBSLh/8QAFgEBAQEAAAAAAAAAAAAAAAAABAEC/8QAGhEAAwEAAwAAAAAAAAAAAAAAAAECETFBof/aAAwDAQACEQMRAD8AX8qBFDp4ggYype3Xt+5hPJ0msUXcTEcLud6IB95WfWTSa5TvUf1QnqBfbGvKkkp5qRSlgFB8hRVDz6weYKmtFzAlTISiFWPEt79QMMlrVAjk8wki3UA7CwO+Gbimu/SUtfB//9k=')">
+        <img class="port__img is-on" src="assets/portfolio/raeeth/thumb/01.jpg" alt="Raeeth — interior design by Brush Stroke, Goa" loading="lazy" decoding="async" />
+        <img class="port__img" alt="" aria-hidden="true" decoding="async" />
+      </div>
+      <div class="port__ticks" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+      <div class="port__shade"></div>
+      <span class="port__tag">Interior</span>
+      <span class="port__count"><svg viewBox="0 0 24 24" width="13" height="13"><path d="M4 7h14v11H4zM7 4h14v11" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>5</span>
+      <div class="port__view"><svg viewBox="0 0 24 24"><path d="M7 17L17 7M9 7h8v8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="port__body">
+        <span class="port__cat">View Gallery</span>
+        <h3 class="port__title">Raeeth</h3>
+        <p class="port__loc">
+          <svg viewBox="0 0 24 24" width="14" height="14" style="flex:0 0 14px"><path d="M12 21s-7-5.2-7-11a7 7 0 0 1 14 0c0 5.8-7 11-7 11z" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="10" r="2.4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+          Goa
+        </p>
+      </div>
+      </article>
+      <article class="port reveal" data-reveal="port" data-delay="220" data-cat="interior" data-idx="5"
+      role="button" tabindex="0" aria-label="Bella Buono, Indore — view 7 photos">
+      <div class="port__art is-loading" style="--lqip:url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAOABgDASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAAIFAf/EACUQAAIBAwIFBQAAAAAAAAAAAAECAwARIQQxBRITMkEiUWGBkf/EABUBAQEAAAAAAAAAAAAAAAAAAAME/8QAFxEBAQEBAAAAAAAAAAAAAAAAAQACEf/aAAwDAQACEQMRAD8AczcjFOnhAADzd2L+fz7rC+mOoDWbqW5u7GPHtUfR8Un1JZJljcqAQxXO/wAVRgjijcQsrSOyhzIzZtfa1qn1mcadM8csrSMjhFNwp3AJ2NFM8Ym10sakhQ9s+fTeiidmHjFxv//Z')">
+        <img class="port__img is-on" src="assets/portfolio/bella-buono/thumb/01.jpg" alt="Bella Buono — interior design by Brush Stroke, Indore" loading="lazy" decoding="async" />
+        <img class="port__img" alt="" aria-hidden="true" decoding="async" />
+      </div>
+      <div class="port__ticks" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      <div class="port__shade"></div>
+      <span class="port__tag">Interior</span>
+      <span class="port__count"><svg viewBox="0 0 24 24" width="13" height="13"><path d="M4 7h14v11H4zM7 4h14v11" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>7</span>
+      <div class="port__view"><svg viewBox="0 0 24 24"><path d="M7 17L17 7M9 7h8v8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="port__body">
+        <span class="port__cat">View Gallery</span>
+        <h3 class="port__title">Bella Buono</h3>
+        <p class="port__loc">
+          <svg viewBox="0 0 24 24" width="14" height="14" style="flex:0 0 14px"><path d="M12 21s-7-5.2-7-11a7 7 0 0 1 14 0c0 5.8-7 11-7 11z" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="10" r="2.4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+          Indore
+        </p>
+      </div>
+      </article>
+      <article class="port reveal" data-reveal="port" data-delay="0" data-cat="interior" data-idx="6"
+      role="button" tabindex="0" aria-label="Iriss, Goa — view 7 photos">
+      <div class="port__art is-loading" style="--lqip:url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAgABgDASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAYDBAUB/8QAJBAAAgICAgEDBQAAAAAAAAAAAQIDEQASBCExBUGBIjJRYXH/xAAXAQADAQAAAAAAAAAAAAAAAAAAAQID/8QAGhEBAQACAwAAAAAAAAAAAAAAAQACESExUf/aAAwDAQACEQMRAD8AV4YnikDoDQHdgY1ccyNwYNXBDRriunEmERlCsNTXg40enzhvS4C6D3G/8J6yWKHkqq7nUk3YIHQ+MMg9RnAtUAJrwcMXVQLZgM7L0QFIutq8ZYi5s0MJgAQhO7Iok/jKC85VFhrdvuvOJyHdAu6AizszA3+sXNoJaMMxAeWViigqdtd/B769/bDMk8l1ikiv6ZKv4wxg+0ZO2//Z')">
+        <img class="port__img is-on" src="assets/portfolio/iriss/thumb/01.jpg" alt="Iriss — interior design by Brush Stroke, Goa" loading="lazy" decoding="async" />
+        <img class="port__img" alt="" aria-hidden="true" decoding="async" />
+      </div>
+      <div class="port__ticks" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      <div class="port__shade"></div>
+      <span class="port__tag">Interior</span>
+      <span class="port__count"><svg viewBox="0 0 24 24" width="13" height="13"><path d="M4 7h14v11H4zM7 4h14v11" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>7</span>
+      <div class="port__view"><svg viewBox="0 0 24 24"><path d="M7 17L17 7M9 7h8v8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="port__body">
+        <span class="port__cat">View Gallery</span>
+        <h3 class="port__title">Iriss</h3>
+        <p class="port__loc">
+          <svg viewBox="0 0 24 24" width="14" height="14" style="flex:0 0 14px"><path d="M12 21s-7-5.2-7-11a7 7 0 0 1 14 0c0 5.8-7 11-7 11z" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="10" r="2.4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+          Goa
+        </p>
+      </div>
+      </article>
+      <article class="port reveal" data-reveal="port" data-delay="110" data-cat="interior" data-idx="7"
+      role="button" tabindex="0" aria-label="Coffee Concept, Indore — view 7 photos">
+      <div class="port__art is-loading" style="--lqip:url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAATABgDASIAAhEBAxEB/8QAFwABAQEBAAAAAAAAAAAAAAAAAAQDBf/EACQQAAICAQQBBAMAAAAAAAAAAAEDAhEABBIhMQUiUWGRBjLB/8QAFwEAAwEAAAAAAAAAAAAAAAAAAQIDAP/EABoRAAIDAQEAAAAAAAAAAAAAAAABEiFBETH/2gAMAwEAAhEDEQA/AMdZNLJrCZmG7i6sA2P5mi9LCCXySWT3SiZCyABZ69ush8jqGobKMgXr7gQOD9ZQh81fj83lUZTMtpBuwCO/g5KNUU6tKYKWlJMCBM/sK+cZzW63UKWsLgCuq9Xqlx7ihWMSDHkjp7ypSVLEYr5jt2iqvrJNUuEUsERQB4AxjHxAfrNYxE/HobIXMkgn7xjGAyP/2Q==')">
+        <img class="port__img is-on" src="assets/portfolio/coffee-concept/thumb/01.jpg" alt="Coffee Concept — interior design by Brush Stroke, Indore" loading="lazy" decoding="async" />
+        <img class="port__img" alt="" aria-hidden="true" decoding="async" />
+      </div>
+      <div class="port__ticks" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      <div class="port__shade"></div>
+      <span class="port__tag">Interior</span>
+      <span class="port__count"><svg viewBox="0 0 24 24" width="13" height="13"><path d="M4 7h14v11H4zM7 4h14v11" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>7</span>
+      <div class="port__view"><svg viewBox="0 0 24 24"><path d="M7 17L17 7M9 7h8v8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="port__body">
+        <span class="port__cat">View Gallery</span>
+        <h3 class="port__title">Coffee Concept</h3>
+        <p class="port__loc">
+          <svg viewBox="0 0 24 24" width="14" height="14" style="flex:0 0 14px"><path d="M12 21s-7-5.2-7-11a7 7 0 0 1 14 0c0 5.8-7 11-7 11z" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="10" r="2.4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+          Indore
+        </p>
+      </div>
+      </article>
+      <article class="port reveal" data-reveal="port" data-delay="220" data-cat="turnkey" data-idx="8"
+      role="button" tabindex="0" aria-label="Kave, Indore — view 7 photos">
+      <div class="port__art is-loading" style="--lqip:url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAeABgDASIAAhEBAxEB/8QAGAAAAwEBAAAAAAAAAAAAAAAAAAQFAwb/xAAmEAACAgEDAgYDAAAAAAAAAAABAgMRAAQSQSExBRMUInGBMmFy/8QAFwEAAwEAAAAAAAAAAAAAAAAAAgMEAP/EABoRAAMBAQEBAAAAAAAAAAAAAAABAhESIUH/2gAMAwEAAhEDEQA/AOchiV0u3J4CoTeaCEXQinJ/gDG/DjEkCuzEyIC+xnoOL7Y56WMIYlUMG2kTODZHQ+0cfORunpcolEOfTzRNflOBVjdXbDKvi8McYkjao3SjGVupF4Hz+8MZFavRdQvhPh1KwpGWhEhFgWSPv6xhddJAwrqeCeMmFvaozXeWVb7jNwgnem8+rJVxKnmM4oFj+HXjDFJmthhhJYB1p//Z')">
+        <img class="port__img is-on" src="assets/portfolio/kave/thumb/01.jpg" alt="Kave — interior design by Brush Stroke, Indore" loading="lazy" decoding="async" />
+        <img class="port__img" alt="" aria-hidden="true" decoding="async" />
+      </div>
+      <div class="port__ticks" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      <div class="port__shade"></div>
+      <span class="port__tag">Turnkey</span>
+      <span class="port__count"><svg viewBox="0 0 24 24" width="13" height="13"><path d="M4 7h14v11H4zM7 4h14v11" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>7</span>
+      <div class="port__view"><svg viewBox="0 0 24 24"><path d="M7 17L17 7M9 7h8v8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="port__body">
+        <span class="port__cat">View Gallery</span>
+        <h3 class="port__title">Kave</h3>
+        <p class="port__loc">
+          <svg viewBox="0 0 24 24" width="14" height="14" style="flex:0 0 14px"><path d="M12 21s-7-5.2-7-11a7 7 0 0 1 14 0c0 5.8-7 11-7 11z" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="10" r="2.4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+          Indore
+        </p>
+      </div>
+      </article>
+      <article class="port reveal" data-reveal="port" data-delay="0" data-cat="interior" data-idx="9"
+      role="button" tabindex="0" aria-label="Teresita, Bengaluru — view 7 photos">
+      <div class="port__art is-loading" style="--lqip:url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAYABgDASIAAhEBAxEB/8QAGAABAQEBAQAAAAAAAAAAAAAAAAQFAQP/xAAhEAABBQABBAMAAAAAAAAAAAABAAIDBBESITFBcRMVI//EABgBAQADAQAAAAAAAAAAAAAAAAEAAgME/8QAGREAAwEBAQAAAAAAAAAAAAAAAAECIUFR/9oADAMBAAIRAxEAPwCWk2S0Rwki5eW8ToVIhsGR8fOMuaASOJ6BYlSS2HbVdJ8h0n8wRi79leZMXOe8SEYeTRpA8dljS3DrmqNC46am06+InTrQMxFmWLhnhc2WV5c49RgxEpT0Hdk1S7LHIDEDoGaT2C947BksF87g5wJHr0iKUEek8rW8jiIiEXaP/9k=')">
+        <img class="port__img is-on" src="assets/portfolio/teresita/thumb/01.jpg" alt="Teresita — interior design by Brush Stroke, Bengaluru" loading="lazy" decoding="async" />
+        <img class="port__img" alt="" aria-hidden="true" decoding="async" />
+      </div>
+      <div class="port__ticks" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      <div class="port__shade"></div>
+      <span class="port__tag">Interior</span>
+      <span class="port__count"><svg viewBox="0 0 24 24" width="13" height="13"><path d="M4 7h14v11H4zM7 4h14v11" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>7</span>
+      <div class="port__view"><svg viewBox="0 0 24 24"><path d="M7 17L17 7M9 7h8v8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="port__body">
+        <span class="port__cat">View Gallery</span>
+        <h3 class="port__title">Teresita</h3>
+        <p class="port__loc">
+          <svg viewBox="0 0 24 24" width="14" height="14" style="flex:0 0 14px"><path d="M12 21s-7-5.2-7-11a7 7 0 0 1 14 0c0 5.8-7 11-7 11z" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="10" r="2.4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+          Bengaluru
+        </p>
+      </div>
+      </article>
+      <article class="port reveal" data-reveal="port" data-delay="110" data-cat="interior" data-idx="10"
+      role="button" tabindex="0" aria-label="Jamnaram, Vadodara — view 5 photos">
+      <div class="port__art is-loading" style="--lqip:url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAYABgDASIAAhEBAxEB/8QAGQABAAMBAQAAAAAAAAAAAAAAAAMEBQIG/8QAKBAAAgEDAwMCBwAAAAAAAAAAAQIDAAQRBRIxISJBEzIUYXGBocHw/8QAFwEBAQEBAAAAAAAAAAAAAAAAAgQBA//EABoRAAMBAQEBAAAAAAAAAAAAAAABAhExQQP/2gAMAwEAAhEDEQA/APMLEJZWLOq7SD3KSDjxWzHqku8NLbWsynOXBZCPtk1as/h0G1FkiyeoVyAaluNNtJfbM8e4Doh56+flUjy++FXHpi6hdeuqyysvlVUHAX6D+zSrr6Ikedj2+7HJk/eKU54Gm/EVjc2MnMs5ccEJjFQQIymQxmTGO08filKykp4dvnTcvTtnulGTcKylm93Q80pSkhzCa3T/2Q==')">
+        <img class="port__img is-on" src="assets/portfolio/jamnaram/thumb/01.jpg" alt="Jamnaram — interior design by Brush Stroke, Vadodara" loading="lazy" decoding="async" />
+        <img class="port__img" alt="" aria-hidden="true" decoding="async" />
+      </div>
+      <div class="port__ticks" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+      <div class="port__shade"></div>
+      <span class="port__tag">Interior</span>
+      <span class="port__count"><svg viewBox="0 0 24 24" width="13" height="13"><path d="M4 7h14v11H4zM7 4h14v11" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>5</span>
+      <div class="port__view"><svg viewBox="0 0 24 24"><path d="M7 17L17 7M9 7h8v8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="port__body">
+        <span class="port__cat">View Gallery</span>
+        <h3 class="port__title">Jamnaram</h3>
+        <p class="port__loc">
+          <svg viewBox="0 0 24 24" width="14" height="14" style="flex:0 0 14px"><path d="M12 21s-7-5.2-7-11a7 7 0 0 1 14 0c0 5.8-7 11-7 11z" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="10" r="2.4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+          Vadodara
+        </p>
+      </div>
+      </article>
+          <!-- PORTFOLIO:END -->
         </div>
         <!-- QA-007: graceful empty state instead of a silently blank grid -->
         <p class="port-empty" id="portEmpty" hidden role="status">
@@ -291,41 +593,63 @@
 
         <div class="why__grid">
           <article class="why-card reveal" data-reveal>
-            <span class="why-card__n">01</span>
             <div class="why-card__ico"><svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4M12 3l7 3v5c0 4.4-3 8.3-7 9.5C8 21.3 5 17.4 5 13V6l7-3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
             <h3>Quality Assurance</h3>
             <p>Premium materials and meticulous craftsmanship in every project.</p>
           </article>
           <article class="why-card reveal" data-reveal data-delay="80">
-            <span class="why-card__n">02</span>
             <div class="why-card__ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M12 7.5V12l3 2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></div>
             <h3>Timely Delivery</h3>
             <p>We respect deadlines. Projects completed on schedule, every time.</p>
           </article>
           <article class="why-card reveal" data-reveal data-delay="160">
-            <span class="why-card__n">03</span>
             <div class="why-card__ico"><svg viewBox="0 0 24 24"><path d="M12 3l2.5 5 5.5.8-4 3.9.9 5.5L12 16.5 7.1 18.2l.9-5.5-4-3.9L9.5 8z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg></div>
-            <h3>15+ Years Experience</h3>
-            <p>A proven track record of excellence on projects across India.</p>
+            <h3>Studio Since 2017</h3>
+            <p>50+ hospitality interiors delivered for restaurants, cafés, bars and clubs across India.</p>
           </article>
           <article class="why-card reveal" data-reveal data-delay="40">
-            <span class="why-card__n">04</span>
             <div class="why-card__ico"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M3.5 20a5.5 5.5 0 0 1 11 0M16 5.5a3 3 0 0 1 0 5M17 20a5.4 5.4 0 0 0-3-4.8" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></div>
             <h3>Dedicated Team</h3>
             <p>Skilled architects, designers, and engineers working as one.</p>
           </article>
           <article class="why-card reveal" data-reveal data-delay="120">
-            <span class="why-card__n">05</span>
             <div class="why-card__ico"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h10" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><circle cx="19" cy="17" r="2.4" fill="none" stroke="currentColor" stroke-width="1.7"/></svg></div>
             <h3>Hassle-Free Process</h3>
             <p>Single point of contact from concept to completion.</p>
           </article>
           <article class="why-card reveal" data-reveal data-delay="200">
-            <span class="why-card__n">06</span>
             <div class="why-card__ico"><svg viewBox="0 0 24 24"><path d="M12 3v18M8 7h6.5a2.5 2.5 0 0 1 0 5H9.5a2.5 2.5 0 0 0 0 5H16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
             <h3>Transparent Pricing</h3>
             <p>No hidden costs. Clear quotes and honest communication.</p>
           </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== ABOUT ===================== -->
+    <!-- SEO-23..27 (E-E-A-T): real people and verifiable facts behind the business.
+         Source: the studio's own site (owner-authorised). Film-set credits are NOT
+         included — their attribution (studio vs. founder) is still unconfirmed. -->
+    <section class="section about" id="about">
+      <div class="container about__wrap">
+        <header class="sec-head sec-head--left reveal" data-reveal>
+          <span class="kicker">The Studio</span>
+          <h2 class="sec-title">Hospitality interiors,<br/><em>since 2017</em></h2>
+          <p class="sec-sub">Brush Stroke is an interior design studio based in Mumbai. Since 2017
+            we have designed clubs, pubs, restaurants and cafés across India — from the first
+            concept sketch to the finished room your guests walk into.</p>
+        </header>
+        <div class="about__body reveal" data-reveal data-delay="120">
+          <dl class="about__facts">
+            <div><dt>Founded</dt><dd>2017</dd></div>
+            <div><dt>Projects delivered</dt><dd>50+</dd></div>
+            <div><dt>Awards</dt><dd>12</dd></div>
+            <div><dt>People in the studio</dt><dd>26</dd></div>
+          </dl>
+          <ul class="about__team" aria-label="Studio leadership">
+            <li><strong>Sikandar Ahmed</strong><span>Founder &amp; Senior Designer</span></li>
+            <li><strong>Arbaaz Khan</strong><span>Architect</span></li>
+          </ul>
         </div>
       </div>
     </section>
@@ -469,24 +793,27 @@
           <div class="testi__track" id="testiTrack">
             <figure class="quote">
               <span class="quote__mark" aria-hidden="true">"</span>
-              <blockquote>Brush Stroke Artspace transformed our 3BHK into a stunning modern home. The attention
-                to detail and quality of materials was exceptional. Truly a premium experience.</blockquote>
-              <figcaption><span class="quote__avatar">RS</span>
-                <span><strong>Rahul Sharma</strong><small>Homeowner, Pune</small></span></figcaption>
+              <blockquote>I chose Brush Stroke because of their knowledge, experience and attention
+                to detail that has proven invaluable to me in creating a superior finished project,
+                which attracts more clients to my club.</blockquote>
+              <figcaption><span class="quote__avatar">NJ</span>
+                <span><strong>Mr. Neeraj Jha</strong><small>Club Owner</small></span></figcaption>
             </figure>
             <figure class="quote">
               <span class="quote__mark" aria-hidden="true">"</span>
-              <blockquote>Our office redesign was completed ahead of schedule. The team understood our brand
-                perfectly and created a space that inspires creativity every day.</blockquote>
-              <figcaption><span class="quote__avatar">PD</span>
-                <span><strong>Priya Desai</strong><small>CEO, Tech Startup</small></span></figcaption>
+              <blockquote>This agency was highly recommended to me. The sensitivity, knowledge, vision
+                and ultimate execution this firm brought to the table was tremendous. Thank you for the
+                amazing interior!</blockquote>
+              <figcaption><span class="quote__avatar">AA</span>
+                <span><strong>Mr. Ajesh Agrawal</strong><small>Club Owner</small></span></figcaption>
             </figure>
             <figure class="quote">
               <span class="quote__mark" aria-hidden="true">"</span>
-              <blockquote>From foundation to finishing — the turnkey execution was flawless. One team, zero
-                headaches. I'd recommend Brush Stroke Artspace to anyone building premium.</blockquote>
-              <figcaption><span class="quote__avatar">VP</span>
-                <span><strong>Vikram Patel</strong><small>Villa Owner, Mumbai</small></span></figcaption>
+              <blockquote>Your professional guidance gave me results that far exceeded my expectations.
+                My clients thoroughly enjoy the fun, relaxing ambience that the interior design creates.
+                Thank you!</blockquote>
+              <figcaption><span class="quote__avatar">A</span>
+                <span><strong>Mr. Aftab</strong><small>Club Owner</small></span></figcaption>
             </figure>
           </div>
         </div>
@@ -517,7 +844,7 @@
           <details class="acc" open>
             <summary><span>What areas do you serve?</span><i class="acc__sign" aria-hidden="true"></i></summary>
             <div class="acc__body"><p>We work Pan India — covering residential, commercial and industrial projects.
-              Recent work spans Bangalore, Indore, Goa, Pune and Vadodara.</p></div>
+              Recent work spans Bengaluru, Indore, Goa, Pune and Vadodara.</p></div>
           </details>
           <details class="acc">
             <summary><span>How long does a typical interior project take?</span><i class="acc__sign" aria-hidden="true"></i></summary>
@@ -576,7 +903,7 @@
             <div class="fld">
               <label class="fld__label" for="fPhone">Phone number <abbr title="required" aria-hidden="true">*</abbr></label>
               <input id="fPhone" type="tel" name="phone" required aria-required="true"
-                autocomplete="tel" inputmode="tel" placeholder="e.g. +91 90119 12480"
+                autocomplete="tel" inputmode="tel" placeholder="e.g. +91 98335 24653"
                 aria-describedby="errPhone" />
               <span class="fld__err" id="errPhone"></span>
             </div>
@@ -608,9 +935,6 @@
           </button>
           <!-- QA-011: assertive so validation failures are announced immediately -->
           <p class="cta__note" id="formNote" role="alert" aria-live="assertive"></p>
-          <p class="cta__fallback">Prefer to talk? Call
-            <a href="tel:+919011912480">+91&nbsp;90119&nbsp;12480</a> or email
-            <a href="mailto:hello@brushstrokeartspace.com">hello@brushstrokeartspace.com</a>.</p>
         </form>
       </div>
     </section>
@@ -643,7 +967,7 @@
 
       <div class="footer__col">
         <h4>Quick Links</h4>
-        <a href="#home">Home</a><a href="#services">Services</a>
+        <a href="#home">Home</a><a href="#about">About</a><a href="#services">Services</a>
         <a href="#portfolio">Portfolio</a><a href="#pricing">Pricing</a>
         <a href="#contact">Contact</a>
       </div>
@@ -659,8 +983,10 @@
       </div>
       <div class="footer__col footer__contact">
         <h4>Contact</h4>
-        <a href="tel:+919011912480">+91 90119 12480</a>
-        <a href="mailto:hello@brushstrokeartspace.com">hello@brushstrokeartspace.com</a>
+        <a href="tel:+919833524653">+91 98335 24653</a>
+        <a href="tel:+917320831369">+91 73208 31369</a>
+        <a href="mailto:brushstrokecompany@gmail.com">brushstrokecompany@gmail.com</a>
+        <span>409 Sant Akbli Apartment, Building No. 17,<br />High Tension Road, Mumbai 401209</span>
         <span>Serving clients Pan India</span>
       </div>
     </div>
@@ -678,6 +1004,7 @@
   </button>
 
   <script src="pricing.js"></script>
+  <script src="projects.js"></script>
   <script src="script.js"></script>
 </body>
 </html>

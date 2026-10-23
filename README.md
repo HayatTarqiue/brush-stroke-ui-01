@@ -49,7 +49,12 @@ index.html              single page — all sections
 styles.css              design system + all styling
 script.js               all interactions
 pricing.js              authoritative pricing model (shared with tests)
+projects.js             portfolio data + card template (shared with the build script)
+scripts/build-portfolio.js  writes the portfolio cards into index.html as static HTML
 tests/pricing.test.js   automated tests for the pricing logic
+robots.txt · 404.html · site.webmanifest · vercel.json   SEO + hosting config
+.gitignore              keeps internal reports (*.md except README) and client-preview/ out of git
+.vercelignore           keeps docs, tests/, scripts/ and brand masters off the public site
 assets/
   logo.png              brand master, dark text (for light backgrounds)
   logo-light.png        brand master, white text (for dark backgrounds)
@@ -104,6 +109,10 @@ A small system rather than ad-hoc effects. Easing and timing are tokens in
   entrance *after* the preloader lifts, not hidden behind it.
 - Portfolio photos reveal with a clip-path wipe; hovering a card cross-fades
   through that project's gallery, loading frames just-in-time.
+- The gallery lightbox opens by growing the clicked card's photo into place
+  (FLIP: transform + clip-path, Web Animations API), slides left/right between
+  photos, and shrinks back into the card on close when that card is on screen.
+  It opens on whichever frame the hover preview was showing.
 - Everything is `transform` / `opacity` / `clip-path` only — no layout thrash.
 - `prefers-reduced-motion` is fully respected.
 
@@ -147,13 +156,24 @@ done
 
 1. Drop photos into `assets/portfolio/<slug>/` as `01.jpg`, `02.jpg`, …
 2. Generate thumbnails (command above).
-3. Add an entry to the `projects` array in [`script.js`](script.js):
+3. Add an entry to the `projects` array in [`projects.js`](projects.js):
 
 ```js
 { slug:'<slug>', t:'Name', loc:'City', cat:'interior', imgs:['<slug>/01.jpg', ...] }
 ```
 
 `cat` must be `interior` or `turnkey` — those are the two filter buttons.
+
+4. Regenerate the static cards so search engines can read them:
+
+```bash
+node scripts/build-portfolio.js
+```
+
+It rewrites only the block between the `PORTFOLIO:START` / `PORTFOLIO:END` markers in
+`index.html`, and running it twice gives identical output. If you forget, the site
+still works (the browser renders the cards), but Google won't see the new project
+in the raw HTML.
 
 ---
 

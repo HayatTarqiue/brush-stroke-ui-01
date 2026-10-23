@@ -1,0 +1,13 @@
+{
+  "name": "Brush Stroke Artspace",
+  "short_name": "Brush Stroke",
+  "description": "Interior design studio for restaurants, cafés, bars and clubs across India.",
+  "start_url": "/",
+  "display": "browser",
+  "background_color": "#0B0E13",
+  "theme_color": "#070A0F",
+  "icons": [
+    { "src": "assets/apple-touch-icon.png", "sizes": "180x180", "type": "image/png" },
+    { "src": "assets/icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}

@@ -1,0 +1,23 @@
+# ---------------------------------------------------------------------
+# In the repo, but NOT shipped to the public website
+# (Vercel uses this for both Git and CLI deployments)
+# ---------------------------------------------------------------------
+
+# Docs and internal notes — README included, it's for developers
+*.md
+
+# Dev-only code: unit tests and the static-portfolio build script.
+# (pricing.js and projects.js ARE needed at runtime — do not add them.)
+tests/
+scripts/
+
+# Brand master files (1.2 MB + 1.1 MB). No page references them; the site
+# uses the smaller generated icons and og-image instead.
+# If you later point JSON-LD "logo" at one of these, remove it from this list.
+assets/logo.png
+assets/logo-light.png
+
+# Review material and repo config
+client-preview/
+.gitignore
+.vercelignore
