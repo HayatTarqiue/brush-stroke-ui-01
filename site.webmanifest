@@ -4,8 +4,8 @@
   "description": "Interior design studio for restaurants, cafés, bars and clubs across India.",
   "start_url": "/",
   "display": "browser",
-  "background_color": "#0B0E13",
-  "theme_color": "#070A0F",
+  "background_color": "#0B1E2E",
+  "theme_color": "#0B1E2E",
   "icons": [
     { "src": "assets/apple-touch-icon.png", "sizes": "180x180", "type": "image/png" },
     { "src": "assets/icon-512.png", "sizes": "512x512", "type": "image/png" }
