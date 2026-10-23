@@ -197,10 +197,9 @@
       <div class="container hero__inner">
         <!-- SEO-5: the H1 is the strongest on-page signal, so it names the service and
              the sector. "Design. Build. Execute." stays as the visual tagline below it. -->
-        <h1 class="eyebrow reveal" data-reveal>
-          <span class="eyebrow__dot" aria-hidden="true"></span>
-          Restaurant, Café &amp; Bar Interior Designers
-        </h1>
+        <!-- SEO: the page's H1 stays in the markup for Google and screen readers,
+             but is no longer shown on screen (removed from the design at the owner's request). -->
+        <h1 class="sr-only">Restaurant, Café &amp; Bar Interior Designers in Mumbai</h1>
         <p class="hero__title">
           <span class="line reveal" data-reveal>Design.</span>
           <span class="line reveal" data-reveal data-delay="90">Build.</span>
@@ -773,6 +772,9 @@
                 <button class="chip" data-val="3 BHK" data-area="1500">3 BHK</button>
                 <button class="chip" data-val="Villa" data-area="3000">Villa</button>
                 <button class="chip" data-val="Office" data-area="2000">Office</button>
+                <button class="chip" data-val="Restaurant" data-area="2000">Restaurant</button>
+                <button class="chip" data-val="Café" data-area="1200">Café</button>
+                <button class="chip" data-val="Club" data-area="4000">Club</button>
               </div>
             </div>
 
@@ -784,6 +786,7 @@
 
             <div class="field">
               <label class="field__label">Service Type</label>
+              <p class="field__note" id="serviceNote" hidden>Restaurant, café and club rates are set per sq ft for the venue type.</p>
               <div class="chips" data-group="service">
                 <button class="chip is-active" data-val="interior">Interior Design</button>
                 <button class="chip" data-val="turnkey">Turnkey Project</button>
