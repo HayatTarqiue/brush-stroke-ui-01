@@ -33,15 +33,24 @@
     if (preloaderDismissed) return;
     preloaderDismissed = true;
     const pl = $('#preloader');
-    if (pl) pl.classList.add('is-done');
+    if (pl) {
+      pl.classList.add('is-done');
+      // P-04: `visibility:hidden` kept its blurred glow animating forever under the
+      // page. Take the whole layer out once the fade has finished.
+      setTimeout(() => pl.remove(), 900);
+    }
     flushReady();
   }
   function releaseWhenReady() {
     const waited = performance.now() - tStart;
     setTimeout(dismissPreloader, Math.max(0, PRELOAD_MIN - waited));
   }
-  if (document.readyState === 'complete') releaseWhenReady();
-  else window.addEventListener('load', releaseWhenReady, { once: true });
+  // P-18: also wait for the web fonts, so the headline never swaps from a fallback
+  // serif to Playfair in view (PRELOAD_MAX below still caps the wait).
+  const pageLoaded = new Promise(r => document.readyState === 'complete'
+    ? r() : window.addEventListener('load', r, { once: true }));
+  const fontsLoaded = document.fonts && document.fonts.ready ? document.fonts.ready.catch(() => {}) : null;
+  Promise.all([pageLoaded, fontsLoaded]).then(releaseWhenReady);
   setTimeout(dismissPreloader, PRELOAD_MAX);     // never strand the first screen
 
   /* ---------- NAV ---------- */
@@ -57,10 +66,20 @@
   // anchor targets partly hidden, so measure it and feed the real value to CSS.
   const syncHeaderHeight = () => {
     const h = Math.ceil(nav.getBoundingClientRect().height);
-    if (h > 0) document.documentElement.style.setProperty('--header-h', (h + 12) + 'px');
+    const v = (h + 12) + 'px';
+    if (h > 0 && document.documentElement.style.getPropertyValue('--header-h') !== v)
+      document.documentElement.style.setProperty('--header-h', v);
   };
   syncHeaderHeight();
-  window.addEventListener('resize', syncHeaderHeight, { passive: true });
+  // P-08: phones fire `resize` continuously while the URL bar slides in/out during a
+  // scroll; re-measuring and rewriting a :root variable each time restyled the whole
+  // page mid-scroll. The header only changes with WIDTH, so ignore height-only resizes.
+  let navW = window.innerWidth;
+  window.addEventListener('resize', () => {
+    if (window.innerWidth === navW) return;
+    navW = window.innerWidth;
+    syncHeaderHeight();
+  }, { passive: true });
   window.addEventListener('load', syncHeaderHeight, { once: true });
 
   // QA-011: off-canvas menu is only translated off-screen, so when "closed" its links
@@ -99,12 +118,18 @@
 
   /* ---------- SCROLL PROGRESS ---------- */
   const prog = $('#scrollProgress');
-  const onScrollProg = () => {
+  // P-09: was `style.width` on every scroll event (layout + paint each time). Now one
+  // compositor-only scaleX per frame.
+  let progTick = false;
+  const drawProg = () => {
+    progTick = false;
     const h = document.documentElement;
-    const p = h.scrollTop / (h.scrollHeight - h.clientHeight);
-    prog.style.width = (p * 100) + '%';
+    const p = h.scrollTop / Math.max(1, h.scrollHeight - h.clientHeight);
+    prog.style.transform = `scaleX(${Math.min(1, Math.max(0, p))})`;
   };
-  window.addEventListener('scroll', onScrollProg, { passive: true });
+  window.addEventListener('scroll', () => {
+    if (!progTick) { progTick = true; requestAnimationFrame(drawProg); }
+  }, { passive: true });
 
   /* ---------- REVEAL ON SCROLL ---------- */
   // Hero headlines are clipped for their mask-wipe, which zeroes their
@@ -140,6 +165,7 @@
 
   /* ---------- COUNTERS ---------- */
   const counters = $$('[data-count]');
+  const COUNT_DELAY = 600;
   const cio = new IntersectionObserver((entries) => {
     entries.forEach(e => {
       if (!e.isIntersecting) return;
@@ -170,7 +196,15 @@
         // the counter can never be left stranded mid-count.
         setTimeout(settle, dur + 600);
       };
-      reduceMotion ? (el.textContent = final) : onReady(run);
+      // P-02: don't start in the same frame as the headline reveal + preloader fade —
+      // let the headline lead, then count.
+      // The stat is still faded out at that moment, so zero it first — otherwise the
+      // final figure would flash and then drop to 0 in view.
+      reduceMotion ? (el.textContent = final) : onReady(() => {
+        el.textContent = '0' + suffix;
+        setTimeout(run, COUNT_DELAY);
+        setTimeout(() => { if (el.textContent === '0' + suffix) el.textContent = final; }, COUNT_DELAY + dur + 900);
+      });
       cio.unobserve(el);
     });
     // QA-001: threshold lowered from 0.6 -> 0.25. At 0.6 a stat sitting partly below
@@ -861,31 +895,43 @@
 
   /* ---------- HERO SLIDESHOW ---------- */
   const heroSlides = $$('.hero__slide');
+  // P-13: looping decoration (blobs, marquee, slideshow, pulse) pauses while its
+  // section is off-screen — no compositor work or battery spent on what nobody sees.
+  const offscreen = new Set();
+  const pauseIO = new IntersectionObserver(entries => entries.forEach(e => {
+    e.target.classList.toggle('is-paused', !e.isIntersecting);
+    e.isIntersecting ? offscreen.delete(e.target) : offscreen.add(e.target);
+  }));
+  $$('.hero, .marquee, .cta').forEach(el => pauseIO.observe(el));
+  const heroSection = $('.hero');
+
   if (heroSlides.length > 1) {
-    // QA-012: previously ALL five hero frames (~1.84 MB) were fetched immediately,
-    // competing with the LCP image and fonts on first paint. Slide 1 is already being
-    // painted from CSS; the rest are warmed only once the page is idle.
-    const srcOf = s => {
-      const m = s.style.backgroundImage.match(/url\(["']?(.*?)["']?\)/);
-      return m && m[1];
-    };
+    // QA-012 / P-04: only the active frame has its photograph applied in CSS. A frame
+    // is "warmed" (data-warmed → CSS gives it the right image for this screen, the
+    // centre crop on portrait phones) once the page is idle, and the next frame is
+    // always warmed one change ahead so it is decoded before it fades in.
     const warm = i => {
-      const src = srcOf(heroSlides[i]);
-      if (src && !heroSlides[i].dataset.warmed) {
-        heroSlides[i].dataset.warmed = '1';
-        const im = new Image(); im.src = src;
-      }
+      const sl = heroSlides[i];
+      if (sl.dataset.warmed) return;
+      sl.dataset.warmed = '1';
+      const m = getComputedStyle(sl).backgroundImage.match(/url\(["']?(.*?)["']?\)/);
+      if (m) { const im = new Image(); im.src = m[1]; im.decode && im.decode().catch(() => {}); }
     };
-    const warmRest = () => heroSlides.forEach((_, i) => { if (i) warm(i); });
     const idle = window.requestIdleCallback || (fn => setTimeout(fn, 1200));
-    if (document.readyState === 'complete') idle(warmRest);
-    else window.addEventListener('load', () => idle(warmRest), { once: true });
+    const warmNext = () => idle(() => warm(1));
+    if (document.readyState === 'complete') warmNext();
+    else window.addEventListener('load', warmNext, { once: true });
 
     if (!reduceMotion) {
       let hs = 0;
       setInterval(() => {
-        heroSlides[hs].classList.remove('is-active');
+        if (document.hidden || offscreen.has(heroSection)) return;
+        const prev = heroSlides.find(sl => sl.classList.contains('is-prev'));
+        if (prev) prev.classList.remove('is-prev');
+        // P-03: the outgoing frame keeps its zoom running while it fades (.is-prev)
+        heroSlides[hs].classList.replace('is-active', 'is-prev');
         hs = (hs + 1) % heroSlides.length;
+        warm(hs);
         heroSlides[hs].classList.add('is-active');
         warm((hs + 1) % heroSlides.length);   // just-in-time warm the next frame
       }, 5200);
@@ -905,24 +951,29 @@
     });
   }
 
-  /* ---------- HERO SCROLL DEPTH (layered parallax) ---------- */
-  if (!reduceMotion) {
+  /* ---------- HERO SCROLL DEPTH (layered parallax) ----------
+     P-01: desktop only. On phones the page scrolls on the compositor thread and this
+     JS-driven transform always lands a frame late, so the text under the headline
+     visibly fought the finger and faded to a haze. Phones now scroll the hero
+     natively. On desktop the copy holds full opacity for the first third of the hero. */
+  if (!reduceMotion && finePointer && !isCompact) {
     const heroEl = $('.hero');
     const slidesWrap = $('.hero__slides');
     const heroInner = $('.hero__inner');
     const cue = $('.scroll-cue');
     if (heroEl && slidesWrap) {
       let ticking = false;
+      let heroH = heroEl.offsetHeight || 1;
+      window.addEventListener('resize', () => { heroH = heroEl.offsetHeight || 1; }, { passive: true });
       const update = () => {
         const y = window.scrollY;
-        const h = heroEl.offsetHeight || 1;
-        if (y <= h) {
-          const p = y / h; // progress through the hero
+        if (y <= heroH) {
+          const p = y / heroH; // progress through the hero
           // imagery recedes slowly and lifts — content drifts up a touch faster and fades
           slidesWrap.style.transform = `translate3d(0, ${y * 0.16}px, 0) scale(${1 + p * 0.05})`;
           if (heroInner) {
             heroInner.style.transform = `translate3d(0, ${y * -0.05}px, 0)`;
-            heroInner.style.opacity = String(Math.max(0, 1 - p * 1.15));
+            heroInner.style.opacity = String(Math.min(1, Math.max(0, 1 - (p - 0.35) * 1.6)));
           }
           if (cue) cue.style.opacity = String(Math.max(0, 1 - p * 3));
         }
