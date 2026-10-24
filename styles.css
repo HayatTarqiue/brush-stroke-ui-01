@@ -424,17 +424,40 @@ em{font-style:italic}
 .port__art.is-broken img{opacity:0}
 .portfolio__cta{display:flex;justify-content:center;margin-top:clamp(38px,5vw,54px)}
 .port{cursor:pointer}
+/* The whole card is one gallery button (stretched under the content), so keyboard and
+   screen-reader users get a real <button>; a "Read the story" link can sit above it
+   without nesting one interactive element inside another. */
+.port__open{position:absolute;inset:0;z-index:2;width:100%;height:100%;padding:0;border:0;
+  background:none;cursor:pointer;border-radius:inherit}
+.port__open:focus-visible{outline:2px solid var(--blue-400);outline-offset:-3px}
+.port__story{position:relative;z-index:3;pointer-events:none;display:inline-flex;align-items:center;gap:7px;margin-top:14px;
+  min-height:40px;padding:9px 16px;border-radius:100px;font-size:.7rem;font-weight:600;letter-spacing:.12em;
+  text-transform:uppercase;color:#fff;background:rgba(var(--ink-0-rgb),.62);border:1px solid rgba(var(--accent-rgb),.45);
+  transition:background .3s var(--ease),color .3s,border-color .3s}
+.port__story svg{transition:transform .3s var(--ease)}
 .port__count{position:absolute;top:16px;right:16px;z-index:2;display:inline-flex;align-items:center;gap:5px;
   padding:5px 11px;border-radius:100px;font-size:.66rem;font-weight:700;letter-spacing:.04em;
   background:rgba(var(--ink-rgb),.6);border:1px solid var(--line-2);backdrop-filter:blur(6px);color:#fff;
   transition:opacity .35s var(--ease)}
 .port:hover .port__count{opacity:0}
+/* Story cards: whole card = link to the story (above everything), the photo-count chip =
+   a separate "N photos" button that opens the gallery (above the link). */
+.port--story .port__open{z-index:4}
+.port--story .port__view{display:none}
+.port--story:hover .port__count{opacity:1}
+.port__count--btn{z-index:5;min-height:36px;padding:7px 13px;font-size:.68rem;letter-spacing:.06em;cursor:pointer;
+  transition:background .3s var(--ease),color .3s,border-color .3s}
+.port__count--btn:hover{background:var(--grad);color:#04121d;border-color:transparent}
+.port__count--btn:focus-visible{outline:2px solid var(--blue-400);outline-offset:2px}
+.port--story:hover .port__story{background:var(--grad);color:#04121d;border-color:transparent}
+.port--story:hover .port__story svg{transform:translateX(3px)}
+.port--story .port__open:focus-visible{outline:2px solid var(--blue-400);outline-offset:-3px;border-radius:inherit}
 
 /* Gallery-preview progress: thin architectural ticks, one per photograph.
    Hidden until the card is being previewed so the grid stays calm at rest. */
 .port__ticks{position:absolute;top:0;left:0;right:0;z-index:3;display:flex;gap:3px;
   padding:10px 12px 0;opacity:0;transition:opacity .4s var(--ease);pointer-events:none}
-.port:hover .port__ticks,.port:focus-visible .port__ticks,.port.is-previewing .port__ticks{opacity:1}
+.port:hover .port__ticks,.port:focus-within .port__ticks,.port.is-previewing .port__ticks{opacity:1}
 .port__ticks i{flex:1;height:2px;border-radius:2px;background:rgba(255,255,255,.26);
   transition:background .45s var(--ease)}
 .port__ticks i.is-on{background:var(--grad-soft)}
@@ -961,6 +984,29 @@ em{font-style:italic}
 }
 
 /* =====================================================================
+   PAGE TRANSITIONS — home <-> project pages (cross-document View Transitions)
+   A calm page fade, not a shared-element morph: a morph depends on the next
+   photo having loaded, distorts between a 4:5 card and a wide hero, and
+   flies over neighbouring cards on Back. This is the same on every device
+   and connection.
+     forward — old page fades out quickly; the new one fades in with a small
+               rise and a barely-there zoom settle
+     back    — a plain crossfade (script.js tags it with the "back" type)
+   Browsers without support simply navigate as before.
+   ===================================================================== */
+@view-transition{navigation:auto}
+::view-transition-old(root){animation:vtOut .22s cubic-bezier(.4,0,1,1) both}
+::view-transition-new(root){animation:vtIn .56s cubic-bezier(.22,1,.36,1) .06s both}
+html:active-view-transition-type(back)::view-transition-old(root){animation:vtOut .2s ease-out both}
+html:active-view-transition-type(back)::view-transition-new(root){animation:vtFade .32s ease-out both}
+@keyframes vtOut{to{opacity:0}}
+@keyframes vtIn{from{opacity:0;transform:translateY(14px) scale(1.012)}to{opacity:1;transform:none}}
+@keyframes vtFade{from{opacity:0}}
+@media (prefers-reduced-motion:reduce){
+  @view-transition{navigation:none}
+}
+
+/* =====================================================================
    PERFORMANCE — phones, touch & short screens  (see PERFORMANCE-CHECKLIST.md)
    Desktop keeps the full glass/motion treatment; phones get the same look built
    from cheaper primitives, so scrolling stays on the compositor.
@@ -986,6 +1032,7 @@ html{-webkit-tap-highlight-color:transparent}
 
 /* P-21: comfortable 44px+ hit areas on touch, without changing the layout */
 @media (pointer:coarse){
+  .port__count--btn{min-height:40px}
   .link-more::before{content:"";position:absolute;inset:-10px -8px}
   .nav__toggle{padding:13px 10px}
   .chip{padding-block:12px}

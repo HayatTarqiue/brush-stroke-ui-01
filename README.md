@@ -45,12 +45,15 @@ Then open <http://localhost:8000>.
 ## Project layout
 
 ```
-index.html              single page — all sections
+index.html              home page — all sections
+projects/<slug>/        project story pages (generated — edit projects.js, then build)
 styles.css              design system + all styling
+project.css             project story page layout + motion
 script.js               all interactions
 pricing.js              authoritative pricing model (shared with tests)
 projects.js             portfolio data + card template (shared with the build script)
-scripts/build-portfolio.js  writes the portfolio cards into index.html as static HTML
+scripts/build-portfolio.js  writes the portfolio cards + project pages, stamps CSS/JS versions
+scripts/make-mobile-heroes.py  phone-sized hero crops for the project pages (needs Pillow)
 tests/pricing.test.js   automated tests for the pricing logic
 robots.txt · 404.html · site.webmanifest · vercel.json   SEO + hosting config
 .gitignore              keeps internal reports (*.md except README) and client-preview/ out of git
@@ -61,6 +64,7 @@ assets/
   favicon-64.png        favicon
   portfolio/<slug>/     full-resolution project photos (1600px)
   portfolio/<slug>/thumb/  800px card derivatives (~99 KB each)
+  hero/                 phone crops: home hero (*-m.jpg) and project heroes (pp-<slug>-m.jpg)
 ```
 
 11 projects: `atha`, `banger`, `bella-buono`, `coffee-concept`, `hoot`, `iriss`,
@@ -174,6 +178,60 @@ It rewrites only the block between the `PORTFOLIO:START` / `PORTFOLIO:END` marke
 `index.html`, and running it twice gives identical output. If you forget, the site
 still works (the browser renders the cards), but Google won't see the new project
 in the raw HTML.
+
+The same command also:
+
+- writes a case-study page to `projects/<slug>/index.html` for every project that has a
+  story in `STORIES` (in `projects.js`); and
+- stamps a content hash on every CSS/JS link (`script.js?v=1a2b3c4d`), so browsers can
+  never keep running an old copy after a change.
+
+**Run it after any change to `styles.css`, `project.css`, `script.js`, `projects.js`,
+`pricing.js` or `theme-light.css`**, not only after adding a project.
+
+### Project story pages
+
+Every project with an entry in `STORIES` (in `projects.js`) gets a page at
+`/projects/<slug>/`: hero, key facts, a statement and overview, "space by space"
+(photo + text), materials, and a closing call to action. On the home page its card
+becomes a link to that page, and the "N photos" chip opens the gallery instead.
+
+A story entry:
+
+```js
+mocha: {
+  published: false,          // false = noindex (keep out of Google until the studio approves)
+  cover: 0,                  // which photo is the hero (prefer a landscape frame); default 0
+  name: 'Mocha',
+  intro: 'One or two sentences.',
+  facts: [['Location', 'Pune'], ['Venue', 'Café & lounge'], ['Scope', '…'], ['Spaces', '…']],
+  statement: 'One confident line.',
+  overview: ['Paragraph.', 'Paragraph.'],
+  spaces: [{ img: 8, title: 'The atrium', text: '…' }],   // img = index into the project's photos
+  materials: ['…'],
+},
+```
+
+Moving between the home page and a project page uses a cross-document View Transition:
+a calm fade-and-rise forward and a plain crossfade on Back (`PAGE TRANSITIONS` in
+`styles.css`; the "back" type is set by a tiny inline script in each page's `<head>`).
+There is deliberately no shared-element "morph": it depends on the next photo having
+loaded, distorts between a 4:5 card and a wide hero, and flies over other cards on Back.
+Hovering (desktop) or touching (phone) a project card prerenders its page via Speculation
+Rules, so the fade starts at once; `script.js` holds the entrance animation until a
+prerendered page is actually shown. Each project hero also has a ~1 KB blurred preview
+(`scripts/hero-lqip.json`, made by `make-mobile-heroes.py`), so it is never an empty box.
+
+Don't reuse the `cover` photo as a space photo. The current copy was written from the
+photographs only (no invented areas, dates or quotes) and needs the studio's approval
+before `published` is set to `true`.
+
+After adding or changing a story's `cover`:
+
+```bash
+python3 scripts/make-mobile-heroes.py   # phone hero crop, ~110 KB budget
+node scripts/build-portfolio.js         # cards + pages + asset versions
+```
 
 ---
 
