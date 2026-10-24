@@ -202,9 +202,13 @@
   };
   teamCards.forEach(card => {
     card.addEventListener('click', e => {
-      // a mouse click on a hover device is already covered by :hover — only toggle for
-      // touch taps and keyboard activation (keyboard clicks report detail 0)
-      if (canHoverTeam && e.detail !== 0) return;
+      // A real mouse click on a hover device is already covered by :hover. Decide from the
+      // input that made THIS click (pointerType), not from the device: stylus phones and
+      // iPads with a trackpad report (hover:hover) yet are tapped with a finger. Keyboard
+      // activation reports detail 0. Older browsers without pointerType fall back to the
+      // media query.
+      const viaMouse = e.pointerType ? e.pointerType === 'mouse' : canHoverTeam;
+      if (viaMouse && e.detail !== 0) return;
       const open = !card.classList.contains('is-open');
       teamCards.forEach(c => c !== card && setBio(c, false));
       setBio(card, open);
