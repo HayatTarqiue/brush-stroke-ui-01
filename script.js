@@ -14,7 +14,15 @@
   let ready = reduceMotion;
   const whenReady = [];
   const onReady = fn => ready ? fn() : whenReady.push(fn);
-  const flushReady = () => { ready = true; whenReady.splice(0).forEach(fn => fn()); };
+  const flushReady = () => {
+    // A page prerendered on hover must not play its entrance while nobody can see it:
+    // hold the choreography until the visitor actually arrives.
+    if (document.prerendering) {
+      document.addEventListener('prerenderingchange', flushReady, { once: true });
+      return;
+    }
+    ready = true; whenReady.splice(0).forEach(fn => fn());
+  };
 
   /* ---------- PRELOADER ----------
      QA-012: this used to hold the screen for a FIXED 2150ms on every visit. Measured
@@ -25,7 +33,7 @@
      brand moment still reads, and a hard ceiling so a slow asset can never trap it. */
   // SEO-20: LCP cannot happen before this floor. 1200 -> 500 ms keeps a brief brand
   // moment without holding the first paint hostage. Raise it to restore the longer reveal.
-  const PRELOAD_MIN = reduceMotion ? 0 : 500;    // brand reveal floor
+  const PRELOAD_MIN = reduceMotion || !document.getElementById('preloader') ? 0 : 500;    // brand reveal floor (home only)
   const PRELOAD_MAX = reduceMotion ? 300 : 4000; // absolute safety ceiling
   const tStart = performance.now();
   let preloaderDismissed = false;
@@ -358,8 +366,8 @@
 
         card.addEventListener('mouseenter', start);
         card.addEventListener('mouseleave', stop);
-        card.addEventListener('focus', start);
-        card.addEventListener('blur', stop);
+        card.addEventListener('focusin', start);     // its gallery button or story link
+        card.addEventListener('focusout', stop);
       });
     }
 
@@ -374,9 +382,15 @@
         const k = p.imgs.findIndex(rel => shown.endsWith(thumbOf(rel)));
         openLightbox(pi, k < 0 ? 0 : k, card);
       };
-      card.addEventListener('click', open);
-      card.addEventListener('keydown', e => {
-        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); }
+      // The card's stretched <button class="port__open"> gives keyboard + screen-reader
+      // access (Enter/Space click it natively); a click anywhere on the card opens the
+      // gallery, except on the "Read the story" link, which navigates to the project page.
+      // Story projects: the card itself is a link to the story page and only the
+      // "N photos" button opens the gallery. Other projects: the whole card opens it.
+      card.addEventListener('click', e => {
+        if (e.target.closest('[data-gallery]')) { open(); return; }
+        if (card.classList.contains('port--story')) return;
+        open();
       });
     });
 
@@ -396,8 +410,9 @@
         const show = f === 'all' || card.dataset.cat === f;
         card.classList.toggle('is-hidden', !show);
         // QA-007/QA-011: hidden cards must leave the tab order, not just disappear
-        if (show) { card.removeAttribute('aria-hidden'); card.tabIndex = 0; shown++; }
-        else { card.setAttribute('aria-hidden', 'true'); card.tabIndex = -1; }
+        // hidden cards are display:none, which also takes their button/link out of the tab order
+        if (show) { card.removeAttribute('aria-hidden'); shown++; }
+        else card.setAttribute('aria-hidden', 'true');
       });
       if (emptyMsg) emptyMsg.hidden = shown > 0;        // QA-007: graceful empty state
       if (countMsg) countMsg.textContent =
@@ -493,7 +508,7 @@
   // (object-fit:cover inside the card art), same rounded corners, same place.
   function cardPose(card, target) {
     const C = card.getBoundingClientRect();
-    const A = $('.port__art', card).getBoundingClientRect();   // includes hover zoom
+    const A = ($('.port__art', card) || card).getBoundingClientRect();   // includes hover zoom
     const s = Math.max(A.width / target.width, A.height / target.height);
     const Rl = A.left + A.width / 2 - target.width * s / 2;
     const Rt = A.top + A.height / 2 - target.height * s / 2;
@@ -502,10 +517,13 @@
     const btm = Math.max(0, target.height - (C.bottom - Rt) / s);
     return {
       transform: `translate(${Rl - target.left}px, ${Rt - target.top}px) scale(${s})`,
-      clipPath: `inset(${t}px ${r}px ${btm}px ${l}px round ${CARD_RADIUS / s}px)`,
+      clipPath: `inset(${t}px ${r}px ${btm}px ${l}px round ${(parseFloat(getComputedStyle(card).borderTopLeftRadius) || CARD_RADIUS) / s}px)`,
     };
   }
   const restPose = { transform: 'translate(0px, 0px) scale(1)', clipPath: `inset(0px 0px 0px 0px round ${IMG_RADIUS}px)` };
+  // The photo a source element is showing: a portfolio card's active frame, or the
+  // <img> inside a project-page tile.
+  const shownImg = el => el && ($$('.port__img', el).find(im => im.classList.contains('is-on')) || $('img', el));
   const inView = el => { const r = el.getBoundingClientRect(); return r.bottom > 0 && r.top < window.innerHeight; };
 
   function renderThumbs() {
@@ -608,14 +626,19 @@
     lbSession++;
     cancelRunning();
     lbClosing = false;
-    lbReturnFocus = document.activeElement;
+    // Return focus to whatever opened the gallery. Safari doesn't focus a button on mouse
+    // click, so fall back to the card/photo itself rather than losing focus to <body>.
+    const act = document.activeElement;
+    lbReturnFocus = act && act !== document.body ? act
+      : card ? ($('[data-gallery]', card) || $('.port__open', card) || card) : null;
     lbProj = pi; lbIdx = ii || 0; lbCard = card || null;
     const p = projects[pi];
     const thumbSrc = PBASE + thumbOf(p.imgs[lbIdx]);
     const fullSrc = PBASE + p.imgs[lbIdx];
 
     // aspect ratio: from the frame already decoded in the card, else load its thumb
-    const onCard = card && $$('.port__img', card).find(im => im.classList.contains('is-on') && im.naturalWidth);
+    const shown = shownImg(card);
+    const onCard = shown && shown.naturalWidth ? shown : null;
     let aspect = onCard ? onCard.naturalWidth / onCard.naturalHeight : 0;
     if (!aspect) { try { const t = await loadImg(thumbSrc); aspect = t.naturalWidth / t.naturalHeight; } catch (e) { aspect = 1.5; } }
 
@@ -651,6 +674,17 @@
     if (close) close.focus({ preventScroll: true });
   }
 
+  // Coming back with the browser's Back button restores the page from memory exactly as
+  // it was left. Never let that restored page show a gallery that was open at the time.
+  window.addEventListener('pageshow', e => {
+    if (!e.persisted || !lb.classList.contains('is-open')) return;
+    cancelRunning();
+    lb.classList.remove('is-open');
+    lb.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('is-locked');
+    lbClosing = false;
+  });
+
   async function closeLightbox() {
     if (!lb.classList.contains('is-open') || lbClosing) return;
     lbClosing = true;
@@ -674,7 +708,7 @@
 
     // Shrink back into the card only if it's on screen AND currently showing this photo
     const p = projects[lbProj];
-    const onCard = lbCard && $$('.port__img', lbCard).find(im => im.classList.contains('is-on'));
+    const onCard = shownImg(lbCard);
     const showsSame = onCard && (onCard.getAttribute('src') || '').endsWith(thumbOf(p.imgs[lbIdx]));
     const anims = [];
     if (lbCard && inView(lbCard) && showsSame) {
@@ -699,6 +733,31 @@
     try { await Promise.race([Promise.all(anims.map(an => an.finished)), cap]); } catch (e) { /* cancelled */ }
     finish();
   }
+  // Project pages: hero first. The space photos carry their URL in data-src and are only
+  // handed to the browser (still lazy) once the hero photo has loaded, or after 3 s at most,
+  // so on a slow phone they don't split the bandwidth the hero (the LCP) needs.
+  const deferred = $$('img[data-src]');
+  if (deferred.length) {
+    const release = () => deferred.forEach(im => { if (im.dataset.src) { im.src = im.dataset.src; im.removeAttribute('data-src'); } });
+    const hero = $('.pp-hero__img');
+    if (!hero || (hero.complete && hero.naturalWidth)) release();
+    else {
+      hero.addEventListener('load', release, { once: true });
+      hero.addEventListener('error', release, { once: true });
+      setTimeout(release, 3000);
+    }
+  }
+
+  // Project case-study pages: every photo tile opens the shared gallery on that photo,
+  // growing out of the tile exactly like a home-page card does.
+  $$('[data-lb-index]').forEach(tile => tile.addEventListener('click', () =>
+    openLightbox(+tile.dataset.lbProject, +tile.dataset.lbIndex, tile)));
+  // "View all N photos" opens the same gallery from the first photo (no card to grow out of)
+  $$('[data-lb-all]').forEach(btn => btn.addEventListener('click', () => {
+    btn.focus({ preventScroll: true });           // Safari: make sure focus can come back here
+    openLightbox(+btn.dataset.lbAll, 0, null);
+  }));
+
   const nextLb = () => showLb(lbIdx + 1, 1);
   const prevLb = () => showLb(lbIdx - 1, -1);
 
@@ -1013,7 +1072,7 @@
   }
 
   /* ---------- HERO PARALLAX (pointer) ---------- */
-  if (!reduceMotion && finePointer) {
+  if (!reduceMotion && finePointer && $('.hero')) {
     const blobs = $$('.hero .blob');
     $('.hero').addEventListener('mousemove', e => {
       const x = (e.clientX / window.innerWidth - 0.5);
