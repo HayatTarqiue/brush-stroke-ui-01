@@ -140,7 +140,9 @@
   document.addEventListener('keydown', e => {
     if (e.key === 'Escape' && isMenuOpen()) { closeMenu(); navToggle.focus(); }
   });
-  mqMobileNav.addEventListener('change', () => syncNavInert(isMenuOpen()));
+  const onMqNav = () => syncNavInert(isMenuOpen());
+  if (mqMobileNav.addEventListener) mqMobileNav.addEventListener('change', onMqNav);
+  else mqMobileNav.addListener(onMqNav);   // Safari ≤ 13
   syncNavInert(false);
 
   /* ---------- SCROLL PROGRESS ---------- */
