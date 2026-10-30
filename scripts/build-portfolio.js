@@ -183,7 +183,8 @@ function pageHTML(p, pi) {
   <base href="/" />
   <title>${esc(title)}</title>
   <meta name="description" content="${esc(s.intro)}" />
-${s.published ? '' : `  <!-- Draft copy: kept out of Google until the studio approves it
+${s.published ? `  <meta name="robots" content="index, follow, max-image-preview:large" />
+` : `  <!-- Draft copy: kept out of Google until the studio approves it
        (set \`published: true\` for this project in projects.js, then rebuild). -->
   <meta name="robots" content="noindex, follow" />
 `}  <meta property="og:title" content="${esc(s.name)} — Interiors by Brush Stroke" />
