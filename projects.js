@@ -56,7 +56,7 @@
      (noindex) until the studio has reviewed the text; flip it to true once approved. */
   const STORIES = {
     hoot: {
-      published: false,
+      published: true,
       name: 'Hoot Cafe & Brewery',
       intro: 'An open-air café and brewery in Bengaluru, built around water, greenery and honest materials: a weekend escape in the middle of the city.',
       facts: [
@@ -82,7 +82,7 @@
         'Grey blockwork', 'Geometric steel railings', 'Line-art murals', 'Patterned cement tiles', 'Warm filament lighting'],
     },
     mocha: {
-      published: false,
+      published: true,
       name: 'Mocha',
       intro: 'A café and lounge in Pune where layered stone walls, glowing copper lights and indoor gardens turn a dining room into a landscape.',
       facts: [['Location', 'Pune'], ['Venue', 'Café & lounge'], ['Scope', 'Turnkey: design & execution'], ['Spaces', 'Atrium, gardens & window lounge']],
@@ -101,7 +101,7 @@
         'Clay urns', 'Timber furniture', 'Woven lighting', 'Warm table lamps'],
     },
     banger: {
-      published: false,
+      published: true,
       name: 'BANGER',
       intro: 'A bar in Indore built like a great hall: vaulted brick ceilings, gothic arches and a wall of glowing lamps, all bathed in amber light.',
       facts: [['Location', 'Indore'], ['Venue', 'Bar & lounge'], ['Scope', 'Turnkey: design & execution'], ['Spaces', 'Great hall, bar & entrance']],
@@ -120,7 +120,7 @@
         'Leather seating', 'Brass sconces', 'Sculpted figures', 'Amber lighting'],
     },
     atha: {
-      published: false,
+      published: true,
       cover: 6,
       name: 'ATHA',
       intro: 'A restaurant in Indore with hand-sculpted cave walls, soft cream tones and an open-air garden under a thatched roof.',
@@ -140,7 +140,7 @@
         'Sand flooring', 'Bamboo', 'Ceramic accents', 'Warm cove lighting'],
     },
     raeeth: {
-      published: false,
+      published: true,
       cover: 0,
       name: 'Raeeth',
       intro: 'A Goan lounge of bamboo, whitewashed arches and spiral lamps, built for warm evenings that run late.',
@@ -160,7 +160,7 @@
         'Heart-shaped sconces', 'Patterned screens', 'Tropical planting', 'Terracotta planters'],
     },
     'bella-buono': {
-      published: false,
+      published: true,
       cover: 1,
       name: 'Bella Buono',
       intro: 'A bright, light-filled café and restaurant in Indore, dressed in flowers, rattan and soft florals.',
@@ -180,7 +180,7 @@
         'Crazy-paved stone', 'Whitewashed stone', 'Neon script', 'Palms & planters'],
     },
     iriss: {
-      published: false,
+      published: true,
       cover: 5,
       name: 'Iriss',
       intro: 'A dramatic Goan bar and lounge under a painted sky, with crystal chandeliers, crimson walls and deep leather seating.',
@@ -200,7 +200,7 @@
         'Brick hearth', 'Patterned rugs', 'Backlit shelving', 'Candlelight'],
     },
     'coffee-concept': {
-      published: false,
+      published: true,
       cover: 5,
       name: 'The Coffee Concept',
       intro: 'An Indore café full of character: neon quotes, portrait art, patterned tiles and a ceiling lined with marquee lights.',
@@ -220,7 +220,7 @@
         'Carved feature wall', 'Floral upholstery', 'Decorative lamps', 'Portrait artwork'],
     },
     kave: {
-      published: false,
+      published: true,
       cover: 3,
       name: 'Kave',
       intro: 'A bar and rooftop in Indore that moves from carved, cave-like rooms to an open terrace with views over the city.',
@@ -240,7 +240,7 @@
         'Glass railings', 'Patterned flooring', 'Sculptural figures', 'Backlit shelving'],
     },
     teresita: {
-      published: false,
+      published: true,
       cover: 1,
       name: 'Teresita',
       intro: 'A Bengaluru restaurant and bar wrapped in bougainvillea, birdcage lights and painted portraits.',
@@ -260,7 +260,7 @@
         'Green leather', 'Timber floors', 'Brass wall lights', 'Statement peacock chair'],
     },
     jamnaram: {
-      published: false,
+      published: true,
       cover: 3,
       name: 'Jamnaram',
       intro: 'A warm, contemporary restaurant in Vadodara with lattice screens, a flowering timber ceiling and bold red seating.',
