@@ -34,7 +34,9 @@
   // SEO-20: LCP cannot happen before this floor. 1200 -> 500 ms keeps a brief brand
   // moment without holding the first paint hostage. Raise it to restore the longer reveal.
   const PRELOAD_MIN = reduceMotion || !document.getElementById('preloader') ? 0 : 500;    // brand reveal floor (home only)
-  const PRELOAD_MAX = reduceMotion ? 300 : 4000; // absolute safety ceiling
+  // PERF-1: 4000 -> 2500 ms. On a slow mobile connection the hero waited up to 4s behind the
+  // preloader before its text could even start to reveal (Lighthouse mobile LCP 5.4s).
+  const PRELOAD_MAX = reduceMotion ? 300 : 2500; // absolute safety ceiling
   const tStart = performance.now();
   let preloaderDismissed = false;
   function dismissPreloader() {
@@ -82,8 +84,17 @@
   // QA-006/QA-010: the fixed header's height changes with viewport width (the links
   // wrap on tablets) and with its compact scrolled state. A hard-coded offset left
   // anchor targets partly hidden, so measure it and feed the real value to CSS.
+  // NAV-1: every anchor target sits below 40px of scroll, where the header has already
+  // shrunk to its compact state. Measuring the tall top-of-page header left a strip of
+  // the previous section showing under it, so work out the compact height instead
+  // (content + 12px padding each side + 1px border, as in `.nav.is-scrolled`).
+  const navWrap = $('.nav__wrap', nav);
+  const compactNavH = () => {
+    const cs = getComputedStyle(navWrap);
+    return Math.ceil(navWrap.clientHeight - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom) + 24 + 1);
+  };
   const syncHeaderHeight = () => {
-    const h = Math.ceil(nav.getBoundingClientRect().height);
+    const h = compactNavH();
     const v = (h + 12) + 'px';
     if (h > 0 && document.documentElement.style.getPropertyValue('--header-h') !== v)
       document.documentElement.style.setProperty('--header-h', v);
@@ -103,10 +114,30 @@
   // AUDIT D-03: a direct link such as /#pricing is scrolled to by the browser while the
   // page is still settling (fallback fonts, header height), so the section could end up
   // part-hidden under the fixed header. Re-align once the first screen is ready.
+  // NAV-2: native anchor jumps put the section's top edge under the header, so its own
+  // 72–150px top padding sat on screen as empty space and the cards fell below the fold.
+  // Land on the section's CONTENT instead: centred in the space under the header when it
+  // fits there whole, otherwise its heading a small gap below the header.
+  const anchorTop = el => {
+    const r = el.getBoundingClientRect(), y = window.scrollY;
+    if (el.id === 'home') return 0;
+    const cs = getComputedStyle(el);
+    const top = r.top + y + (el.matches('section') ? parseFloat(cs.paddingTop) : 0);
+    const h = r.height - (el.matches('section') ? parseFloat(cs.paddingTop) + parseFloat(cs.paddingBottom) : 0);
+    const navH = compactNavH(), room = window.innerHeight - navH;
+    const gap = Math.round(Math.max(16, Math.min(40, window.innerHeight * 0.04)));
+    const want = h + 16 <= room ? top - navH - (room - h) / 2 : top - navH - gap;
+    const max = document.documentElement.scrollHeight - window.innerHeight;
+    return Math.max(0, Math.min(max, Math.round(want)));
+  };
+  const hashTarget = hash => {
+    if (!hash || hash.length < 2) return null;
+    try { return document.querySelector(hash); } catch (e) { return null; /* not a selector */ }
+  };
+
   if (location.hash.length > 1) onReady(() => {
-    let target = null;
-    try { target = document.querySelector(location.hash); } catch (e) { /* not a selector */ }
-    if (target) requestAnimationFrame(() => target.scrollIntoView({ behavior: 'instant', block: 'start' }));
+    const target = hashTarget(location.hash);
+    if (target) requestAnimationFrame(() => window.scrollTo({ top: anchorTop(target), behavior: 'instant' }));
   });
 
   // QA-011: off-canvas menu is only translated off-screen, so when "closed" its links
@@ -276,17 +307,111 @@
   counters.forEach(c => cio.observe(c));
 
   /* ---------- ACTIVE NAV LINK (scroll spy) ---------- */
+  // NAV-3: the old observer needed 30% of a section inside a band 15% of the screen tall,
+  // which a section taller than half the screen (Services, Portfolio, Pricing) can never
+  // reach, so "Home" stayed underlined. Pick the last section whose top has passed a
+  // line a third of the way down the screen instead.
   const sections = $$('main section[id]');
   const links = $$('.nav__link');
-  const spy = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (!e.isIntersecting) return;
-      const id = e.target.id;
-      links.forEach(l => l.classList.toggle('is-active',
-        l.getAttribute('href') === '#' + id));
-    });
-  }, { threshold: 0.3, rootMargin: '-30% 0px -55% 0px' });
-  sections.forEach(s => spy.observe(s));
+  const SPY_ALIAS = { calculator: 'pricing' };     // the calculator is part of Pricing
+  const setActive = id => links.forEach(l => l.classList.toggle('is-active', l.getAttribute('href') === '#' + id));
+  let spyQueued = false, spyHold = false, spyHoldT = 0;
+  const spyNow = () => {
+    spyQueued = false;
+    if (spyHold || !sections.length) return;
+    const line = window.innerHeight * 0.35;
+    let cur = sections[0];
+    sections.forEach(s => { if (s.getBoundingClientRect().top <= line) cur = s; });
+    if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2) cur = sections[sections.length - 1];
+    setActive(SPY_ALIAS[cur.id] || cur.id);
+  };
+  // while a nav jump glides past other sections, keep the clicked link lit
+  const holdSpy = () => { spyHold = true; clearTimeout(spyHoldT); spyHoldT = setTimeout(() => { spyHold = false; spyNow(); }, 180); };
+  window.addEventListener('scroll', () => {
+    if (spyHold) return holdSpy();
+    if (!spyQueued) { spyQueued = true; requestAnimationFrame(spyNow); }
+  }, { passive: true });
+  spyNow();
+
+  // NAV-2: same-page links (header, footer, buttons) scroll to the content via anchorTop()
+  document.addEventListener('click', e => {
+    if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    const a = e.target.closest('a[href^="#"]');
+    const target = a && hashTarget(a.getAttribute('href'));
+    if (!target) return;
+    e.preventDefault();
+    if (a.classList.contains('nav__link')) { setActive(SPY_ALIAS[target.id] || target.id); holdSpy(); }
+    window.scrollTo({ top: anchorTop(target), behavior: reduceMotion ? 'auto' : 'smooth' });
+    if (location.hash !== '#' + target.id) history.pushState(null, '', '#' + target.id);
+    if (e.detail === 0) {                           // keyboard: move focus with the view, like a native jump
+      if (!target.hasAttribute('tabindex')) target.setAttribute('tabindex', '-1');
+      target.focus({ preventScroll: true });
+    }
+  });
+
+  /* ---------- MORE PROJECTS (names only) ----------
+     "View All Projects" slides the city cards open (CSS, .is-open); the collapsed
+     panel is inert so its names can't be tabbed into or read out. Each city opens
+     its venue list in one shared popup, closed by Esc, × or a click outside it. */
+  const moreWork = $('.more-work');
+  if (moreWork) {
+    const mBtn = $('.more-work__toggle', moreWork), mPanel = $('.more-work__panel', moreWork);
+    const setMore = open => {
+      moreWork.classList.toggle('is-open', open);
+      mBtn.setAttribute('aria-expanded', String(open));
+      mPanel.inert = !open;
+    };
+    setMore(false);
+    mBtn.addEventListener('click', () => setMore(!moreWork.classList.contains('is-open')));
+
+    const pop = $('#cityPop');
+    if (pop && pop.showModal) {
+      const popTitle = $('.city-pop__title', pop), popCount = $('.city-pop__count', pop), popList = $('.city-pop__list', pop);
+      const popCard = $('.city-pop__card', pop);
+      let opener = null, anim = null;
+      // the popup card grows out of the clicked city card (and shrinks back into it):
+      // start it at that card's position and size, then let it settle in the centre
+      const morph = (city, closing) => {
+        if (reduceMotion || !popCard.animate) return null;
+        const a = city.getBoundingClientRect(), b = popCard.getBoundingClientRect();
+        const from = { transform: `translate(${a.left + a.width / 2 - (b.left + b.width / 2)}px,${a.top + a.height / 2 - (b.top + b.height / 2)}px) scale(${a.width / b.width},${a.height / b.height})`, opacity: 0.35 };
+        const to = { transform: 'none', opacity: 1 };
+        return popCard.animate(closing ? [to, from] : [from, to], closing
+          ? { duration: 420, easing: 'cubic-bezier(.55,0,.75,.2)', fill: 'forwards' }
+          : { duration: 640, easing: 'cubic-bezier(.16,1,.3,1)' });
+      };
+      const closePop = () => {
+        if (!pop.open || !pop.classList.contains('is-in')) return;
+        pop.classList.remove('is-in');
+        const city = opener && opener.closest('.city');
+        if (city) city.classList.remove('is-current');
+        if (anim) anim.cancel();
+        const a = anim = city && morph(city, true);
+        const done = () => { pop.close(); if (a) a.cancel(); anim = null; opener && opener.focus({ preventScroll: true }); };
+        if (a) a.finished.then(done, () => {});    // rejected = reopened mid-close; leave it open
+        else done();
+      };
+      $$('.city__btn', moreWork).forEach(b => b.addEventListener('click', () => {
+        const city = b.closest('.city');
+        if (anim) { anim.cancel(); anim = null; }
+        opener = b;
+        popTitle.textContent = $('.city__name', b).textContent;
+        popCount.textContent = $('.city__count', b).textContent;
+        popList.innerHTML = $('.city__list', city).innerHTML;
+        popList.scrollTop = 0;
+        $$('.city.is-current', moreWork).forEach(c => c.classList.remove('is-current'));
+        city.classList.add('is-current');
+        pop.classList.remove('is-in');
+        if (!pop.open) pop.showModal();
+        anim = morph(city, false);
+        requestAnimationFrame(() => requestAnimationFrame(() => pop.classList.add('is-in')));
+      }));
+      // the dialog box is exactly the card, so a click landing on the dialog itself is the backdrop
+      pop.addEventListener('click', e => { if (e.target === pop) closePop(); });
+      $('.city-pop__close', pop).addEventListener('click', closePop);
+      pop.addEventListener('cancel', e => { e.preventDefault(); closePop(); });   // Esc, with the exit animation
+    }
+  }
 
   /* ---------- PORTFOLIO ----------
      Data and the card template live in projects.js (shared with the static
@@ -877,7 +1002,9 @@
     slides.forEach((_, i) => {
       const b = document.createElement('button');
       b.className = 'testi__dot' + (i === 0 ? ' is-active' : '');
+      b.type = 'button';
       b.setAttribute('aria-label', 'Go to testimonial ' + (i + 1));
+      if (i === 0) b.setAttribute('aria-current', 'true');
       b.addEventListener('click', () => go(i, true));
       dotsWrap.appendChild(b);
     });
@@ -886,7 +1013,10 @@
       idx = (i + slides.length) % slides.length;
       track.style.transform = `translateX(-${idx * 100}%)`;
       track.style.transition = 'transform .7s cubic-bezier(.22,1,.36,1)';
-      dots.forEach((d, k) => d.classList.toggle('is-active', k === idx));
+      dots.forEach((d, k) => {
+        d.classList.toggle('is-active', k === idx);
+        if (k === idx) d.setAttribute('aria-current', 'true'); else d.removeAttribute('aria-current');
+      });
       if (user) restart();
     }
     const next = () => go(idx + 1);

@@ -76,6 +76,7 @@ input,select,textarea{font-family:inherit}
 ul{list-style:none}
 ::selection{background:var(--blue-500);color:#fff}
 :focus-visible{outline:2px solid var(--blue-400);outline-offset:3px;border-radius:4px}
+section[tabindex="-1"]:focus{outline:none}  /* NAV-2: a section focused by a keyboard nav jump needs no ring round the whole block */
 
 .container{width:100%;max-width:var(--maxw);margin-inline:auto;padding-inline:var(--gut)}
 .section{position:relative;padding:clamp(72px,11vw,150px) 0}
@@ -423,6 +424,79 @@ em{font-style:italic}
   repeating-linear-gradient(45deg,rgba(255,255,255,.03) 0 10px,transparent 10px 20px),var(--ink-3)}
 .port__art.is-broken img{opacity:0}
 .portfolio__cta{display:flex;justify-content:center;margin-top:clamp(38px,5vw,54px)}
+/* names-only list of further venues: "View All Projects" slides the city cards open,
+   each city then slides open its own list. Heights animate via grid-template-rows 0fr→1fr. */
+.more-work{margin-top:clamp(38px,5vw,54px);text-align:center}
+html:not(.js) .more-work__toggle{display:none}              /* no JS: everything just shows open */
+.more-work__chev{transition:transform .45s var(--ease)}
+.more-work .more-work__toggle:hover .more-work__chev{transform:translateY(2px)}   /* points down, so nudge down not sideways */
+.more-work.is-open .more-work__chev,.more-work.is-open .more-work__toggle:hover .more-work__chev{transform:rotate(180deg)}
+.more-work__hide,.more-work.is-open .more-work__show{display:none}
+.more-work.is-open .more-work__hide{display:inline}
+.more-work__panel{display:grid;grid-template-rows:1fr}
+.more-work__inner{min-height:0;overflow:hidden}
+.js .more-work__panel{grid-template-rows:0fr;transition:grid-template-rows .7s var(--ease-out)}
+.js .more-work.is-open .more-work__panel{grid-template-rows:1fr}
+.more-work__title{font-family:var(--serif);font-weight:500;font-size:clamp(1.3rem,2.4vw,1.7rem);color:var(--fg);
+  padding-top:clamp(32px,4vw,44px);margin-bottom:6px}
+.more-work__sub{color:var(--muted);font-size:.95rem;margin-bottom:clamp(22px,3vw,32px)}
+.js .more-work__title,.js .more-work__sub{opacity:0;transform:translateY(-10px);transition:opacity .45s var(--ease-out),transform .45s var(--ease-out)}
+.js .more-work.is-open .more-work__title,.js .more-work.is-open .more-work__sub{opacity:1;transform:none;transition-delay:.12s}
+.more-work__cities{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,250px),1fr));gap:14px;align-items:start;text-align:left;padding-bottom:4px}
+/* city cards drop in one after another */
+.city{border:1px solid var(--line);border-radius:16px;background:var(--panel);
+  transition:border-color .35s var(--ease),background-color .35s var(--ease)}
+.js .city{opacity:0;transform:translateY(-14px) scale(.98);
+  transition:opacity .45s var(--ease-out),transform .45s var(--ease-out),border-color .35s var(--ease),background-color .35s var(--ease)}
+.js .more-work.is-open .city{opacity:1;transform:none;transition-delay:calc(.18s + var(--i) * 65ms),calc(.18s + var(--i) * 65ms),0s,0s}
+.city:hover,.city.is-current{border-color:rgba(var(--blue-rgb),.45);background:rgba(var(--blue-rgb),.08)}
+.city__head{margin:0;font:inherit}
+.city__btn{display:flex;align-items:center;gap:12px;width:100%;padding:16px 18px;background:none;border:0;
+  color:inherit;font:inherit;text-align:left;cursor:pointer;border-radius:inherit}
+.city__btn:focus-visible{outline:2px solid var(--blue-400);outline-offset:-2px}
+.city__name{font-family:var(--serif);font-size:1.18rem;color:var(--fg);flex:1}
+.city__count{font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);white-space:nowrap}
+.city__ico{width:16px;height:16px;flex:none;color:var(--muted);transition:transform .35s var(--ease),color .35s var(--ease)}
+.city__btn:hover .city__ico{color:var(--accent);transform:translate(2px,-2px)}
+.js .city__panel{display:none}                       /* with JS the list opens in the popup instead */
+.city__list{list-style:none;margin:0 18px;padding:2px 0 12px;border-top:1px solid var(--line)}
+.city__list li{position:relative;padding:11px 0 11px 20px;color:var(--fg-soft);font-size:.98rem;line-height:1.35}
+.city__list li + li{border-top:1px solid rgba(143,205,238,.07)}
+.city__list li::before{content:"";position:absolute;left:2px;top:50%;width:8px;height:2px;border-radius:2px;background:var(--accent);transform:translateY(-50%)}
+/* city popup: fades and scales in over a blurred backdrop; venues follow one by one */
+.city-pop{width:min(440px,calc(100% - 32px));max-height:min(80vh,640px);margin:auto;padding:0;border:0;background:none;color:var(--fg);overflow:visible}
+.city-pop::backdrop{background:rgba(4,12,20,.62);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);opacity:0;transition:opacity .3s var(--ease)}
+.city-pop.is-in::backdrop{opacity:1}
+.city-pop__card{position:relative;display:flex;flex-direction:column;max-height:min(80vh,640px);padding:28px 26px 4px;
+  border:1px solid var(--line-2);border-radius:20px;background:linear-gradient(180deg,var(--ink-3),var(--ink-2));
+  box-shadow:0 30px 80px rgba(0,0,0,.55);transform-origin:50% 50%;will-change:transform}
+/* the card itself grows out of the clicked city (script.js, Web Animations); its contents
+   then rise in one after another, and drop away quickly when it closes */
+.city-pop__close,.city-pop__kicker,.city-pop__title,.city-pop__count{opacity:0;transform:translateY(10px);
+  transition:opacity .18s var(--ease),transform .18s var(--ease)}
+.city-pop.is-in .city-pop__close,.city-pop.is-in .city-pop__kicker,.city-pop.is-in .city-pop__title,.city-pop.is-in .city-pop__count{
+  opacity:1;transform:none;transition:opacity .5s var(--ease-out),transform .6s var(--ease-out)}
+.city-pop.is-in .city-pop__kicker{transition-delay:.16s}
+.city-pop.is-in .city-pop__title{transition-delay:.22s}
+.city-pop.is-in .city-pop__count{transition-delay:.28s}
+.city-pop.is-in .city-pop__close{transition-delay:.3s}
+.city-pop__title{background:linear-gradient(90deg,var(--fg) 40%,var(--accent));-webkit-background-clip:text;background-clip:text;color:transparent}
+.city-pop__close{position:absolute;top:14px;right:14px;width:38px;height:38px;display:grid;place-items:center;border-radius:50%;
+  border:1px solid var(--line);background:var(--panel);color:var(--fg-soft);cursor:pointer;transition:background-color .25s,color .25s,transform .35s var(--ease)}
+.city-pop__close svg{width:16px;height:16px}
+.city-pop__close:hover{background:rgba(var(--blue-rgb),.2);color:#fff;transform:rotate(90deg)}
+.city-pop__kicker{font-size:.7rem;letter-spacing:.26em;text-transform:uppercase;color:var(--accent);margin-bottom:6px}
+.city-pop__title{font-family:var(--serif);font-weight:500;font-size:clamp(1.6rem,4vw,2rem);line-height:1.1;padding-right:44px}
+.city-pop__count{color:var(--muted);font-size:.9rem;margin:6px 0 14px}
+.city-pop__list{margin:0 -4px;padding:2px 4px 16px;overflow-y:auto;overscroll-behavior:contain}
+.city-pop__list li{opacity:0;transform:translateY(12px);transition:opacity .15s var(--ease),transform .15s var(--ease)}
+.city-pop.is-in .city-pop__list li{opacity:1;transform:none;
+  transition:opacity .45s var(--ease-out),transform .55s var(--ease-out);transition-delay:calc(.32s + var(--j) * 45ms)}
+.city-pop.is-in .city-pop__list li::before{animation:cityDash .5s var(--ease-out) both;animation-delay:calc(.4s + var(--j) * 45ms)}
+@keyframes cityDash{from{width:0}to{width:8px}}
+/* press feedback on the city card */
+.city__btn{transition:transform .25s var(--ease)}
+.city__btn:active{transform:scale(.97)}
 .port{cursor:pointer}
 /* The whole card is one gallery button (stretched under the content), so keyboard and
    screen-reader users get a real <button>; a "Read the story" link can sit above it
