@@ -974,6 +974,13 @@ em{font-style:italic}
   .team-card:hover .team-card__photo img{transform:scale(1.04)}
   .team-card:hover .team-card__bio{opacity:1;transform:none}
 }
+/* No hover on touch screens: say that the card can be tapped */
+@media (hover:none){
+  .team-card__body::after{content:'Tap to read bio';margin-top:2px;font-size:.66rem;font-weight:600;
+    letter-spacing:.08em;color:#8FCDEE}
+  .team-card.is-open .team-card__body::after{opacity:0}
+}
+/* Phones: the same bio as desktop (rises over the card's own photo), just smaller type */
 @media (max-width:440px){
   .team{gap:10px}
   .team-card__body{padding:14px 14px 16px}
@@ -983,6 +990,14 @@ em{font-style:italic}
   .team-card__bio-name{font-size:1.02rem}
   .team-card__bio p{font-size:.76rem;line-height:1.45}
   .team-card__bio .team-card__skills{font-size:.6rem;letter-spacing:.04em;padding-top:7px}
+}
+/* Very narrow phones: a half-width card is too short for the bio (its first line was cut
+   off above the card at 320px), so the cards stack and keep the same effect */
+@media (max-width:369px){
+  .team{grid-template-columns:1fr}
+  .team-card__photo{aspect-ratio:1/1}
+  .team-card__photo img{object-position:50% 20%}
+  .team-card__bio p{font-size:.84rem}
 }
 
 /* =====================================================================
