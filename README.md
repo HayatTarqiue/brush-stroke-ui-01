@@ -235,6 +235,25 @@ node scripts/build-portfolio.js         # cards + pages + asset versions
 
 ---
 
+## SEO: going live on the real domain
+
+Canonical URLs, `og:url`, absolute social-preview images, the `url`/`logo`/`WebSite`
+parts of the business JSON-LD, BreadcrumbList on project pages, `sitemap.xml` and the
+`Sitemap:` line in `robots.txt` all need the production domain, so the build writes them
+only when it knows it. Set `SITE_URL` at the top of `scripts/build-portfolio.js`
+(e.g. `'https://www.example.in'`, no trailing slash) and rebuild; or once-off:
+
+```bash
+SITE_URL=https://www.example.in node scripts/build-portfolio.js
+```
+
+Only indexable pages go in the sitemap: the home page, plus project pages whose story is
+`published: true`. Then in Vercel, make the domain primary so `*.vercel.app` 301-redirects
+to it, and submit `https://<domain>/sitemap.xml` in Google Search Console and Bing
+Webmaster Tools.
+
+---
+
 ## Accessibility
 
 Targets WCAG 2.2 AA. Implemented: semantic headings (single `h1`), visible focus
@@ -265,8 +284,8 @@ Search the source for `QA-0` to find these flagged inline.
 
 ### Needs owner input
 
-- Footer social links are `href="#"` placeholders — supply real Instagram /
-  Facebook / LinkedIn URLs or remove the icons.
+- Footer Facebook link is still an `href="#"` placeholder — supply the URL or remove
+  the icon (Instagram and LinkedIn are live).
 - These published claims are unverified and need sign-off: "500+ Projects",
   "15+ Years", "98% Satisfaction"; the three named testimonials; the
   "Timeline Guarantee" and 45–90 day / 4–8 month commitments; the
