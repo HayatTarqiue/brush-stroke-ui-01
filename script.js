@@ -202,14 +202,17 @@
     const btn = $('.team-card__photo', card);
     if (btn) btn.setAttribute('aria-expanded', String(open));
   };
+  // iOS Safari reports pointerType "mouse" on the click that follows a finger tap, so the
+  // input type is taken from pointerdown, which it reports correctly
+  let lastPointer = '';
+  document.addEventListener('pointerdown', e => { lastPointer = e.pointerType; }, { capture: true, passive: true });
   teamCards.forEach(card => {
     card.addEventListener('click', e => {
       // A real mouse click on a hover device is already covered by :hover. Decide from the
-      // input that made THIS click (pointerType), not from the device: stylus phones and
-      // iPads with a trackpad report (hover:hover) yet are tapped with a finger. Keyboard
-      // activation reports detail 0. Older browsers without pointerType fall back to the
-      // media query.
-      const viaMouse = e.pointerType ? e.pointerType === 'mouse' : canHoverTeam;
+      // input that made THIS click, not only from the device: iPads with a trackpad and
+      // touchscreen laptops report (hover:hover) yet can be tapped with a finger. A device
+      // with no hover at all (phones) always toggles. Keyboard activation reports detail 0.
+      const viaMouse = canHoverTeam && (lastPointer || e.pointerType || 'mouse') === 'mouse';
       if (viaMouse && e.detail !== 0) return;
       const open = !card.classList.contains('is-open');
       teamCards.forEach(c => c !== card && setBio(c, false));
