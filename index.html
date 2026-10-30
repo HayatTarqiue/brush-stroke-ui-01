@@ -40,7 +40,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,800;1,500;1,700&family=Inter:wght@400;500;600;700;800&family=Kaushan+Script&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=158d1305" />
+  <link rel="stylesheet" href="styles.css?v=36102cba" />
   <!-- CLIENT PREVIEW ONLY: ?theme=light loads the proposed lighter palette.
        Remove this line (and theme-light.css) once the client decides. -->
   <script>if(/[?&]theme=light\b/.test(location.search))document.write('<link rel="stylesheet" href="theme-light.css?v=b44accf1" />');</script>
@@ -664,6 +664,125 @@
         </p>
         <p class="port-count sr-only" id="portCount" role="status" aria-live="polite"></p>
 
+        <!-- Further venues from the project archive, listed by name only (no photos) so the
+             page stays light. Featured projects above are not repeated here. Without JS every
+             panel simply shows open; script.js adds the slide-open behaviour. -->
+        <div class="more-work reveal" data-reveal>
+          <button type="button" class="btn btn--ghost more-work__toggle" aria-expanded="false" aria-controls="moreWork">
+            <span class="more-work__show">View All Projects</span><span class="more-work__hide">Hide Projects</span>
+            <svg viewBox="0 0 24 24" class="btn__ico more-work__chev" aria-hidden="true"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="more-work__panel" id="moreWork">
+            <div class="more-work__inner">
+              <h3 class="more-work__title">More of our projects</h3>
+              <p class="more-work__sub">Tap a city to see the venues we have worked on there.</p>
+              <div class="more-work__cities">
+                <div class="city" style="--i:0">
+                  <h4 class="city__head"><button type="button" class="city__btn" aria-haspopup="dialog" aria-controls="cityPop" data-city="city-bengaluru">
+                    <span class="city__name">Bengaluru</span><span class="city__count">4 projects</span>
+                    <svg viewBox="0 0 24 24" class="city__ico" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </button></h4>
+                  <div class="city__panel" id="city-bengaluru"><div class="city__inner"><ul class="city__list">
+                    <li style="--j:0">Bhola and Blonde</li>
+                    <li style="--j:1">Bombay Adda</li>
+                    <li style="--j:2">Secret Story</li>
+                    <li style="--j:3">Soho</li>
+                  </ul></div></div>
+                </div>
+                <div class="city" style="--i:1">
+                  <h4 class="city__head"><button type="button" class="city__btn" aria-haspopup="dialog" aria-controls="cityPop" data-city="city-bhopal">
+                    <span class="city__name">Bhopal</span><span class="city__count">2 projects</span>
+                    <svg viewBox="0 0 24 24" class="city__ico" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </button></h4>
+                  <div class="city__panel" id="city-bhopal"><div class="city__inner"><ul class="city__list">
+                    <li style="--j:0">Dragon Horse</li>
+                    <li style="--j:1">Pitchers Cafe Bar</li>
+                  </ul></div></div>
+                </div>
+                <div class="city" style="--i:2">
+                  <h4 class="city__head"><button type="button" class="city__btn" aria-haspopup="dialog" aria-controls="cityPop" data-city="city-goa">
+                    <span class="city__name">Goa</span><span class="city__count">2 projects</span>
+                    <svg viewBox="0 0 24 24" class="city__ico" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </button></h4>
+                  <div class="city__panel" id="city-goa"><div class="city__inner"><ul class="city__list">
+                    <li style="--j:0">Kaalpanik</li>
+                    <li style="--j:1">RROV</li>
+                  </ul></div></div>
+                </div>
+                <div class="city" style="--i:3">
+                  <h4 class="city__head"><button type="button" class="city__btn" aria-haspopup="dialog" aria-controls="cityPop" data-city="city-indore">
+                    <span class="city__name">Indore</span><span class="city__count">11 projects</span>
+                    <svg viewBox="0 0 24 24" class="city__ico" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </button></h4>
+                  <div class="city__panel" id="city-indore"><div class="city__inner"><ul class="city__list">
+                    <li style="--j:0">C&amp;D</li>
+                    <li style="--j:1">Clarion Inn</li>
+                    <li style="--j:2">Crush Coffee</li>
+                    <li style="--j:3">Firangi</li>
+                    <li style="--j:4">Marq</li>
+                    <li style="--j:5">Mr Skull</li>
+                    <li style="--j:6">Notch</li>
+                    <li style="--j:7">Parag Bake &amp; Brew</li>
+                    <li style="--j:8">Playboy Beer Garden</li>
+                    <li style="--j:9">Tree Tent</li>
+                    <li style="--j:10">Yawun</li>
+                  </ul></div></div>
+                </div>
+                <div class="city" style="--i:4">
+                  <h4 class="city__head"><button type="button" class="city__btn" aria-haspopup="dialog" aria-controls="cityPop" data-city="city-kolkata">
+                    <span class="city__name">Kolkata</span><span class="city__count">3 projects</span>
+                    <svg viewBox="0 0 24 24" class="city__ico" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </button></h4>
+                  <div class="city__panel" id="city-kolkata"><div class="city__inner"><ul class="city__list">
+                    <li style="--j:0">Rock Bar</li>
+                    <li style="--j:1">Sagar Dance Bar</li>
+                    <li style="--j:2">Zucca Lounge</li>
+                  </ul></div></div>
+                </div>
+                <div class="city" style="--i:5">
+                  <h4 class="city__head"><button type="button" class="city__btn" aria-haspopup="dialog" aria-controls="cityPop" data-city="city-mumbai">
+                    <span class="city__name">Mumbai</span><span class="city__count">9 projects</span>
+                    <svg viewBox="0 0 24 24" class="city__ico" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </button></h4>
+                  <div class="city__panel" id="city-mumbai"><div class="city__inner"><ul class="city__list">
+                    <li style="--j:0">Barrel &amp; Co.</li>
+                    <li style="--j:1">Barrel Mansion</li>
+                    <li style="--j:2">Bombay Adda</li>
+                    <li style="--j:3">D-51</li>
+                    <li style="--j:4">Dirty Buns</li>
+                    <li style="--j:5">Paranzi</li>
+                    <li style="--j:6">R. Adda</li>
+                    <li style="--j:7">Tanatan</li>
+                    <li style="--j:8">Yeda Republic</li>
+                  </ul></div></div>
+                </div>
+                <div class="city" style="--i:6">
+                  <h4 class="city__head"><button type="button" class="city__btn" aria-haspopup="dialog" aria-controls="cityPop" data-city="city-ranchi">
+                    <span class="city__name">Ranchi</span><span class="city__count">1 project</span>
+                    <svg viewBox="0 0 24 24" class="city__ico" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </button></h4>
+                  <div class="city__panel" id="city-ranchi"><div class="city__inner"><ul class="city__list">
+                    <li style="--j:0">Tamasha</li>
+                  </ul></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- One shared popup: script.js fills it with the clicked city's list (copied from
+             that city's card) and closes it on Esc, the × button or a click outside. -->
+        <dialog class="city-pop" id="cityPop" aria-labelledby="cityPopTitle">
+          <div class="city-pop__card">
+            <button type="button" class="city-pop__close" aria-label="Close">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            </button>
+            <p class="city-pop__kicker">Projects in</p>
+            <h3 class="city-pop__title" id="cityPopTitle"></h3>
+            <p class="city-pop__count"></p>
+            <ul class="city__list city-pop__list"></ul>
+          </div>
+        </dialog>
+
         <div class="portfolio__cta reveal" data-reveal>
           <a href="#contact" class="btn btn--ghost magnetic"><span>Start Your Project</span>
             <svg viewBox="0 0 24 24" class="btn__ico"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -955,7 +1074,7 @@
           <button class="testi__arrow" id="testiPrev" aria-label="Previous testimonial">
             <svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </button>
-          <div class="testi__dots" id="testiDots" role="tablist" aria-label="Testimonials"></div>
+          <div class="testi__dots" id="testiDots" role="group" aria-label="Choose a testimonial"></div>
           <button class="testi__arrow" id="testiNext" aria-label="Next testimonial">
             <svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </button>
@@ -1133,8 +1252,8 @@
     <svg viewBox="0 0 24 24"><path d="M12 19V5M6 11l6-6 6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
   </button>
 
-  <script src="pricing.js?v=e0a8774f"></script>
-  <script src="projects.js?v=a8ee4482"></script>
-  <script src="script.js?v=358beb58"></script>
+  <script src="pricing.js?v=e0a8774f" defer></script>
+  <script src="projects.js?v=a8ee4482" defer></script>
+  <script src="script.js?v=32f58d0c" defer></script>
 </body>
 </html>

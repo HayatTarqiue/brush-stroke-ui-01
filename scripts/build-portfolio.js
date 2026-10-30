@@ -308,9 +308,9 @@ ${SITE_URL ? `  <link rel="canonical" href="${url}" />
 
   ${toTop}
 
-  <script src="pricing.js"></script>
-  <script src="projects.js"></script>
-  <script src="script.js"></script>
+  <script src="pricing.js" defer></script>
+  <script src="projects.js" defer></script>
+  <script src="script.js" defer></script>
 </body>
 </html>
 `;
