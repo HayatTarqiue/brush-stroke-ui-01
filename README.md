@@ -3,7 +3,7 @@
 Marketing site for **Brush Stroke Artspace** — a premium interior design, civil
 construction and turnkey execution studio operating Pan India.
 
-**Live:** https://brush-sigma.vercel.app
+**Live:** https://brushstrokeartspace.com (`www.` and `brush-sigma.vercel.app` 301 here, see `vercel.json`)
 **Repo:** https://github.com/HayatTarqiue/brush-stroke-ui-01
 
 ---
@@ -239,9 +239,9 @@ node scripts/build-portfolio.js         # cards + pages + asset versions
 
 Canonical URLs, `og:url`, absolute social-preview images, the `url`/`logo`/`WebSite`
 parts of the business JSON-LD, BreadcrumbList on project pages, `sitemap.xml` and the
-`Sitemap:` line in `robots.txt` all need the production domain, so the build writes them
-only when it knows it. Set `SITE_URL` at the top of `scripts/build-portfolio.js`
-(e.g. `'https://www.example.in'`, no trailing slash) and rebuild; or once-off:
+`Sitemap:` line in `robots.txt` all come from `SITE_URL` at the top of
+`scripts/build-portfolio.js` (now `https://brushstrokeartspace.com`). If the domain ever
+changes, change it there and in the `redirects` of `vercel.json`, then rebuild; or once-off:
 
 ```bash
 SITE_URL=https://www.example.in node scripts/build-portfolio.js
