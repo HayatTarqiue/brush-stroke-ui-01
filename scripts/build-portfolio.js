@@ -13,13 +13,13 @@ const path = require('path');
 const { PBASE, projects, catLabel, thumbOf, cardHTML, pageOf } = require('../projects.js');
 
 /* ---------- production domain (SEO) ----------
-   Set this once the domain is pointed at Vercel, e.g. 'https://www.brushstroke.in'
-   (no trailing slash), then rebuild. It turns on everything that needs absolute URLs:
+   The production domain, no trailing slash (www and brush-sigma.vercel.app 301 here, see
+   vercel.json). Rebuild after changing it. It turns on everything that needs absolute URLs:
    canonical + og:url on every page, absolute og:image / twitter:image, url/logo/image
    in the business JSON-LD, BreadcrumbList on project pages, sitemap.xml and the
    Sitemap line in robots.txt. Left empty, none of those are written: a canonical or
    sitemap pointing at the wrong host does more harm than having none. */
-const SITE_URL = (process.env.SITE_URL || '').replace(/\/+$/, '');
+const SITE_URL = (process.env.SITE_URL || 'https://brushstrokeartspace.com').replace(/\/+$/, '');
 
 const ROOT = path.join(__dirname, '..');
 const indexFile = path.join(ROOT, 'index.html');
@@ -332,7 +332,8 @@ if (!pages) console.log('No projects have a story yet — no case-study pages wr
 const robotsFile = path.join(ROOT, 'robots.txt'), sitemapFile = path.join(ROOT, 'sitemap.xml');
 if (SITE_URL) {
   const imgTags = imgs => imgs.map(rel => `\n    <image:image><image:loc>${esc(abs(rel))}</image:loc></image:image>`).join('');
-  const entries = [`  <url>\n    <loc>${abs('')}</loc>${imgTags(['assets/og-image.jpg'])}\n  </url>`]
+  // home: the share image plus every portfolio card photo it shows
+  const entries = [`  <url>\n    <loc>${abs('')}</loc>${imgTags(['assets/og-image.jpg', ...projects.map(p => PBASE + thumbOf(p.imgs[0]))])}\n  </url>`]
     .concat(projects.filter(p => p.story && p.story.published).map(p =>
       `  <url>\n    <loc>${abs(pageOf(p))}</loc>${imgTags(p.imgs.map(rel => PBASE + rel))}\n  </url>`));
   fs.writeFileSync(sitemapFile, `<?xml version="1.0" encoding="UTF-8"?>

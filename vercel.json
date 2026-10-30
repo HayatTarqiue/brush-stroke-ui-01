@@ -1,5 +1,29 @@
 {
   "trailingSlash": true,
+  "redirects": [
+    {
+      "source": "/(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.brushstrokeartspace.com"
+        }
+      ],
+      "destination": "https://brushstrokeartspace.com/$1",
+      "permanent": true
+    },
+    {
+      "source": "/(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "brush-sigma.vercel.app"
+        }
+      ],
+      "destination": "https://brushstrokeartspace.com/$1",
+      "permanent": true
+    }
+  ],
   "headers": [
     {
       "source": "/(.*)",
